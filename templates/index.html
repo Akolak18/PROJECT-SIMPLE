@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reservation Export — Cleaners</title>
+  <style>
+    /* ── Reset / Base ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    /* ── Header ───────────────────────────────────────────────────────── */
+    header {
+      background: #1f4e79;
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    header h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: .02em; }
+    header .subtitle { font-size: .8rem; opacity: .75; margin-top: 2px; }
+
+    /* ── Toolbar ──────────────────────────────────────────────────────── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px 24px;
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .toolbar label { font-size: .85rem; color: #4a5568; font-weight: 600; }
+    .toolbar input[type="date"] {
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: .9rem;
+      color: #2d3748;
+      background: #f7fafc;
+    }
+    .toolbar input[type="date"]:focus { outline: 2px solid #3182ce; border-color: transparent; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 7px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: filter .15s, transform .1s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary  { background: #1f4e79; color: #fff; }
+    .btn-primary:hover  { filter: brightness(1.15); }
+    .btn-green    { background: #276749; color: #fff; }
+    .btn-green:hover    { filter: brightness(1.15); }
+    .btn-refresh  { background: #e2e8f0; color: #2d3748; }
+    .btn-refresh:hover  { background: #cbd5e0; }
+
+    .spacer { flex: 1; }
+
+    /* ── Status bar ───────────────────────────────────────────────────── */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 24px;
+      font-size: .82rem;
+      color: #718096;
+      background: #f7fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #a0aec0;
+      flex-shrink: 0;
+    }
+    .dot.ok      { background: #38a169; }
+    .dot.error   { background: #e53e3e; }
+    .dot.loading { background: #ecc94b; animation: pulse 1s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: .3; }
+    }
+
+    /* ── Table container ──────────────────────────────────────────────── */
+    .table-wrap {
+      padding: 20px 24px;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,.08);
+      font-size: .88rem;
+    }
+    thead th {
+      background: #1f4e79;
+      color: #fff;
+      padding: 10px 12px;
+      text-align: left;
+      white-space: nowrap;
+      font-size: .8rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    tbody tr { border-bottom: 1px solid #e2e8f0; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 9px 12px; vertical-align: middle; }
+
+    /* Row colour coding */
+    tr.checkin  { background: #f0fff4; }    /* green  — arriving today */
+    tr.checkout { background: #fffaf0; }    /* orange — departing today */
+    tr.alt      { background: #f7fafc; }
+
+    /* Status badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 12px;
+      font-size: .75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-confirmed  { background: #c6f6d5; color: #22543d; }
+    .badge-checkedin  { background: #bee3f8; color: #1a365d; }
+    .badge-option     { background: #fefcbf; color: #744210; }
+    .badge-cancelled  { background: #fed7d7; color: #742a2a; }
+    .badge-checkedout { background: #e2e8f0; color: #4a5568; }
+    .badge-noshow     { background: #fbd38d; color: #7b341e; }
+    .badge-default    { background: #e2e8f0; color: #4a5568; }
+
+    /* ── Empty / error state ──────────────────────────────────────────── */
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: #718096;
+    }
+    .empty .icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .empty p { font-size: 1rem; }
+
+    /* ── Legend ───────────────────────────────────────────────────────── */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 0 24px 20px;
+      font-size: .8rem;
+      color: #4a5568;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-swatch {
+      width: 14px; height: 14px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,.1);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🧹 Cleaning Schedule</h1>
+    <div class="subtitle">Previo PMS — Reservation Export</div>
+  </div>
+  <div id="refresh-countdown" style="font-size:.8rem;opacity:.7;"></div>
+</header>
+
+<div class="toolbar">
+  <label for="date_from">From</label>
+  <input type="date" id="date_from" value="{{ date_from }}" />
+  <label for="date_to">To</label>
+  <input type="date" id="date_to" value="{{ date_to }}" />
+  <button class="btn btn-primary" onclick="loadReservations()">
+    🔍 Load
+  </button>
+  <button class="btn btn-refresh" onclick="loadReservations()">
+    ↺ Refresh
+  </button>
+  <span class="spacer"></span>
+  <a id="excel-link" href="#" class="btn btn-green" onclick="downloadExcel(event)">
+    📥 Export to Excel
+  </a>
+</div>
+
+<div class="status-bar">
+  <div class="dot loading" id="status-dot"></div>
+  <span id="status-text">Loading reservations…</span>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#f0fff4"></div> Check-in today</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fffaf0"></div> Check-out today (clean room)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff"></div> Upcoming / other</div>
+</div>
+
+<div class="table-wrap">
+  <table id="res-table">
+    <thead>
+      <tr>
+        <th>Room</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Nights</th>
+        <th>Guest</th>
+        <th>Adults</th>
+        <th>Children</th>
+        <th>Status</th>
+        <th>Meal plan</th>
+        <th>Note</th>
+        <th>Channel</th>
+      </tr>
+    </thead>
+    <tbody id="res-body">
+      <tr><td colspan="11">
+        <div class="empty"><div class="icon">⏳</div><p>Loading…</p></div>
+      </td></tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const REFRESH_MS = {{ refresh_interval }} * 1000;
+  let refreshTimer = null;
+  let countdown = null;
+  let secondsLeft = {{ refresh_interval }};
+  const TODAY = new Date().toISOString().slice(0, 10);
+
+  // ── Status helpers ────────────────────────────────────────────────────────
+  function setStatus(state, text) {
+    const dot  = document.getElementById("status-dot");
+    const span = document.getElementById("status-text");
+    dot.className  = "dot " + state;
+    span.textContent = text;
+  }
+
+  // ── Countdown display ─────────────────────────────────────────────────────
+  function startCountdown() {
+    clearInterval(countdown);
+    secondsLeft = {{ refresh_interval }};
+    countdown = setInterval(() => {
+      secondsLeft--;
+      document.getElementById("refresh-countdown").textContent =
+        `Auto-refresh in ${secondsLeft}s`;
+      if (secondsLeft <= 0) {
+        clearInterval(countdown);
+        document.getElementById("refresh-countdown").textContent = "Refreshing…";
+      }
+    }, 1000);
+  }
+
+  // ── Badge helper ──────────────────────────────────────────────────────────
+  function badge(status) {
+    const map = {
+      "Confirmed":   "confirmed",
+      "Checked In":  "checkedin",
+      "Option":      "option",
+      "Cancelled":   "cancelled",
+      "Checked Out": "checkedout",
+      "No-show":     "noshow",
+    };
+    const cls = map[status] || "default";
+    return `<span class="badge badge-${cls}">${status || "—"}</span>`;
+  }
+
+  // ── Row class ─────────────────────────────────────────────────────────────
+  function rowClass(row, idx) {
+    if (row.check_in  === TODAY) return "checkin";
+    if (row.check_out === TODAY) return "checkout";
+    return idx % 2 === 0 ? "" : "alt";
+  }
+
+  // ── Render table ──────────────────────────────────────────────────────────
+  function renderRows(rows) {
+    const tbody = document.getElementById("res-body");
+    if (!rows.length) {
+      tbody.innerHTML = `<tr><td colspan="11">
+        <div class="empty"><div class="icon">📭</div><p>No reservations found for this period.</p></div>
+      </td></tr>`;
+      return;
+    }
+
+    // Sort: check-in asc, then room
+    rows.sort((a, b) => {
+      const d = (a.check_in || "").localeCompare(b.check_in || "");
+      return d !== 0 ? d : (a.room || "").localeCompare(b.room || "");
+    });
+
+    tbody.innerHTML = rows.map((r, i) => `
+      <tr class="${rowClass(r, i)}">
+        <td><strong>${r.room || "—"}</strong></td>
+        <td>${r.check_in  || "—"}</td>
+        <td>${r.check_out || "—"}</td>
+        <td style="text-align:center">${r.nights ?? "—"}</td>
+        <td>${r.guest_name || "—"}</td>
+        <td style="text-align:center">${r.adults  ?? "—"}</td>
+        <td style="text-align:center">${r.children ?? "—"}</td>
+        <td>${badge(r.status)}</td>
+        <td>${r.meal_plan || "—"}</td>
+        <td style="max-width:240px;white-space:pre-wrap">${r.note || ""}</td>
+        <td>${r.channel || "—"}</td>
+      </tr>
+    `).join("");
+  }
+
+  // ── Load reservations from API ────────────────────────────────────────────
+  function loadReservations() {
+    clearTimeout(refreshTimer);
+    clearInterval(countdown);
+    document.getElementById("refresh-countdown").textContent = "";
+
+    const from = document.getElementById("date_from").value;
+    const to   = document.getElementById("date_to").value;
+    setStatus("loading", "Fetching reservations from Previo…");
+
+    fetch(`/api/reservations?date_from=${from}&date_to=${to}`)
+      .then(r => r.json())
+      .then(data => {
+        if (!data.ok) throw new Error(data.error || "Unknown error");
+        renderRows(data.rows);
+        setStatus("ok", `${data.count} reservation(s) loaded — last updated ${new Date().toLocaleTimeString()}`);
+        startCountdown();
+        // schedule next auto-refresh
+        refreshTimer = setTimeout(loadReservations, REFRESH_MS);
+      })
+      .catch(err => {
+        setStatus("error", "Error: " + err.message);
+        // retry after interval even on error
+        startCountdown();
+        refreshTimer = setTimeout(loadReservations, REFRESH_MS);
+      });
+  }
+
+  // ── Excel download ────────────────────────────────────────────────────────
+  function downloadExcel(e) {
+    e.preventDefault();
+    const from = document.getElementById("date_from").value;
+    const to   = document.getElementById("date_to").value;
+    window.location.href = `/export/excel?date_from=${from}&date_to=${to}`;
+  }
+
+  // ── Initial load ──────────────────────────────────────────────────────────
+  loadReservations();
+</script>
+</body>
+</html>
