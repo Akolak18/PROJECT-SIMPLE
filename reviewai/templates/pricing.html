@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Pricing — ReplyFast AI{% endblock %}
+
+{% block body %}
+<!-- NAV -->
+<nav class="bg-white border-b border-gray-100 sticky top-0 z-40">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <a href="/" class="flex items-center gap-2 font-bold text-xl text-gray-900">
+      <span class="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center text-white text-sm font-black">R</span>
+      ReplyFast AI
+    </a>
+    <div class="flex items-center gap-3">
+      <a href="/auth/login" class="text-sm font-medium text-gray-600 hover:text-gray-900">Sign in</a>
+      <a href="/auth/register" class="bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+        Start free →
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section class="bg-white py-20 px-4">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-4xl font-bold text-gray-900 text-center mb-4">Simple pricing</h1>
+    <p class="text-gray-500 text-center mb-14 text-lg">Start free. No credit card. Upgrade when you're ready.</p>
+    <div class="grid md:grid-cols-4 gap-6">
+      {% for key, plan in plans.items() %}
+      <div class="rounded-2xl border p-6 flex flex-col
+        {% if key == 'growth' %}border-green-500 shadow-xl shadow-green-100 relative{% else %}border-gray-200{% endif %}">
+        {% if key == 'growth' %}
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">Most popular</div>
+        {% endif %}
+        <h3 class="font-bold text-gray-900 text-lg mb-1">{{ plan.name }}</h3>
+        <div class="mb-4">
+          {% if plan.price == 0 %}
+          <span class="text-4xl font-black text-gray-900">Free</span>
+          {% else %}
+          <span class="text-4xl font-black text-gray-900">${{ plan.price }}</span>
+          <span class="text-gray-400 text-sm">/month</span>
+          {% endif %}
+        </div>
+        <ul class="space-y-2 mb-8 flex-1">
+          {% for feature in plan.features %}
+          <li class="flex items-start gap-2 text-sm text-gray-600">
+            <span class="text-green-500 font-bold mt-0.5">✓</span> {{ feature }}
+          </li>
+          {% endfor %}
+        </ul>
+        <a href="/auth/register"
+          class="block text-center py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors
+          {% if key == 'growth' %}bg-green-500 hover:bg-green-600 text-white{% else %}bg-gray-100 hover:bg-gray-200 text-gray-800{% endif %}">
+          {% if plan.price == 0 %}Get started free{% else %}Start 7-day trial{% endif %}
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

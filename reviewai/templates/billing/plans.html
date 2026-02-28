@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Plans & Pricing — ReplyFast AI{% endblock %}
+
+{% block body %}
+<div class="flex h-screen bg-gray-50">
+  {% include "dashboard/_sidebar.html" %}
+  <main class="flex-1 overflow-y-auto">
+    <div class="bg-white border-b border-gray-100 px-8 py-5">
+      <h1 class="text-2xl font-bold text-gray-900">Plans & Pricing</h1>
+      <p class="text-sm text-gray-500 mt-0.5">
+        You're on the <strong class="capitalize">{{ current_plan }}</strong> plan.
+        {% if current_plan != 'agency' %}Upgrade to unlock more power.{% endif %}
+      </p>
+    </div>
+
+    <div class="p-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl">
+        {% for key, plan in plans.items() %}
+        <div class="bg-white rounded-2xl border p-6 flex flex-col
+          {% if key == current_plan %}border-green-400 ring-2 ring-green-200
+          {% elif key == 'growth' %}border-green-200{% else %}border-gray-100{% endif %}">
+
+          {% if key == current_plan %}
+          <div class="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-full mb-3 self-start">Current plan</div>
+          {% elif key == 'growth' %}
+          <div class="inline-block bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full mb-3 self-start">Most popular</div>
+          {% else %}
+          <div class="h-7 mb-3"></div>
+          {% endif %}
+
+          <h3 class="font-bold text-gray-900 text-lg mb-2">{{ plan.name }}</h3>
+          <div class="mb-5">
+            {% if plan.price == 0 %}
+            <span class="text-4xl font-black text-gray-900">Free</span>
+            {% else %}
+            <span class="text-4xl font-black text-gray-900">${{ plan.price }}</span>
+            <span class="text-gray-400 text-sm">/month</span>
+            {% endif %}
+          </div>
+
+          <ul class="space-y-2.5 mb-8 flex-1">
+            {% for feature in plan.features %}
+            <li class="flex items-start gap-2 text-sm text-gray-600">
+              <span class="text-green-500 font-bold mt-0.5 shrink-0">✓</span>
+              {{ feature }}
+            </li>
+            {% endfor %}
+          </ul>
+
+          {% if key == current_plan %}
+          <div class="text-center py-2.5 px-4 rounded-xl text-sm font-semibold bg-gray-100 text-gray-400">
+            Active
+          </div>
+          {% elif key == 'free' %}
+          <div class="text-center py-2.5 px-4 rounded-xl text-sm font-semibold bg-gray-50 text-gray-400">
+            {% if current_plan == 'free' %}Current{% else %}Downgrade{% endif %}
+          </div>
+          {% else %}
+          <form method="POST" action="/billing/subscribe/{{ key }}">
+            <button type="submit"
+              class="w-full py-2.5 px-4 rounded-xl text-sm font-semibold transition-colors
+              {% if key == 'growth' %}bg-green-500 hover:bg-green-600 text-white{% else %}bg-gray-800 hover:bg-gray-900 text-white{% endif %}">
+              Upgrade to {{ plan.name }}
+            </button>
+          </form>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="mt-8 bg-white rounded-2xl border border-gray-100 p-6 max-w-2xl">
+        <h3 class="font-bold text-gray-900 mb-3">Frequently asked questions</h3>
+        <div class="space-y-4 text-sm">
+          <div>
+            <p class="font-medium text-gray-800">Can I cancel anytime?</p>
+            <p class="text-gray-500 mt-1">Yes. Cancel any time from your billing portal. You'll keep access until the end of your billing period.</p>
+          </div>
+          <div>
+            <p class="font-medium text-gray-800">What counts as an AI response?</p>
+            <p class="text-gray-500 mt-1">Each time you click "Generate AI response" and use the result, it counts as one response towards your monthly limit.</p>
+          </div>
+          <div>
+            <p class="font-medium text-gray-800">Is there a free trial on paid plans?</p>
+            <p class="text-gray-500 mt-1">Yes — all paid plans include a 7-day free trial. No charge until the trial ends.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}

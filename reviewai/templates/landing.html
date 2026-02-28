@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block title %}ReplyFast AI — Respond to Every Review in Seconds{% endblock %}
+
+{% block body %}
+<!-- NAV -->
+<nav class="bg-white border-b border-gray-100 sticky top-0 z-40">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <a href="/" class="flex items-center gap-2 font-bold text-xl text-gray-900">
+      <span class="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center text-white text-sm font-black">R</span>
+      ReplyFast AI
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+      <a href="#how-it-works" class="hover:text-gray-900">How it works</a>
+      <a href="#features" class="hover:text-gray-900">Features</a>
+      <a href="#pricing" class="hover:text-gray-900">Pricing</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="/auth/login" class="text-sm font-medium text-gray-600 hover:text-gray-900">Sign in</a>
+      <a href="/auth/register" class="bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+        Start free →
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="bg-white pt-20 pb-24 px-4">
+  <div class="max-w-4xl mx-auto text-center">
+    <div class="inline-flex items-center gap-2 bg-green-50 text-green-700 text-sm font-medium px-3 py-1.5 rounded-full mb-6">
+      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      Powered by Claude AI — the world's most capable AI model
+    </div>
+    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+      Every unanswered review<br/>
+      <span class="text-green-500">is a lost customer</span>
+    </h1>
+    <p class="text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+      ReplyFast AI generates personalised, professional responses to your Google,
+      Yelp & Facebook reviews in one click — saving hours every week and boosting
+      your local SEO rankings.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/auth/register" class="bg-green-500 hover:bg-green-600 text-white font-bold text-lg px-8 py-4 rounded-xl transition-colors shadow-lg shadow-green-200">
+        Start free — no credit card
+      </a>
+      <a href="#how-it-works" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold text-lg px-8 py-4 rounded-xl transition-colors">
+        See how it works
+      </a>
+    </div>
+    <p class="mt-4 text-sm text-gray-400">Free plan includes 10 AI responses/month • Upgrade anytime</p>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF STRIP -->
+<section class="bg-gray-50 border-y border-gray-100 py-8">
+  <div class="max-w-5xl mx-auto px-4 text-center">
+    <p class="text-sm text-gray-500 mb-6 uppercase tracking-wide font-medium">Trusted by local businesses across every industry</p>
+    <div class="flex flex-wrap justify-center gap-8 text-gray-400 font-semibold text-lg">
+      <span>🍕 Restaurants</span>
+      <span>💅 Salons & Spas</span>
+      <span>🏋️ Gyms</span>
+      <span>🦷 Dental Practices</span>
+      <span>🏨 Hotels</span>
+      <span>🔧 Home Services</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="bg-white py-20 px-4">
+  <div class="max-w-4xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+      <div class="p-8 rounded-2xl bg-red-50 border border-red-100">
+        <p class="text-5xl font-black text-red-500 mb-3">89%</p>
+        <p class="text-gray-700 font-medium">of consumers read business responses to reviews before visiting</p>
+      </div>
+      <div class="p-8 rounded-2xl bg-orange-50 border border-orange-100">
+        <p class="text-5xl font-black text-orange-500 mb-3">62%</p>
+        <p class="text-gray-700 font-medium">of businesses never respond to their negative reviews</p>
+      </div>
+      <div class="p-8 rounded-2xl bg-green-50 border border-green-100">
+        <p class="text-5xl font-black text-green-500 mb-3">12%</p>
+        <p class="text-gray-700 font-medium">higher local SEO ranking for businesses that respond consistently</p>
+      </div>
+    </div>
+    <p class="text-center text-gray-500 mt-10 text-lg">
+      You know you should respond. You just don't have time. <strong class="text-gray-800">Until now.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="bg-gray-50 py-20 px-4">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-4xl font-bold text-gray-900 text-center mb-4">How it works</h2>
+    <p class="text-gray-500 text-center mb-14 text-lg">Three steps from review to published response</p>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="text-center">
+        <div class="w-14 h-14 rounded-2xl bg-green-500 text-white text-2xl font-black flex items-center justify-center mx-auto mb-5">1</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Add your reviews</h3>
+        <p class="text-gray-500">Paste in a new review from Google, Yelp, or any platform. Or connect via our API for automatic syncing.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-14 h-14 rounded-2xl bg-green-500 text-white text-2xl font-black flex items-center justify-center mx-auto mb-5">2</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Generate AI response</h3>
+        <p class="text-gray-500">Click one button. Our AI reads the review, understands the sentiment, and writes a personalised response that sounds like you.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-14 h-14 rounded-2xl bg-green-500 text-white text-2xl font-black flex items-center justify-center mx-auto mb-5">3</div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Edit & publish</h3>
+        <p class="text-gray-500">Tweak if needed, then copy-paste to post. You're always in control — AI is your assistant, not a robot autopilot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="bg-white py-20 px-4">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-4xl font-bold text-gray-900 text-center mb-4">Everything you need</h2>
+    <p class="text-gray-500 text-center mb-14 text-lg">Built specifically for local business owners, not enterprise marketing teams</p>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% set features = [
+        ('⚡', 'Instant AI Responses', 'Generate a professional, personalised reply in under 3 seconds.'),
+        ('🎯', 'Brand Voice Training', 'Teach the AI your tone — casual, formal, friendly. It remembers.'),
+        ('📊', 'Review Analytics', 'Track response rate, avg rating, and sentiment trends over time.'),
+        ('🔴🟡🟢', 'Sentiment Detection', 'AI automatically adjusts tone for negative, neutral, and positive reviews.'),
+        ('🌐', 'Multi-Platform', 'Google, Yelp, Facebook, TripAdvisor — manage all reviews in one place.'),
+        ('✏️', 'Always Editable', 'Every response is a starting point. Edit freely before publishing.'),
+      ] %}
+      {% for icon, title, desc in features %}
+      <div class="p-6 rounded-2xl border border-gray-100 hover:border-green-200 hover:shadow-md transition-all">
+        <div class="text-3xl mb-4">{{ icon }}</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-2">{{ title }}</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">{{ desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="bg-green-50 py-20 px-4">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-4xl font-bold text-gray-900 text-center mb-14">What our customers say</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-2xl shadow-sm">
+        <p class="text-yellow-400 text-lg mb-3">★★★★★</p>
+        <p class="text-gray-700 mb-4 text-sm leading-relaxed">"I used to spend Sunday evenings catching up on reviews. Now I do it in 10 minutes during my morning coffee. Absolute game changer."</p>
+        <p class="font-semibold text-gray-900 text-sm">Maria S.</p>
+        <p class="text-gray-400 text-xs">Owner, Bella Rosa Restaurant</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow-sm">
+        <p class="text-yellow-400 text-lg mb-3">★★★★★</p>
+        <p class="text-gray-700 mb-4 text-sm leading-relaxed">"The AI somehow sounds exactly like me. Clients ask who wrote our responses — I just smile. Our star rating went from 4.1 to 4.6 in 3 months."</p>
+        <p class="font-semibold text-gray-900 text-sm">James T.</p>
+        <p class="text-gray-400 text-xs">Owner, Evergreen Auto Repair</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow-sm">
+        <p class="text-yellow-400 text-lg mb-3">★★★★★</p>
+        <p class="text-gray-700 mb-4 text-sm leading-relaxed">"Managing 6 salon locations used to mean hiring someone just for reviews. Now one person handles all of them with ReplyFast."</p>
+        <p class="font-semibold text-gray-900 text-sm">Priya K.</p>
+        <p class="text-gray-400 text-xs">Director, Luxe Salon Group</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="bg-white py-20 px-4">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-4xl font-bold text-gray-900 text-center mb-4">Simple, transparent pricing</h2>
+    <p class="text-gray-500 text-center mb-14 text-lg">Start free. Upgrade when you're ready. No lock-in.</p>
+    <div class="grid md:grid-cols-4 gap-6">
+      {% for key, plan in plans.items() %}
+      <div class="rounded-2xl border p-6 flex flex-col
+        {% if key == 'growth' %}border-green-500 shadow-xl shadow-green-100 relative{% else %}border-gray-200{% endif %}">
+        {% if key == 'growth' %}
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">Most popular</div>
+        {% endif %}
+        <h3 class="font-bold text-gray-900 text-lg mb-1">{{ plan.name }}</h3>
+        <div class="mb-4">
+          {% if plan.price == 0 %}
+          <span class="text-4xl font-black text-gray-900">Free</span>
+          {% else %}
+          <span class="text-4xl font-black text-gray-900">${{ plan.price }}</span>
+          <span class="text-gray-400 text-sm">/month</span>
+          {% endif %}
+        </div>
+        <ul class="space-y-2 mb-8 flex-1">
+          {% for feature in plan.features %}
+          <li class="flex items-start gap-2 text-sm text-gray-600">
+            <span class="text-green-500 font-bold mt-0.5">✓</span>
+            {{ feature }}
+          </li>
+          {% endfor %}
+        </ul>
+        <a href="/auth/register"
+          class="block text-center py-2.5 px-4 rounded-xl font-semibold text-sm transition-colors
+          {% if key == 'growth' %}bg-green-500 hover:bg-green-600 text-white{% else %}bg-gray-100 hover:bg-gray-200 text-gray-800{% endif %}">
+          {% if plan.price == 0 %}Get started free{% else %}Start 7-day trial{% endif %}
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="text-center text-gray-400 text-sm mt-8">All plans include a 7-day free trial on paid tiers. Cancel anytime. No questions asked.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="bg-green-500 py-20 px-4">
+  <div class="max-w-3xl mx-auto text-center">
+    <h2 class="text-4xl font-bold text-white mb-4">Ready to respond faster?</h2>
+    <p class="text-green-100 text-lg mb-8">Join hundreds of local businesses saving hours every week with AI-powered review management.</p>
+    <a href="/auth/register" class="inline-block bg-white text-green-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-green-50 transition-colors shadow-lg">
+      Create your free account →
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-400 py-12 px-4">
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between gap-8">
+    <div>
+      <div class="flex items-center gap-2 text-white font-bold text-lg mb-3">
+        <span class="w-7 h-7 rounded-lg bg-green-500 flex items-center justify-center text-white text-xs font-black">R</span>
+        ReplyFast AI
+      </div>
+      <p class="text-sm max-w-xs">AI-powered review response management for local businesses.</p>
+    </div>
+    <div class="flex gap-12 text-sm">
+      <div>
+        <p class="text-white font-semibold mb-3">Product</p>
+        <ul class="space-y-2">
+          <li><a href="#features" class="hover:text-white">Features</a></li>
+          <li><a href="#pricing" class="hover:text-white">Pricing</a></li>
+          <li><a href="/auth/register" class="hover:text-white">Sign up</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-white font-semibold mb-3">Account</p>
+        <ul class="space-y-2">
+          <li><a href="/auth/login" class="hover:text-white">Log in</a></li>
+          <li><a href="/dashboard" class="hover:text-white">Dashboard</a></li>
+          <li><a href="/billing/plans" class="hover:text-white">Upgrade</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-5xl mx-auto mt-8 pt-8 border-t border-gray-800 text-sm">
+    <p>© 2026 ReplyFast AI. Built for local business owners who value their reputation.</p>
+  </div>
+</footer>
+
+{% endblock %}

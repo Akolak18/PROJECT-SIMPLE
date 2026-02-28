@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-50">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}ReplyFast AI — Respond to Every Review in Seconds{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#f0fdf4', 100:'#dcfce7', 500:'#22c55e', 600:'#16a34a', 700:'#15803d' }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+  {% block head %}{% endblock %}
+</head>
+<body class="h-full">
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="fixed top-4 right-4 z-50 space-y-2 max-w-sm w-full">
+      {% for category, message in messages %}
+        <div class="flex items-start gap-3 px-4 py-3 rounded-lg shadow-lg text-sm font-medium
+          {% if category == 'error' %}bg-red-50 text-red-800 border border-red-200
+          {% elif category == 'success' %}bg-green-50 text-green-800 border border-green-200
+          {% else %}bg-blue-50 text-blue-800 border border-blue-200{% endif %}">
+          <span class="text-lg leading-none">
+            {% if category == 'error' %}✕{% elif category == 'success' %}✓{% else %}ℹ{% endif %}
+          </span>
+          <p>{{ message }}</p>
+        </div>
+      {% endfor %}
+    </div>
+    <script>setTimeout(() => document.querySelectorAll('[data-toast]').forEach(el=>el.remove()), 5000)</script>
+  {% endif %}
+{% endwith %}
+
+{% block body %}{% endblock %}
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
