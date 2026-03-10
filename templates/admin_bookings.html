@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booking Requests — Iza-Szondi Homes Admin</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f4f8; color: #1a202c; min-height: 100vh; }
+
+    header {
+      background: #1f4e79; color: #fff;
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    header h1 { font-size: 1.3rem; font-weight: 700; }
+    header .subtitle { font-size: .8rem; opacity: .75; margin-top: 2px; }
+    .nav-bar {
+      background: #fff; border-bottom: 1px solid #e2e8f0;
+      padding: 10px 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    }
+    .nav-bar a {
+      font-size: .88rem; font-weight: 600; color: #4a5568; text-decoration: none;
+      padding: 6px 14px; border-radius: 6px; transition: background .15s;
+    }
+    .nav-bar a:hover { background: #edf2f7; }
+    .nav-bar a.active { background: #1f4e79; color: #fff; }
+    .main { padding: 24px; }
+    .stats-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+    .stat-card {
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
+      padding: 18px 24px; flex: 1; min-width: 150px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    }
+    .stat-card .num { font-size: 2rem; font-weight: 700; color: #1f4e79; }
+    .stat-card .lbl { font-size: .8rem; color: #718096; margin-top: 4px; }
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%; border-collapse: collapse; background: #fff;
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,.08); font-size: .88rem;
+    }
+    thead th {
+      background: #1f4e79; color: #fff; padding: 11px 14px;
+      text-align: left; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid #e2e8f0; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f7fafc; }
+    tbody td { padding: 10px 14px; vertical-align: middle; }
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 12px;
+      font-size: .72rem; font-weight: 700; white-space: nowrap;
+    }
+    .badge-new      { background: #bee3f8; color: #1a365d; }
+    .badge-confirmed{ background: #c6f6d5; color: #22543d; }
+    .badge-cancelled{ background: #fed7d7; color: #742a2a; }
+    .empty { text-align: center; padding: 60px 20px; color: #718096; }
+    .empty .icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .message-cell { max-width: 280px; white-space: pre-wrap; font-size: .83rem; color: #4a5568; }
+    .room-tag { font-size: .78rem; background: #edf2f7; padding: 2px 8px; border-radius: 4px; }
+    form.status-form select {
+      font-size: .8rem; padding: 3px 7px; border: 1px solid #cbd5e0;
+      border-radius: 5px; cursor: pointer; background: #f7fafc; color: #2d3748;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🏠 Iza-Szondi Homes — Admin</h1>
+    <div class="subtitle">Booking Requests</div>
+  </div>
+  <a href="/" style="font-size:.8rem; color: rgba(255,255,255,.7); text-decoration: none;">← View public site</a>
+</header>
+
+<div class="nav-bar">
+  <a href="/admin">🧹 Cleaning Schedule</a>
+  <a href="/admin/bookings" class="active">📋 Booking Requests</a>
+</div>
+
+<div class="main">
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="num">{{ bookings | length }}</div>
+      <div class="lbl">Total Requests</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">{{ bookings | selectattr('status', 'equalto', 'new') | list | length }}</div>
+      <div class="lbl">New / Pending</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">{{ bookings | selectattr('status', 'equalto', 'confirmed') | list | length }}</div>
+      <div class="lbl">Confirmed</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Received</th>
+          <th>Guest</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Guests</th>
+          <th>Room</th>
+          <th>Message</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if bookings %}
+          {% for b in bookings %}
+          <tr>
+            <td style="color:#a0aec0; font-size:.8rem;">{{ b.id }}</td>
+            <td style="white-space:nowrap; font-size:.83rem;">{{ b.created_at[:16] if b.created_at else '—' }}</td>
+            <td><strong>{{ b.name or '—' }}</strong></td>
+            <td><a href="mailto:{{ b.email }}" style="color:#1f4e79;">{{ b.email or '—' }}</a></td>
+            <td>{{ b.phone or '—' }}</td>
+            <td style="white-space:nowrap;">{{ b.check_in or '—' }}</td>
+            <td style="white-space:nowrap;">{{ b.check_out or '—' }}</td>
+            <td style="text-align:center;">{{ b.guests or '—' }}</td>
+            <td><span class="room-tag">{{ b.room_pref or 'any' }}</span></td>
+            <td class="message-cell">{{ b.message or '' }}</td>
+            <td>
+              <form class="status-form" action="/admin/bookings/{{ b.id }}/status" method="POST">
+                <select name="status" onchange="this.form.submit()" title="Update status">
+                  <option value="new"       {% if b.status == 'new' %}selected{% endif %}>New</option>
+                  <option value="confirmed" {% if b.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                  <option value="cancelled" {% if b.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                </select>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="11">
+            <div class="empty">
+              <div class="icon">📭</div>
+              <p>No booking requests yet. They'll appear here when guests submit the form.</p>
+            </div>
+          </td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iza-Szondi Homes — Panzió Budapest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:      #1a1a1a;
+      --accent:       #b8975a;
+      --accent-hover: #9a7d48;
+      --bg:           #ffffff;
+      --bg-alt:       #f8f5f0;
+      --text:         #333333;
+      --text-muted:   #777777;
+      --border:       #e5ddd0;
+      --shadow:       0 4px 24px rgba(0,0,0,0.09);
+      --radius:       10px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.25; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAVBAR ─────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 5%;
+      transition: background .3s, box-shadow .3s;
+    }
+    nav.scrolled { background: rgba(255,255,255,0.97); box-shadow: 0 2px 16px rgba(0,0,0,0.10); }
+    .nav-logo { display: flex; flex-direction: column; }
+    .nav-logo .name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #fff; letter-spacing: 0.01em; transition: color .3s; }
+    .nav-logo .tag  { font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    nav.scrolled .nav-logo .name { color: var(--primary); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: .88rem; font-weight: 500; color: rgba(255,255,255,.85); transition: color .2s; }
+    nav.scrolled .nav-links a { color: var(--text-muted); }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent); color: #fff !important;
+      padding: 9px 22px; border-radius: 6px;
+      font-size: .85rem !important; font-weight: 600 !important;
+      transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--accent-hover) !important; color: #fff !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 24px; height: 2px; background: #fff; transition: background .3s; border-radius: 2px; }
+    nav.scrolled .hamburger span { background: var(--primary); }
+
+    /* ── HERO ───────────────────────────────────────────────────────────── */
+    #home {
+      min-height: 100vh;
+      background: linear-gradient(to bottom right, #2b2b2b, #4a3f35);
+      background-image: url('/static/images/exterior.jpg');
+      background-size: cover; background-position: center 30%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; text-align: center;
+    }
+    #home::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.45) 0%, rgba(0,0,0,.55) 100%);
+    }
+    .hero-content { position: relative; z-index: 1; color: #fff; padding: 0 20px; max-width: 780px; }
+    .hero-eyebrow {
+      display: inline-block; font-size: .75rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 18px;
+      border: 1px solid rgba(184,151,90,.5); padding: 6px 16px; border-radius: 20px;
+    }
+    .hero-content h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; margin-bottom: 16px; }
+    .hero-content p { font-size: 1.1rem; opacity: .85; max-width: 520px; margin: 0 auto 36px; font-weight: 300; }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: #fff; padding: 14px 34px;
+      border-radius: 7px; font-weight: 600; font-size: .95rem;
+      transition: background .2s, transform .15s; border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: #fff; padding: 13px 34px;
+      border-radius: 7px; font-weight: 600; font-size: .95rem;
+      border: 2px solid rgba(255,255,255,.6);
+      transition: border-color .2s, transform .15s; cursor: pointer;
+    }
+    .btn-outline:hover { border-color: #fff; transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,.5); font-size: .75rem; letter-spacing: .1em;
+      animation: bounce 2.4s infinite;
+    }
+    .hero-scroll::after { content: '↓'; font-size: 1.2rem; }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+    /* ── SECTION WRAPPER ────────────────────────────────────────────────── */
+    section { padding: 90px 5%; }
+    .section-label {
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 12px;
+    }
+    .section-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--primary); margin-bottom: 18px; }
+    .section-sub { font-size: 1rem; color: var(--text-muted); max-width: 560px; line-height: 1.7; }
+    .divider { width: 48px; height: 3px; background: var(--accent); margin: 20px 0; border-radius: 2px; }
+
+    /* ── ABOUT ──────────────────────────────────────────────────────────── */
+    #about { background: var(--bg-alt); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; }
+    .about-text { }
+    .about-image {
+      height: 420px; border-radius: 12px; overflow: hidden;
+      background: #c4b49a url('/static/images/about.jpg') center/cover;
+      box-shadow: var(--shadow);
+    }
+    .about-features { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .about-pill {
+      background: #fff; border: 1px solid var(--border);
+      padding: 7px 16px; border-radius: 20px; font-size: .82rem; font-weight: 500; color: var(--text);
+    }
+
+    /* ── ROOMS ──────────────────────────────────────────────────────────── */
+    #rooms { background: var(--bg); }
+    .rooms-header { max-width: 1200px; margin: 0 auto 50px; }
+    .rooms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; max-width: 1200px; margin: 0 auto; }
+    .room-card {
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); background: #fff;
+      border: 1px solid var(--border);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .room-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.13); }
+    .room-image {
+      height: 240px; overflow: hidden;
+      background: #c9b99a center/cover no-repeat;
+      position: relative;
+    }
+    .room-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .room-card:hover .room-image img { transform: scale(1.04); }
+    .room-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: rgba(26,26,26,.75); color: #fff; backdrop-filter: blur(6px);
+      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600;
+      padding: 5px 12px; border-radius: 20px;
+    }
+    .room-body { padding: 24px; }
+    .room-body h3 { font-size: 1.25rem; margin-bottom: 8px; color: var(--primary); }
+    .room-body p { font-size: .9rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 16px; }
+    .room-meta { display: flex; gap: 16px; font-size: .82rem; color: var(--text-muted); margin-bottom: 18px; flex-wrap: wrap; }
+    .room-meta span { display: flex; align-items: center; gap: 5px; }
+    .room-feats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .feat-tag { background: var(--bg-alt); font-size: .78rem; padding: 4px 10px; border-radius: 4px; color: var(--text); }
+    .btn-room {
+      display: inline-block; background: var(--primary); color: #fff;
+      padding: 10px 22px; border-radius: 6px; font-size: .88rem; font-weight: 600;
+      transition: background .2s; border: none; cursor: pointer;
+    }
+    .btn-room:hover { background: var(--accent); }
+
+    /* ── AMENITIES ──────────────────────────────────────────────────────── */
+    #amenities { background: var(--bg-alt); }
+    .amenities-inner { max-width: 1100px; margin: 0 auto; }
+    .amenities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; margin-top: 50px; }
+    .amenity-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 20px; text-align: center;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .amenity-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+    .amenity-icon { font-size: 2rem; margin-bottom: 12px; }
+    .amenity-card h4 { font-family: 'Inter', sans-serif; font-size: .9rem; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
+    .amenity-card p { font-size: .8rem; color: var(--text-muted); }
+
+    /* ── GALLERY ────────────────────────────────────────────────────────── */
+    #gallery { background: var(--bg); padding: 90px 0; }
+    .gallery-header { padding: 0 5%; max-width: 1200px; margin: 0 auto 40px; }
+    .gallery-strip { display: flex; gap: 4px; overflow: hidden; }
+    .gallery-strip div {
+      flex: 1; min-width: 180px; height: 300px;
+      background: #c4b49a center/cover no-repeat;
+      transition: flex .5s ease;
+    }
+    .gallery-strip div:hover { flex: 3; }
+
+    /* ── BOOKING ────────────────────────────────────────────────────────── */
+    #book { background: var(--bg-alt); }
+    .book-inner { max-width: 860px; margin: 0 auto; }
+    .book-header { text-align: center; margin-bottom: 44px; }
+    .book-header .section-sub { margin: 0 auto; }
+    .book-header .divider { margin: 20px auto; }
+
+    {% if booking_success %}
+    .booking-success {
+      background: #f0faf4; border: 1px solid #a0d6b4;
+      border-radius: var(--radius); padding: 48px; text-align: center;
+    }
+    .booking-success .icon { font-size: 3rem; margin-bottom: 16px; }
+    .booking-success h3 { font-size: 1.6rem; color: #1a5c3a; margin-bottom: 10px; }
+    .booking-success p { color: #4a7c63; font-size: 1rem; }
+    {% endif %}
+
+    .booking-form {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; padding: 44px;
+      box-shadow: var(--shadow);
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: .85rem; font-weight: 600; color: var(--primary); }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1.5px solid var(--border); border-radius: 7px;
+      padding: 11px 14px; font-size: .92rem; color: var(--text);
+      font-family: 'Inter', sans-serif; background: #fdfdfd;
+      transition: border-color .2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { outline: none; border-color: var(--accent); background: #fff; }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .nights-hint { font-size: .8rem; color: var(--accent); font-weight: 500; min-height: 1.2em; }
+    .form-note { font-size: .82rem; color: var(--text-muted); text-align: center; margin-top: 14px; }
+    .btn-submit {
+      display: block; width: 100%; margin-top: 28px;
+      background: var(--accent); color: #fff;
+      padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: 700;
+      border: none; cursor: pointer; transition: background .2s, transform .15s;
+      font-family: 'Inter', sans-serif; letter-spacing: .03em;
+    }
+    .btn-submit:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+    /* ── LOCATION ───────────────────────────────────────────────────────── */
+    #location { background: var(--bg); }
+    .location-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start; max-width: 1200px; margin: 0 auto; }
+    .location-text .contact-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+    .contact-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .contact-label { font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); font-weight: 600; }
+    .contact-value { font-size: .95rem; color: var(--text); margin-top: 2px; }
+    .map-wrap {
+      height: 360px; border-radius: 12px; overflow: hidden;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; }
+    .nearby-list { margin-top: 32px; }
+    .nearby-list h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 14px; color: var(--primary); }
+    .nearby-list ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .nearby-list li { font-size: .88rem; color: var(--text-muted); display: flex; gap: 8px; }
+    .nearby-list li::before { content: '→'; color: var(--accent); }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────────── */
+    footer { background: var(--primary); color: rgba(255,255,255,.7); padding: 56px 5% 28px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; max-width: 1200px; margin: 0 auto 48px; }
+    .footer-brand .name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #fff; }
+    .footer-brand .tag  { font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+    .footer-brand p { font-size: .88rem; margin-top: 14px; line-height: 1.7; max-width: 280px; }
+    .footer-col h5 { color: #fff; font-family: 'Inter', sans-serif; font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-col li a { font-size: .88rem; transition: color .2s; }
+    .footer-col li a:hover { color: var(--accent); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.12); padding-top: 22px; text-align: center; font-size: .8rem; max-width: 1200px; margin: 0 auto; }
+
+    /* ── FLASH / SUCCESS BANNER ─────────────────────────────────────────── */
+    .flash-success {
+      background: #f0faf4; border-bottom: 2px solid #69c191;
+      padding: 16px 5%; text-align: center;
+      font-size: .95rem; color: #1a5c3a; font-weight: 500;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .about-grid, .location-grid { grid-template-columns: 1fr; }
+      .about-image { height: 280px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: rgba(255,255,255,.97); padding: 20px 5%; gap: 20px; box-shadow: 0 8px 20px rgba(0,0,0,.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { color: var(--text) !important; }
+      .hamburger { display: flex; }
+      .form-grid { grid-template-columns: 1fr; }
+      .booking-form { padding: 28px 20px; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 70px 5%; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .gallery-strip { flex-wrap: wrap; }
+      .gallery-strip div { flex: none; width: calc(50% - 2px); height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+{% if booking_success %}
+<div class="flash-success">
+  ✓ Your booking request has been sent! We will confirm your reservation within 24 hours.
+</div>
+{% endif %}
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <span class="name">Iza-Szondi Homes</span>
+    <span class="tag">Panzió · Budapest</span>
+  </a>
+  <div class="nav-links" id="nav-links">
+    <a href="#about">About</a>
+    <a href="#rooms">Rooms</a>
+    <a href="#amenities">Amenities</a>
+    <a href="#location">Location</a>
+    <a href="#book" class="nav-cta">Book Now</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Panzió · Budapest</div>
+    <h1>Iza-Szondi Homes</h1>
+    <p>Stylish loft apartments in the heart of Budapest — your home away from home.</p>
+    <div class="hero-btns">
+      <a href="#book" class="btn-primary">Book Your Stay</a>
+      <a href="#rooms" class="btn-outline">Explore Rooms</a>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-label">About Us</div>
+      <h2 class="section-title">A boutique stay in Budapest's vibrant heart</h2>
+      <div class="divider"></div>
+      <p class="section-sub">Iza-Szondi Homes is a charming panzió set in a beautifully restored 19th-century building on Szondi utca. We offer modern, light-filled loft apartments — each with its own kitchenette, dining area, and stylish furnishings — perfect for short stays, longer visits, or remote work retreats.</p>
+      <p style="margin-top:16px; color: var(--text-muted); font-size: .95rem; line-height:1.7;">Situated in Budapest's lively 6th district, you're just minutes from the city's best ruin bars, restaurants, thermal baths, and cultural landmarks.</p>
+      <div class="about-features">
+        <span class="about-pill">✦ Classified Panzió</span>
+        <span class="about-pill">✦ 6th District, Budapest</span>
+        <span class="about-pill">✦ Newly Renovated</span>
+        <span class="about-pill">✦ Self Check-in</span>
+        <span class="about-pill">✦ Long Stays Welcome</span>
+      </div>
+    </div>
+    <div class="about-image" style="background-image: url('/static/images/exterior.jpg');"></div>
+  </div>
+</section>
+
+<!-- ROOMS -->
+<section id="rooms">
+  <div class="rooms-header">
+    <div class="section-label">Accommodation</div>
+    <h2 class="section-title">Our Rooms</h2>
+    <div class="divider"></div>
+    <p class="section-sub">Each apartment is individually furnished and equipped for your comfort. Whether you're a couple, family, or solo traveller — we have the right space for you.</p>
+  </div>
+  <div class="rooms-grid">
+
+    <!-- Room 1 -->
+    <div class="room-card">
+      <div class="room-image" style="background-image: url('/static/images/room-loft-arched.jpg'); background-color: #b8a898;">
+        <div class="room-badge">Loft Suite</div>
+        <img src="/static/images/room-loft-arched.jpg" alt="Loft Suite with Arched Feature" onerror="this.style.display='none'">
+      </div>
+      <div class="room-body">
+        <h3>Arched Loft Suite</h3>
+        <p>A dramatic duplex apartment featuring a stunning arched architectural element. Ground-floor living and dining area leads to a private mezzanine bedroom via an open staircase.</p>
+        <div class="room-meta">
+          <span>👥 Up to 4 guests</span>
+          <span>🛏 2 sleeping areas</span>
+          <span>📐 ~40 m²</span>
+        </div>
+        <div class="room-feats">
+          <span class="feat-tag">Mezzanine bedroom</span>
+          <span class="feat-tag">Kitchenette</span>
+          <span class="feat-tag">Dining area</span>
+          <span class="feat-tag">Wardrobe</span>
+        </div>
+        <a href="#book" class="btn-room">Inquire & Book</a>
+      </div>
+    </div>
+
+    <!-- Room 2 -->
+    <div class="room-card">
+      <div class="room-image" style="background-image: url('/static/images/room-standard.jpg'); background-color: #c8bdb0;">
+        <div class="room-badge">Studio</div>
+        <img src="/static/images/room-standard.jpg" alt="Standard Studio" onerror="this.style.display='none'">
+      </div>
+      <div class="room-body">
+        <h3>Standard Studio</h3>
+        <p>A bright, well-appointed ground-floor studio with a fully equipped kitchenette, comfortable day bed with pull-out option, and a spacious dining table.</p>
+        <div class="room-meta">
+          <span>👥 Up to 4 guests</span>
+          <span>🛏 Day bed + pull-out</span>
+          <span>📐 ~30 m²</span>
+        </div>
+        <div class="room-feats">
+          <span class="feat-tag">Full kitchenette</span>
+          <span class="feat-tag">Dining area</span>
+          <span class="feat-tag">Under-bed storage</span>
+          <span class="feat-tag">A/C + heating</span>
+        </div>
+        <a href="#book" class="btn-room">Inquire & Book</a>
+      </div>
+    </div>
+
+    <!-- Room 3 -->
+    <div class="room-card">
+      <div class="room-image" style="background-image: url('/static/images/room-loft-kitchen.jpg'); background-color: #b5a99c;">
+        <div class="room-badge">Loft Studio</div>
+        <img src="/static/images/room-loft-kitchen.jpg" alt="Loft Studio" onerror="this.style.display='none'">
+      </div>
+      <div class="room-body">
+        <h3>Loft Studio</h3>
+        <p>A stylish open-plan loft studio combining a kitchenette and living space on the ground floor with a cozy mezzanine sleeping area accessible by an open staircase.</p>
+        <div class="room-meta">
+          <span>👥 Up to 4 guests</span>
+          <span>🛏 Mezzanine + day bed</span>
+          <span>📐 ~38 m²</span>
+        </div>
+        <div class="room-feats">
+          <span class="feat-tag">Mezzanine bedroom</span>
+          <span class="feat-tag">Kitchenette</span>
+          <span class="feat-tag">Dining area</span>
+          <span class="feat-tag">A/C + heating</span>
+        </div>
+        <a href="#book" class="btn-room">Inquire & Book</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- AMENITIES -->
+<section id="amenities">
+  <div class="amenities-inner">
+    <div class="section-label">Facilities</div>
+    <h2 class="section-title">Everything You Need</h2>
+    <div class="divider"></div>
+    <p class="section-sub">All apartments are equipped with modern amenities for a comfortable, hassle-free stay.</p>
+    <div class="amenities-grid">
+      <div class="amenity-card">
+        <div class="amenity-icon">📶</div>
+        <h4>Free Wi-Fi</h4>
+        <p>High-speed internet throughout</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🍳</div>
+        <h4>Kitchenette</h4>
+        <p>Microwave, fridge, kettle, cookware</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">❄️</div>
+        <h4>Climate Control</h4>
+        <p>Air conditioning & electric heating</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🛁</div>
+        <h4>Private Bathroom</h4>
+        <p>Fresh towels & toiletries provided</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🛏</div>
+        <h4>Quality Bedding</h4>
+        <p>Hotel-grade linen & pillows</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🔑</div>
+        <h4>Self Check-in</h4>
+        <p>Flexible arrival & departure</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🧹</div>
+        <h4>Regular Cleaning</h4>
+        <p>Professional housekeeping service</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🖼️</div>
+        <h4>Unique Décor</h4>
+        <p>Original artworks in each apartment</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY STRIP -->
+<section id="gallery" style="padding: 0; overflow: hidden;">
+  <div style="padding: 90px 5% 40px; max-width: 1200px; margin: 0 auto;">
+    <div class="section-label">Gallery</div>
+    <h2 class="section-title">See It for Yourself</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="gallery-strip">
+    <div style="background-image: url('/static/images/gallery-1.jpg'); background-color: #c4b49a;"></div>
+    <div style="background-image: url('/static/images/gallery-2.jpg'); background-color: #b8a898;"></div>
+    <div style="background-image: url('/static/images/gallery-3.jpg'); background-color: #c9bdb0;"></div>
+    <div style="background-image: url('/static/images/gallery-4.jpg'); background-color: #bab2a5;"></div>
+    <div style="background-image: url('/static/images/gallery-5.jpg'); background-color: #c0b5a8;"></div>
+  </div>
+  <p style="text-align:center; font-size:.82rem; color: var(--text-muted); padding: 14px 5% 0;">Hover over the panels to explore</p>
+</section>
+
+<!-- BOOKING -->
+<section id="book">
+  <div class="book-inner">
+    <div class="book-header">
+      <div class="section-label">Reservations</div>
+      <h2 class="section-title">Reserve Your Stay</h2>
+      <div class="divider"></div>
+      <p class="section-sub">Fill in your details below and we'll confirm availability within 24 hours. No payment required at this stage.</p>
+    </div>
+
+    {% if booking_success %}
+    <div class="booking-success">
+      <div class="icon">✅</div>
+      <h3>Request Received!</h3>
+      <p>Thank you — we'll review your request and reply to your email within 24 hours to confirm dates and details.</p>
+    </div>
+    {% else %}
+    <div class="booking-form">
+      <form action="/book" method="POST" id="booking-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" name="name" required placeholder="e.g. Anna Kovács">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+36 20 123 4567">
+          </div>
+          <div class="form-group">
+            <label for="guests">Number of Guests *</label>
+            <select id="guests" name="guests" required>
+              <option value="">Select...</option>
+              <option value="1">1 Guest</option>
+              <option value="2">2 Guests</option>
+              <option value="3">3 Guests</option>
+              <option value="4">4 Guests</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="check_in">Check-in Date *</label>
+            <input type="date" id="check_in" name="check_in" required>
+          </div>
+          <div class="form-group">
+            <label for="check_out">Check-out Date *</label>
+            <input type="date" id="check_out" name="check_out" required>
+            <div class="nights-hint" id="nights-hint"></div>
+          </div>
+          <div class="form-group full">
+            <label for="room_pref">Room Preference</label>
+            <select id="room_pref" name="room_pref">
+              <option value="">No preference — any available room</option>
+              <option value="arched-loft">Arched Loft Suite</option>
+              <option value="standard-studio">Standard Studio</option>
+              <option value="loft-studio">Loft Studio</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label for="message">Special Requests or Questions</label>
+            <textarea id="message" name="message" placeholder="Early check-in, late check-out, dietary requirements, accessibility needs..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Send Booking Request →</button>
+        <p class="form-note">No payment required at this stage &nbsp;·&nbsp; We reply within 24 hours</p>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="location-grid">
+    <div class="location-text">
+      <div class="section-label">Getting Here</div>
+      <h2 class="section-title">Find Us in Budapest</h2>
+      <div class="divider"></div>
+
+      <div class="contact-row">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Address</div>
+          <div class="contact-value">Szondi utca, Budapest<br>VI. kerület, 1067</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">🚇</div>
+        <div>
+          <div class="contact-label">Metro</div>
+          <div class="contact-value">M1 Oktogon — 5 min walk<br>M3 Nyugati — 10 min walk</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value"><a href="mailto:info@izaszondi.hu" style="color: var(--accent);">info@izaszondi.hu</a></div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Phone / WhatsApp</div>
+          <div class="contact-value"><a href="tel:+36201234567" style="color: var(--accent);">+36 20 123 4567</a></div>
+        </div>
+      </div>
+
+      <div class="nearby-list">
+        <h4>Nearby Highlights</h4>
+        <ul>
+          <li>Széchenyi Thermal Bath — 15 min</li>
+          <li>Andrássy Avenue (UNESCO) — 5 min</li>
+          <li>Hungarian State Opera — 8 min</li>
+          <li>Great Synagogue — 12 min</li>
+          <li>St. Stephen's Basilica — 15 min</li>
+          <li>Buda Castle — 30 min by tram</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="map-wrap">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2695.1936!2d19.0622!3d47.5063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741dc5b38b58e3d%3A0xe9fd6d0d64e01ac8!2sSzondi%20utca%2C%20Budapest%2C%201067%20Hungary!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Iza-Szondi Homes location map">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="name">Iza-Szondi Homes</div>
+      <div class="tag">Panzió · Budapest</div>
+      <p>Modern loft apartments in a beautifully restored building in the heart of Budapest. Your boutique home away from home.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#rooms">Rooms</a></li>
+        <li><a href="#amenities">Amenities</a></li>
+        <li><a href="#location">Location</a></li>
+        <li><a href="#book">Book Now</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:info@izaszondi.hu">info@izaszondi.hu</a></li>
+        <li><a href="tel:+36201234567">+36 20 123 4567</a></li>
+        <li style="color: rgba(255,255,255,.5); font-size:.85rem; cursor:default;">Szondi utca, Budapest VI.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Iza-Szondi Homes. All rights reserved. &nbsp;·&nbsp; Classified Panzió, Budapest</p>
+  </div>
+</footer>
+
+<script>
+  // ── Navbar scroll effect ──────────────────────────────────────────────────
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── Hamburger menu ────────────────────────────────────────────────────────
+  function toggleMenu() {
+    document.getElementById('nav-links').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+  });
+
+  // ── Night counter ─────────────────────────────────────────────────────────
+  const checkin  = document.getElementById('check_in');
+  const checkout = document.getElementById('check_out');
+  const hint     = document.getElementById('nights-hint');
+
+  function updateNights() {
+    if (!checkin || !checkout || !hint) return;
+    const a = new Date(checkin.value);
+    const b = new Date(checkout.value);
+    if (checkin.value && checkout.value && b > a) {
+      const nights = Math.round((b - a) / 86400000);
+      hint.textContent = `${nights} night${nights !== 1 ? 's' : ''}`;
+    } else {
+      hint.textContent = '';
+    }
+  }
+
+  if (checkin) {
+    // Set min dates
+    const today = new Date().toISOString().slice(0, 10);
+    checkin.min = today;
+    checkout.min = today;
+
+    checkin.addEventListener('change', () => {
+      checkout.min = checkin.value;
+      if (checkout.value && checkout.value <= checkin.value) checkout.value = '';
+      updateNights();
+    });
+    checkout.addEventListener('change', updateNights);
+  }
+
+  // ── Room card "Book" links pre-fill room preference ───────────────────────
+  document.querySelectorAll('.btn-room').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const card = btn.closest('.room-card');
+      const badge = card ? card.querySelector('.room-badge') : null;
+      const sel   = document.getElementById('room_pref');
+      if (badge && sel) {
+        const map = {
+          'Loft Suite':   'arched-loft',
+          'Studio':       'standard-studio',
+          'Loft Studio':  'loft-studio',
+        };
+        const val = map[badge.textContent.trim()];
+        if (val) sel.value = val;
+      }
+    });
+  });
+
+  // ── Scroll-reveal (simple IntersectionObserver) ───────────────────────────
+  const style = document.createElement('style');
+  style.textContent = `.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}.reveal.visible{opacity:1;transform:none}`;
+  document.head.appendChild(style);
+  document.querySelectorAll('section, .room-card, .amenity-card').forEach(el => el.classList.add('reveal'));
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 }).observe = (function(orig) {
+    return function(el) { orig.call(this, el); };
+  })(IntersectionObserver.prototype.observe);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
