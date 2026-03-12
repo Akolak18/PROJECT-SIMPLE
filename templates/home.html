@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iza-Szondi Homes — Panzió Budapest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:      #1a1a1a;
+      --accent:       #b8975a;
+      --accent-hover: #9a7d48;
+      --bg:           #ffffff;
+      --bg-alt:       #f8f5f0;
+      --text:         #333333;
+      --text-muted:   #777777;
+      --border:       #e5ddd0;
+      --shadow:       0 4px 24px rgba(0,0,0,0.09);
+      --radius:       10px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.25; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAVBAR ─────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 5%;
+      transition: background .3s, box-shadow .3s;
+    }
+    nav.scrolled { background: rgba(255,255,255,0.97); box-shadow: 0 2px 16px rgba(0,0,0,0.10); }
+    .nav-logo { display: flex; flex-direction: column; }
+    .nav-logo .name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #fff; letter-spacing: 0.01em; transition: color .3s; }
+    .nav-logo .tag  { font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+    nav.scrolled .nav-logo .name { color: var(--primary); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: .88rem; font-weight: 500; color: rgba(255,255,255,.85); transition: color .2s; }
+    nav.scrolled .nav-links a { color: var(--text-muted); }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent); color: #fff !important;
+      padding: 9px 22px; border-radius: 6px;
+      font-size: .85rem !important; font-weight: 600 !important;
+      transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--accent-hover) !important; color: #fff !important; }
+
+    /* ── LANG TOGGLE ────────────────────────────────────────────────────── */
+    .lang-toggle { display: flex; align-items: center; gap: 4px; }
+    .lang-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: .82rem; font-weight: 600; padding: 4px 7px; border-radius: 4px;
+      color: rgba(255,255,255,.7); transition: color .2s, background .2s;
+      font-family: 'Inter', sans-serif;
+    }
+    nav.scrolled .lang-btn { color: var(--text-muted); }
+    .lang-btn:hover { color: var(--accent); }
+    .lang-btn.active { color: var(--accent); }
+    .lang-sep { color: rgba(255,255,255,.35); font-size: .75rem; user-select: none; }
+    nav.scrolled .lang-sep { color: var(--border); }
+    .lang-toggle--mobile { display: none; }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 24px; height: 2px; background: #fff; transition: background .3s; border-radius: 2px; }
+    nav.scrolled .hamburger span { background: var(--primary); }
+
+    /* ── HERO ───────────────────────────────────────────────────────────── */
+    #home {
+      min-height: 100vh;
+      background: linear-gradient(to bottom right, #2b2b2b, #4a3f35);
+      background-image: url('/static/images/exterior.jpg');
+      background-size: cover; background-position: center 30%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; text-align: center;
+    }
+    #home::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.45) 0%, rgba(0,0,0,.55) 100%);
+    }
+    .hero-content { position: relative; z-index: 1; color: #fff; padding: 0 20px; max-width: 780px; }
+    .hero-eyebrow {
+      display: inline-block; font-size: .75rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 18px;
+      border: 1px solid rgba(184,151,90,.5); padding: 6px 16px; border-radius: 20px;
+    }
+    .hero-content h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; margin-bottom: 16px; }
+    .hero-content p { font-size: 1.1rem; opacity: .85; max-width: 520px; margin: 0 auto 36px; font-weight: 300; }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: #fff; padding: 14px 34px;
+      border-radius: 7px; font-weight: 600; font-size: .95rem;
+      transition: background .2s, transform .15s; border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: #fff; padding: 13px 34px;
+      border-radius: 7px; font-weight: 600; font-size: .95rem;
+      border: 2px solid rgba(255,255,255,.6);
+      transition: border-color .2s, transform .15s; cursor: pointer;
+    }
+    .btn-outline:hover { border-color: #fff; transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,.5); font-size: .75rem; letter-spacing: .1em;
+      animation: bounce 2.4s infinite;
+    }
+    .hero-scroll::after { content: '↓'; font-size: 1.2rem; }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+    /* ── SECTION WRAPPER ────────────────────────────────────────────────── */
+    section { padding: 90px 5%; }
+    .section-label {
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 12px;
+    }
+    .section-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--primary); margin-bottom: 18px; }
+    .section-sub { font-size: 1rem; color: var(--text-muted); max-width: 560px; line-height: 1.7; }
+    .divider { width: 48px; height: 3px; background: var(--accent); margin: 20px 0; border-radius: 2px; }
+
+    /* ── ABOUT ──────────────────────────────────────────────────────────── */
+    #about { background: var(--bg-alt); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; }
+    .about-text { }
+    .about-image {
+      height: 420px; border-radius: 12px; overflow: hidden;
+      background: #c4b49a url('/static/images/about.jpg') center/cover;
+      box-shadow: var(--shadow);
+    }
+    .about-features { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .about-pill {
+      background: #fff; border: 1px solid var(--border);
+      padding: 7px 16px; border-radius: 20px; font-size: .82rem; font-weight: 500; color: var(--text);
+    }
+
+    /* ── ROOMS ──────────────────────────────────────────────────────────── */
+    #rooms { background: var(--bg); }
+    .rooms-header { max-width: 1200px; margin: 0 auto 50px; }
+    .rooms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; max-width: 1200px; margin: 0 auto; }
+    .room-card {
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); background: #fff;
+      border: 1px solid var(--border);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .room-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.13); }
+    .room-image {
+      height: 240px; overflow: hidden;
+      background: #c9b99a center/cover no-repeat;
+      position: relative;
+    }
+    .room-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .room-card:hover .room-image img { transform: scale(1.04); }
+    .room-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: rgba(26,26,26,.75); color: #fff; backdrop-filter: blur(6px);
+      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600;
+      padding: 5px 12px; border-radius: 20px;
+    }
+    .room-body { padding: 24px; }
+    .room-body h3 { font-size: 1.25rem; margin-bottom: 8px; color: var(--primary); }
+    .room-body p { font-size: .9rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 16px; }
+    .room-meta { display: flex; gap: 16px; font-size: .82rem; color: var(--text-muted); margin-bottom: 18px; flex-wrap: wrap; }
+    .room-meta span { display: flex; align-items: center; gap: 5px; }
+    .room-feats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .feat-tag { background: var(--bg-alt); font-size: .78rem; padding: 4px 10px; border-radius: 4px; color: var(--text); }
+    .btn-room {
+      display: inline-block; background: var(--primary); color: #fff;
+      padding: 10px 22px; border-radius: 6px; font-size: .88rem; font-weight: 600;
+      transition: background .2s; border: none; cursor: pointer;
+    }
+    .btn-room:hover { background: var(--accent); }
+
+    /* ── AMENITIES ──────────────────────────────────────────────────────── */
+    #amenities { background: var(--bg-alt); }
+    .amenities-inner { max-width: 1100px; margin: 0 auto; }
+    .amenities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; margin-top: 50px; }
+    .amenity-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 20px; text-align: center;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .amenity-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+    .amenity-icon { font-size: 2rem; margin-bottom: 12px; }
+    .amenity-card h4 { font-family: 'Inter', sans-serif; font-size: .9rem; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
+    .amenity-card p { font-size: .8rem; color: var(--text-muted); }
+
+    /* ── GALLERY ────────────────────────────────────────────────────────── */
+    #gallery { background: var(--bg); padding: 90px 0; }
+    .gallery-header { padding: 0 5%; max-width: 1200px; margin: 0 auto 40px; }
+    .gallery-strip { display: flex; gap: 4px; overflow: hidden; }
+    .gallery-strip div {
+      flex: 1; min-width: 180px; height: 300px;
+      background: #c4b49a center/cover no-repeat;
+      transition: flex .5s ease;
+    }
+    .gallery-strip div:hover { flex: 3; }
+
+    /* ── BOOKING ────────────────────────────────────────────────────────── */
+    #book { background: var(--bg-alt); }
+    .book-inner { max-width: 860px; margin: 0 auto; }
+    .book-header { text-align: center; margin-bottom: 44px; }
+    .book-header .section-sub { margin: 0 auto; }
+    .book-header .divider { margin: 20px auto; }
+
+    {% if booking_success %}
+    .booking-success {
+      background: #f0faf4; border: 1px solid #a0d6b4;
+      border-radius: var(--radius); padding: 48px; text-align: center;
+    }
+    .booking-success .icon { font-size: 3rem; margin-bottom: 16px; }
+    .booking-success h3 { font-size: 1.6rem; color: #1a5c3a; margin-bottom: 10px; }
+    .booking-success p { color: #4a7c63; font-size: 1rem; }
+    {% endif %}
+
+    .booking-form {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; padding: 44px;
+      box-shadow: var(--shadow);
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: .85rem; font-weight: 600; color: var(--primary); }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1.5px solid var(--border); border-radius: 7px;
+      padding: 11px 14px; font-size: .92rem; color: var(--text);
+      font-family: 'Inter', sans-serif; background: #fdfdfd;
+      transition: border-color .2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { outline: none; border-color: var(--accent); background: #fff; }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .nights-hint { font-size: .8rem; color: var(--accent); font-weight: 500; min-height: 1.2em; }
+    .form-note { font-size: .82rem; color: var(--text-muted); text-align: center; margin-top: 14px; }
+    .btn-submit {
+      display: block; width: 100%; margin-top: 28px;
+      background: var(--accent); color: #fff;
+      padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: 700;
+      border: none; cursor: pointer; transition: background .2s, transform .15s;
+      font-family: 'Inter', sans-serif; letter-spacing: .03em;
+    }
+    .btn-submit:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+    /* ── LOCATION ───────────────────────────────────────────────────────── */
+    #location { background: var(--bg); }
+    .location-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start; max-width: 1200px; margin: 0 auto; }
+    .location-text .contact-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+    .contact-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .contact-label { font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); font-weight: 600; }
+    .contact-value { font-size: .95rem; color: var(--text); margin-top: 2px; }
+    .map-wrap {
+      height: 360px; border-radius: 12px; overflow: hidden;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; }
+    .nearby-list { margin-top: 32px; }
+    .nearby-list h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 14px; color: var(--primary); }
+    .nearby-list ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .nearby-list li { font-size: .88rem; color: var(--text-muted); display: flex; gap: 8px; }
+    .nearby-list li::before { content: '→'; color: var(--accent); }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────────── */
+    footer { background: var(--primary); color: rgba(255,255,255,.7); padding: 56px 5% 28px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; max-width: 1200px; margin: 0 auto 48px; }
+    .footer-brand .name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #fff; }
+    .footer-brand .tag  { font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+    .footer-brand p { font-size: .88rem; margin-top: 14px; line-height: 1.7; max-width: 280px; }
+    .footer-col h5 { color: #fff; font-family: 'Inter', sans-serif; font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-col li a { font-size: .88rem; transition: color .2s; }
+    .footer-col li a:hover { color: var(--accent); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.12); padding-top: 22px; text-align: center; font-size: .8rem; max-width: 1200px; margin: 0 auto; }
+
+    /* ── FLASH / SUCCESS BANNER ─────────────────────────────────────────── */
+    .flash-success {
+      background: #f0faf4; border-bottom: 2px solid #69c191;
+      padding: 16px 5%; text-align: center;
+      font-size: .95rem; color: #1a5c3a; font-weight: 500;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .about-grid, .location-grid { grid-template-columns: 1fr; }
+      .about-image { height: 280px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: rgba(255,255,255,.97); padding: 20px 5%; gap: 20px; box-shadow: 0 8px 20px rgba(0,0,0,.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { color: var(--text) !important; }
+      .nav-links .lang-toggle { display: none; }
+      .hamburger { display: flex; }
+      .lang-toggle--mobile { display: flex; margin-right: 10px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .booking-form { padding: 28px 20px; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 70px 5%; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .gallery-strip { flex-wrap: wrap; }
+      .gallery-strip div { flex: none; width: calc(50% - 2px); height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+{% if booking_success %}
+<div class="flash-success" data-i18n="flash.success">
+  ✓ Your booking request has been sent! We will confirm your reservation within 24 hours.
+</div>
+{% endif %}
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <span class="name">Iza-Szondi Homes</span>
+    <span class="tag">Panzió · Budapest</span>
+  </a>
+  <div class="nav-links" id="nav-links">
+    <a href="#about" data-i18n="nav.about">About</a>
+    <a href="#rooms" data-i18n="nav.rooms">Rooms</a>
+    <a href="#amenities" data-i18n="nav.amenities">Amenities</a>
+    <a href="#location" data-i18n="nav.location">Location</a>
+    <div class="lang-toggle">
+      <button class="lang-btn" data-lang="en" onclick="applyLanguage('en')">EN</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" data-lang="hu" onclick="applyLanguage('hu')">HU</button>
+    </div>
+    <a href="#book" class="nav-cta" data-i18n="nav.book">Book Now</a>
+  </div>
+  <div class="lang-toggle lang-toggle--mobile">
+    <button class="lang-btn" data-lang="en" onclick="applyLanguage('en')">EN</button>
+    <span class="lang-sep">|</span>
+    <button class="lang-btn" data-lang="hu" onclick="applyLanguage('hu')">HU</button>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-i18n="hero.eyebrow">Panzió · Budapest</div>
+    <h1>Iza-Szondi Homes</h1>
+    <p data-i18n="hero.sub">Stylish loft apartments in the heart of Budapest — your home away from home.</p>
+    <div class="hero-btns">
+      <a href="#book" class="btn-primary" data-i18n="hero.btn_book">Book Your Stay</a>
+      <a href="#rooms" class="btn-outline" data-i18n="hero.btn_rooms">Explore Rooms</a>
+    </div>
+  </div>
+  <div class="hero-scroll" data-i18n="hero.scroll">SCROLL</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-label" data-i18n="about.label">About Us</div>
+      <h2 class="section-title" data-i18n="about.title">A boutique stay in Budapest's vibrant heart</h2>
+      <div class="divider"></div>
+      <p class="section-sub" data-i18n="about.sub1">Iza-Szondi Homes is a charming panzió set in a beautifully restored 19th-century building on Szondi utca. We offer modern, light-filled loft apartments — each with its own kitchenette, dining area, and stylish furnishings — perfect for short stays, longer visits, or remote work retreats.</p>
+      <p style="margin-top:16px; color: var(--text-muted); font-size: .95rem; line-height:1.7;" data-i18n="about.sub2">Situated in Budapest's lively 6th district, you're just minutes from the city's best ruin bars, restaurants, thermal baths, and cultural landmarks.</p>
+      <div class="about-features">
+        <span class="about-pill" data-i18n="about.pill1">✦ Classified Panzió</span>
+        <span class="about-pill" data-i18n="about.pill2">✦ 6th District, Budapest</span>
+        <span class="about-pill" data-i18n="about.pill3">✦ Newly Renovated</span>
+        <span class="about-pill" data-i18n="about.pill4">✦ Self Check-in</span>
+        <span class="about-pill" data-i18n="about.pill5">✦ Long Stays Welcome</span>
+      </div>
+    </div>
+    <div class="about-image" style="background-image: url('/static/images/exterior.jpg');"></div>
+  </div>
+</section>
+
+<!-- ROOMS -->
+<section id="rooms">
+  <div class="rooms-header">
+    <div class="section-label" data-i18n="rooms.label">Accommodation</div>
+    <h2 class="section-title" data-i18n="rooms.title">Our Rooms</h2>
+    <div class="divider"></div>
+    <p class="section-sub" data-i18n="rooms.sub">Each apartment is individually furnished and equipped for your comfort. Whether you're a couple, family, or solo traveller — we have the right space for you.</p>
+  </div>
+  <div class="rooms-grid">
+
+    <!-- Room 1 -->
+    <div class="room-card">
+      <div class="room-image" style="background-image: url('/static/images/room-loft-arched.jpg'); background-color: #b8a898;">
+        <div class="room-badge" data-room-key="loft-suite" data-i18n="room1.badge">Loft Suite</div>
+        <img src="/static/images/room-loft-arched.jpg" alt="Loft Suite with Arched Feature" onerror="this.style.display='none'">
+      </div>
+      <div class="room-body">
+        <h3 data-i18n="room1.title">Arched Loft Suite</h3>
+        <p data-i18n="room1.desc">A dramatic duplex apartment featuring a stunning arched architectural element. Ground-floor living and dining area leads to a private mezzanine bedroom via an open staircase.</p>
+        <div class="room-meta">
+          <span data-i18n="room1.meta1">👥 Up to 4 guests</span>
+          <span data-i18n="room1.meta2">🛏 2 sleeping areas</span>
+          <span>📐 ~40 m²</span>
+        </div>
+        <div class="room-feats">
+          <span class="feat-tag" data-i18n="room1.feat1">Mezzanine bedroom</span>
+          <span class="feat-tag" data-i18n="room1.feat2">Kitchenette</span>
+          <span class="feat-tag" data-i18n="room1.feat3">Dining area</span>
+          <span class="feat-tag" data-i18n="room1.feat4">Wardrobe</span>
+        </div>
+        <a href="#book" class="btn-room" data-i18n="rooms.btn">Inquire &amp; Book</a>
+      </div>
+    </div>
+
+    <!-- Room 2 -->
+    <div class="room-card">
+      <div class="room-image" style="background-image: url('/static/images/room-standard.jpg'); background-color: #c8bdb0;">
+        <div class="room-badge" data-room-key="studio" data-i18n="room2.badge">Studio</div>
+        <img src="/static/images/room-standard.jpg" alt="Standard Studio" onerror="this.style.display='none'">
+      </div>
+      <div class="room-body">
+        <h3 data-i18n="room2.title">Standard Studio</h3>
+        <p data-i18n="room2.desc">A bright, well-appointed ground-floor studio with a fully equipped kitchenette, comfortable day bed with pull-out option, and a spacious dining table.</p>
+        <div class="room-meta">
+          <span data-i18n="room2.meta1">👥 Up to 4 guests</span>
+          <span data-i18n="room2.meta2">🛏 Day bed + pull-out</span>
+          <span>📐 ~30 m²</span>
+        </div>
+        <div class="room-feats">
+          <span class="feat-tag" data-i18n="room2.feat1">Full kitchenette</span>
+          <span class="feat-tag" data-i18n="room2.feat2">Dining area</span>
+          <span class="feat-tag" data-i18n="room2.feat3">Under-bed storage</span>
+          <span class="feat-tag" data-i18n="room2.feat4">A/C + heating</span>
+        </div>
+        <a href="#book" class="btn-room" data-i18n="rooms.btn">Inquire &amp; Book</a>
+      </div>
+    </div>
+
+    <!-- Room 3 -->
+    <div class="room-card">
+      <div class="room-image" style="background-image: url('/static/images/room-loft-kitchen.jpg'); background-color: #b5a99c;">
+        <div class="room-badge" data-room-key="loft-studio" data-i18n="room3.badge">Loft Studio</div>
+        <img src="/static/images/room-loft-kitchen.jpg" alt="Loft Studio" onerror="this.style.display='none'">
+      </div>
+      <div class="room-body">
+        <h3 data-i18n="room3.title">Loft Studio</h3>
+        <p data-i18n="room3.desc">A stylish open-plan loft studio combining a kitchenette and living space on the ground floor with a cozy mezzanine sleeping area accessible by an open staircase.</p>
+        <div class="room-meta">
+          <span data-i18n="room3.meta1">👥 Up to 4 guests</span>
+          <span data-i18n="room3.meta2">🛏 Mezzanine + day bed</span>
+          <span>📐 ~38 m²</span>
+        </div>
+        <div class="room-feats">
+          <span class="feat-tag" data-i18n="room3.feat1">Mezzanine bedroom</span>
+          <span class="feat-tag" data-i18n="room3.feat2">Kitchenette</span>
+          <span class="feat-tag" data-i18n="room3.feat3">Dining area</span>
+          <span class="feat-tag" data-i18n="room3.feat4">A/C + heating</span>
+        </div>
+        <a href="#book" class="btn-room" data-i18n="rooms.btn">Inquire &amp; Book</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- AMENITIES -->
+<section id="amenities">
+  <div class="amenities-inner">
+    <div class="section-label" data-i18n="amen.label">Facilities</div>
+    <h2 class="section-title" data-i18n="amen.title">Everything You Need</h2>
+    <div class="divider"></div>
+    <p class="section-sub" data-i18n="amen.sub">All apartments are equipped with modern amenities for a comfortable, hassle-free stay.</p>
+    <div class="amenities-grid">
+      <div class="amenity-card">
+        <div class="amenity-icon">📶</div>
+        <h4 data-i18n="amen1.title">Free Wi-Fi</h4>
+        <p data-i18n="amen1.desc">High-speed internet throughout</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🍳</div>
+        <h4 data-i18n="amen2.title">Kitchenette</h4>
+        <p data-i18n="amen2.desc">Microwave, fridge, kettle, cookware</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">❄️</div>
+        <h4 data-i18n="amen3.title">Climate Control</h4>
+        <p data-i18n="amen3.desc">Air conditioning &amp; electric heating</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🛁</div>
+        <h4 data-i18n="amen4.title">Private Bathroom</h4>
+        <p data-i18n="amen4.desc">Fresh towels &amp; toiletries provided</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🛏</div>
+        <h4 data-i18n="amen5.title">Quality Bedding</h4>
+        <p data-i18n="amen5.desc">Hotel-grade linen &amp; pillows</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🔑</div>
+        <h4 data-i18n="amen6.title">Self Check-in</h4>
+        <p data-i18n="amen6.desc">Flexible arrival &amp; departure</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🧹</div>
+        <h4 data-i18n="amen7.title">Regular Cleaning</h4>
+        <p data-i18n="amen7.desc">Professional housekeeping service</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🖼️</div>
+        <h4 data-i18n="amen8.title">Unique Décor</h4>
+        <p data-i18n="amen8.desc">Original artworks in each apartment</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY STRIP -->
+<section id="gallery" style="padding: 0; overflow: hidden;">
+  <div style="padding: 90px 5% 40px; max-width: 1200px; margin: 0 auto;">
+    <div class="section-label" data-i18n="gallery.label">Gallery</div>
+    <h2 class="section-title" data-i18n="gallery.title">See It for Yourself</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="gallery-strip">
+    <div style="background-image: url('/static/images/gallery-1.jpg'); background-color: #c4b49a;"></div>
+    <div style="background-image: url('/static/images/gallery-2.jpg'); background-color: #b8a898;"></div>
+    <div style="background-image: url('/static/images/gallery-3.jpg'); background-color: #c9bdb0;"></div>
+    <div style="background-image: url('/static/images/gallery-4.jpg'); background-color: #bab2a5;"></div>
+    <div style="background-image: url('/static/images/gallery-5.jpg'); background-color: #c0b5a8;"></div>
+  </div>
+  <p style="text-align:center; font-size:.82rem; color: var(--text-muted); padding: 14px 5% 0;" data-i18n="gallery.hint">Hover over the panels to explore</p>
+</section>
+
+<!-- BOOKING -->
+<section id="book">
+  <div class="book-inner">
+    <div class="book-header">
+      <div class="section-label" data-i18n="book.label">Reservations</div>
+      <h2 class="section-title" data-i18n="book.title">Reserve Your Stay</h2>
+      <div class="divider"></div>
+      <p class="section-sub" data-i18n="book.sub">Fill in your details below and we'll confirm availability within 24 hours. No payment required at this stage.</p>
+    </div>
+
+    {% if booking_success %}
+    <div class="booking-success">
+      <div class="icon">✅</div>
+      <h3 data-i18n="book.success_title">Request Received!</h3>
+      <p data-i18n="book.success_body">Thank you — we'll review your request and reply to your email within 24 hours to confirm dates and details.</p>
+    </div>
+    {% else %}
+    <div class="booking-form">
+      <form action="/book" method="POST" id="booking-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name" data-i18n="form.name_label">Full Name *</label>
+            <input type="text" id="name" name="name" required placeholder="e.g. Anna Kovács" data-i18n-placeholder="form.name_ph">
+          </div>
+          <div class="form-group">
+            <label for="email" data-i18n="form.email_label">Email Address *</label>
+            <input type="email" id="email" name="email" required placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label for="phone" data-i18n="form.phone_label">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+36 20 123 4567">
+          </div>
+          <div class="form-group">
+            <label for="guests" data-i18n="form.guests_label">Number of Guests *</label>
+            <select id="guests" name="guests" required>
+              <option value="" data-i18n-option="form.guests_opt0">Select...</option>
+              <option value="1" data-i18n-option="form.guests_opt1">1 Guest</option>
+              <option value="2" data-i18n-option="form.guests_opt2">2 Guests</option>
+              <option value="3" data-i18n-option="form.guests_opt3">3 Guests</option>
+              <option value="4" data-i18n-option="form.guests_opt4">4 Guests</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="check_in" data-i18n="form.checkin_label">Check-in Date *</label>
+            <input type="date" id="check_in" name="check_in" required>
+          </div>
+          <div class="form-group">
+            <label for="check_out" data-i18n="form.checkout_label">Check-out Date *</label>
+            <input type="date" id="check_out" name="check_out" required>
+            <div class="nights-hint" id="nights-hint"></div>
+          </div>
+          <div class="form-group full">
+            <label for="room_pref" data-i18n="form.room_label">Room Preference</label>
+            <select id="room_pref" name="room_pref">
+              <option value="" data-i18n-option="form.room_opt0">No preference — any available room</option>
+              <option value="arched-loft" data-i18n-option="form.room_opt1">Arched Loft Suite</option>
+              <option value="standard-studio" data-i18n-option="form.room_opt2">Standard Studio</option>
+              <option value="loft-studio" data-i18n-option="form.room_opt3">Loft Studio</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label for="message" data-i18n="form.msg_label">Special Requests or Questions</label>
+            <textarea id="message" name="message" placeholder="Early check-in, late check-out, dietary requirements, accessibility needs..." data-i18n-placeholder="form.msg_ph"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit" data-i18n="form.submit">Send Booking Request →</button>
+        <p class="form-note" data-i18n="form.note">No payment required at this stage &nbsp;·&nbsp; We reply within 24 hours</p>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="location-grid">
+    <div class="location-text">
+      <div class="section-label" data-i18n="loc.label">Getting Here</div>
+      <h2 class="section-title" data-i18n="loc.title">Find Us in Budapest</h2>
+      <div class="divider"></div>
+
+      <div class="contact-row">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label" data-i18n="loc.addr_label">Address</div>
+          <div class="contact-value">
+            <span data-i18n="loc.addr1">Szondi utca, Budapest</span><br>
+            <span data-i18n="loc.addr2">VI. kerület, 1067</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">🚇</div>
+        <div>
+          <div class="contact-label" data-i18n="loc.metro_label">Metro</div>
+          <div class="contact-value">
+            <span data-i18n="loc.metro1">M1 Oktogon — 5 min walk</span><br>
+            <span data-i18n="loc.metro2">M3 Nyugati — 10 min walk</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-label" data-i18n="loc.email_label">Email</div>
+          <div class="contact-value"><a href="mailto:info@izaszondi.hu" style="color: var(--accent);">info@izaszondi.hu</a></div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label" data-i18n="loc.phone_label">Phone / WhatsApp</div>
+          <div class="contact-value"><a href="tel:+36201234567" style="color: var(--accent);">+36 20 123 4567</a></div>
+        </div>
+      </div>
+
+      <div class="nearby-list">
+        <h4 data-i18n="loc.nearby_title">Nearby Highlights</h4>
+        <ul>
+          <li data-i18n="loc.near1">Széchenyi Thermal Bath — 15 min</li>
+          <li data-i18n="loc.near2">Andrássy Avenue (UNESCO) — 5 min</li>
+          <li data-i18n="loc.near3">Hungarian State Opera — 8 min</li>
+          <li data-i18n="loc.near4">Great Synagogue — 12 min</li>
+          <li data-i18n="loc.near5">St. Stephen's Basilica — 15 min</li>
+          <li data-i18n="loc.near6">Buda Castle — 30 min by tram</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="map-wrap">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2695.1936!2d19.0622!3d47.5063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741dc5b38b58e3d%3A0xe9fd6d0d64e01ac8!2sSzondi%20utca%2C%20Budapest%2C%201067%20Hungary!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Iza-Szondi Homes location map">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="name">Iza-Szondi Homes</div>
+      <div class="tag">Panzió · Budapest</div>
+      <p data-i18n="footer.brand_p">Modern loft apartments in a beautifully restored building in the heart of Budapest. Your boutique home away from home.</p>
+    </div>
+    <div class="footer-col">
+      <h5 data-i18n="footer.links_h">Quick Links</h5>
+      <ul>
+        <li><a href="#about" data-i18n="nav.about">About</a></li>
+        <li><a href="#rooms" data-i18n="nav.rooms">Rooms</a></li>
+        <li><a href="#amenities" data-i18n="nav.amenities">Amenities</a></li>
+        <li><a href="#location" data-i18n="nav.location">Location</a></li>
+        <li><a href="#book" data-i18n="nav.book">Book Now</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5 data-i18n="footer.contact_h">Contact</h5>
+      <ul>
+        <li><a href="mailto:info@izaszondi.hu">info@izaszondi.hu</a></li>
+        <li><a href="tel:+36201234567">+36 20 123 4567</a></li>
+        <li style="color: rgba(255,255,255,.5); font-size:.85rem; cursor:default;">Szondi utca, Budapest VI.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p data-i18n="footer.copy">© 2025 Iza-Szondi Homes. All rights reserved. &nbsp;·&nbsp; Classified Panzió, Budapest</p>
+  </div>
+</footer>
+
+<script>
+  // ── Language module ───────────────────────────────────────────────────────
+  let currentLang = localStorage.getItem('lang') || 'en';
+
+  const TRANSLATIONS = {
+    en: {
+      // Flash
+      'flash.success': '✓ Your booking request has been sent! We will confirm your reservation within 24 hours.',
+      // Navbar
+      'nav.about':     'About',
+      'nav.rooms':     'Rooms',
+      'nav.amenities': 'Amenities',
+      'nav.location':  'Location',
+      'nav.book':      'Book Now',
+      // Hero
+      'hero.eyebrow':  'Panzió · Budapest',
+      'hero.sub':      'Stylish loft apartments in the heart of Budapest — your home away from home.',
+      'hero.btn_book': 'Book Your Stay',
+      'hero.btn_rooms':'Explore Rooms',
+      'hero.scroll':   'SCROLL',
+      // About
+      'about.label':   'About Us',
+      'about.title':   "A boutique stay in Budapest's vibrant heart",
+      'about.sub1':    'Iza-Szondi Homes is a charming panzió set in a beautifully restored 19th-century building on Szondi utca. We offer modern, light-filled loft apartments — each with its own kitchenette, dining area, and stylish furnishings — perfect for short stays, longer visits, or remote work retreats.',
+      'about.sub2':    "Situated in Budapest's lively 6th district, you're just minutes from the city's best ruin bars, restaurants, thermal baths, and cultural landmarks.",
+      'about.pill1':   '✦ Classified Panzió',
+      'about.pill2':   '✦ 6th District, Budapest',
+      'about.pill3':   '✦ Newly Renovated',
+      'about.pill4':   '✦ Self Check-in',
+      'about.pill5':   '✦ Long Stays Welcome',
+      // Rooms
+      'rooms.label':   'Accommodation',
+      'rooms.title':   'Our Rooms',
+      'rooms.sub':     "Each apartment is individually furnished and equipped for your comfort. Whether you're a couple, family, or solo traveller — we have the right space for you.",
+      'rooms.btn':     'Inquire & Book',
+      'room1.badge':   'Loft Suite',
+      'room1.title':   'Arched Loft Suite',
+      'room1.desc':    'A dramatic duplex apartment featuring a stunning arched architectural element. Ground-floor living and dining area leads to a private mezzanine bedroom via an open staircase.',
+      'room1.meta1':   '👥 Up to 4 guests',
+      'room1.meta2':   '🛏 2 sleeping areas',
+      'room1.feat1':   'Mezzanine bedroom',
+      'room1.feat2':   'Kitchenette',
+      'room1.feat3':   'Dining area',
+      'room1.feat4':   'Wardrobe',
+      'room2.badge':   'Studio',
+      'room2.title':   'Standard Studio',
+      'room2.desc':    'A bright, well-appointed ground-floor studio with a fully equipped kitchenette, comfortable day bed with pull-out option, and a spacious dining table.',
+      'room2.meta1':   '👥 Up to 4 guests',
+      'room2.meta2':   '🛏 Day bed + pull-out',
+      'room2.feat1':   'Full kitchenette',
+      'room2.feat2':   'Dining area',
+      'room2.feat3':   'Under-bed storage',
+      'room2.feat4':   'A/C + heating',
+      'room3.badge':   'Loft Studio',
+      'room3.title':   'Loft Studio',
+      'room3.desc':    'A stylish open-plan loft studio combining a kitchenette and living space on the ground floor with a cozy mezzanine sleeping area accessible by an open staircase.',
+      'room3.meta1':   '👥 Up to 4 guests',
+      'room3.meta2':   '🛏 Mezzanine + day bed',
+      'room3.feat1':   'Mezzanine bedroom',
+      'room3.feat2':   'Kitchenette',
+      'room3.feat3':   'Dining area',
+      'room3.feat4':   'A/C + heating',
+      // Amenities
+      'amen.label':    'Facilities',
+      'amen.title':    'Everything You Need',
+      'amen.sub':      'All apartments are equipped with modern amenities for a comfortable, hassle-free stay.',
+      'amen1.title':   'Free Wi-Fi',
+      'amen1.desc':    'High-speed internet throughout',
+      'amen2.title':   'Kitchenette',
+      'amen2.desc':    'Microwave, fridge, kettle, cookware',
+      'amen3.title':   'Climate Control',
+      'amen3.desc':    'Air conditioning & electric heating',
+      'amen4.title':   'Private Bathroom',
+      'amen4.desc':    'Fresh towels & toiletries provided',
+      'amen5.title':   'Quality Bedding',
+      'amen5.desc':    'Hotel-grade linen & pillows',
+      'amen6.title':   'Self Check-in',
+      'amen6.desc':    'Flexible arrival & departure',
+      'amen7.title':   'Regular Cleaning',
+      'amen7.desc':    'Professional housekeeping service',
+      'amen8.title':   'Unique Décor',
+      'amen8.desc':    'Original artworks in each apartment',
+      // Gallery
+      'gallery.label': 'Gallery',
+      'gallery.title': 'See It for Yourself',
+      'gallery.hint':  'Hover over the panels to explore',
+      // Booking
+      'book.label':        'Reservations',
+      'book.title':        'Reserve Your Stay',
+      'book.sub':          "Fill in your details below and we'll confirm availability within 24 hours. No payment required at this stage.",
+      'book.success_title':'Request Received!',
+      'book.success_body': "Thank you — we'll review your request and reply to your email within 24 hours to confirm dates and details.",
+      // Form
+      'form.name_label':   'Full Name *',
+      'form.name_ph':      'e.g. Anna Kovács',
+      'form.email_label':  'Email Address *',
+      'form.phone_label':  'Phone Number',
+      'form.guests_label': 'Number of Guests *',
+      'form.guests_opt0':  'Select...',
+      'form.guests_opt1':  '1 Guest',
+      'form.guests_opt2':  '2 Guests',
+      'form.guests_opt3':  '3 Guests',
+      'form.guests_opt4':  '4 Guests',
+      'form.checkin_label':'Check-in Date *',
+      'form.checkout_label':'Check-out Date *',
+      'form.room_label':   'Room Preference',
+      'form.room_opt0':    'No preference — any available room',
+      'form.room_opt1':    'Arched Loft Suite',
+      'form.room_opt2':    'Standard Studio',
+      'form.room_opt3':    'Loft Studio',
+      'form.msg_label':    'Special Requests or Questions',
+      'form.msg_ph':       'Early check-in, late check-out, dietary requirements, accessibility needs...',
+      'form.submit':       'Send Booking Request →',
+      'form.note':         'No payment required at this stage · We reply within 24 hours',
+      // Location
+      'loc.label':         'Getting Here',
+      'loc.title':         'Find Us in Budapest',
+      'loc.addr_label':    'Address',
+      'loc.addr1':         'Szondi utca, Budapest',
+      'loc.addr2':         'VI. kerület, 1067',
+      'loc.metro_label':   'Metro',
+      'loc.metro1':        'M1 Oktogon — 5 min walk',
+      'loc.metro2':        'M3 Nyugati — 10 min walk',
+      'loc.email_label':   'Email',
+      'loc.phone_label':   'Phone / WhatsApp',
+      'loc.nearby_title':  'Nearby Highlights',
+      'loc.near1':         'Széchenyi Thermal Bath — 15 min',
+      'loc.near2':         'Andrássy Avenue (UNESCO) — 5 min',
+      'loc.near3':         'Hungarian State Opera — 8 min',
+      'loc.near4':         'Great Synagogue — 12 min',
+      'loc.near5':         "St. Stephen's Basilica — 15 min",
+      'loc.near6':         'Buda Castle — 30 min by tram',
+      // Footer
+      'footer.brand_p':   'Modern loft apartments in a beautifully restored building in the heart of Budapest. Your boutique home away from home.',
+      'footer.links_h':   'Quick Links',
+      'footer.contact_h': 'Contact',
+      'footer.copy':      '© 2025 Iza-Szondi Homes. All rights reserved. · Classified Panzió, Budapest',
+    },
+    hu: {
+      // Flash
+      'flash.success': '✓ Foglalási kérelmét elküldtük! 24 órán belül visszaigazoljuk a foglalást.',
+      // Navbar
+      'nav.about':     'Rólunk',
+      'nav.rooms':     'Szobák',
+      'nav.amenities': 'Felszereltség',
+      'nav.location':  'Megközelítés',
+      'nav.book':      'Foglalás',
+      // Hero
+      'hero.eyebrow':  'Panzió · Budapest',
+      'hero.sub':      'Stílusos loft apartmanok Budapest szívében — otthonod, ahol otthon érezheted magad.',
+      'hero.btn_book': 'Foglalja le szobáját',
+      'hero.btn_rooms':'Szobák megtekintése',
+      'hero.scroll':   'GÖRGETÉS',
+      // About
+      'about.label':   'Rólunk',
+      'about.title':   'Boutique szállás Budapest vibráló szívében',
+      'about.sub1':    'Az Iza-Szondi Homes egy gyönyörűen felújított 19. századi épületben található kedves panzió a Szondi utcán. Modern, fényes loft apartmanokat kínálunk — mindegyik saját konyhasarokkal, étkezési területtel és stílusos berendezéssel — rövidebb vagy hosszabb tartózkodáshoz, valamint otthoni irodához egyaránt.',
+      'about.sub2':    'Budapest élénk VI. kerületében helyezkedik el — percekre a legjobb romkocsmáktól, éttermektől, gyógyfürdőktől és kulturális látványosságoktól.',
+      'about.pill1':   '✦ Minősített Panzió',
+      'about.pill2':   '✦ VI. kerület, Budapest',
+      'about.pill3':   '✦ Újonnan Felújítva',
+      'about.pill4':   '✦ Önálló Bejelentkezés',
+      'about.pill5':   '✦ Hosszú Tartózkodás is Lehetséges',
+      // Rooms
+      'rooms.label':   'Szállás',
+      'rooms.title':   'Szobáink',
+      'rooms.sub':     'Minden apartman egyénileg berendezett és felszerelt az Ön kényelmére. Akár pár, család vagy egyedülálló utazó — megtalálja nálunk a megfelelő helyet.',
+      'rooms.btn':     'Érdeklődjön & Foglaljon',
+      'room1.badge':   'Loft Suite',
+      'room1.title':   'Íves Loft Suite',
+      'room1.desc':    'Látványos kétszintes apartman lenyűgöző íves építészeti elemmel. A földszinti nappali és étkezési terület nyílt lépcsőn keresztül vezet a galériás hálószobába.',
+      'room1.meta1':   '👥 Legfeljebb 4 fő',
+      'room1.meta2':   '🛏 2 hálóhely',
+      'room1.feat1':   'Galériás hálószoba',
+      'room1.feat2':   'Konyhasarok',
+      'room1.feat3':   'Étkezési terület',
+      'room1.feat4':   'Gardrób',
+      'room2.badge':   'Stúdió',
+      'room2.title':   'Standard Stúdió',
+      'room2.desc':    'Világos, jól felszerelt földszinti stúdió teljesen felszerelt konyhasarokkal, kényelmes kihúzható nappali ággyal és tágas étkezőasztallal.',
+      'room2.meta1':   '👥 Legfeljebb 4 fő',
+      'room2.meta2':   '🛏 Nappali ágy + kihúzható',
+      'room2.feat1':   'Teljes konyhasarok',
+      'room2.feat2':   'Étkezési terület',
+      'room2.feat3':   'Ágy alatti tárolás',
+      'room2.feat4':   'Légkondicionáló + fűtés',
+      'room3.badge':   'Loft Stúdió',
+      'room3.title':   'Loft Stúdió',
+      'room3.desc':    'Stílusos, nyílt alaprajzú loft stúdió, ahol a konyhasarok és a nappali tér a földszinten, a galériás alvóhely pedig nyílt lépcsőn keresztül érhető el.',
+      'room3.meta1':   '👥 Legfeljebb 4 fő',
+      'room3.meta2':   '🛏 Galéria + nappali ágy',
+      'room3.feat1':   'Galériás hálószoba',
+      'room3.feat2':   'Konyhasarok',
+      'room3.feat3':   'Étkezési terület',
+      'room3.feat4':   'Légkondicionáló + fűtés',
+      // Amenities
+      'amen.label':    'Felszereltség',
+      'amen.title':    'Minden, Amire Szüksége Van',
+      'amen.sub':      'Minden apartman modern felszereléssel rendelkezik a kényelmes, gondtalan tartózkodáshoz.',
+      'amen1.title':   'Ingyenes Wi-Fi',
+      'amen1.desc':    'Nagy sebességű internet mindenhol',
+      'amen2.title':   'Konyhasarok',
+      'amen2.desc':    'Mikrohullámú, hűtő, vízforraló, edények',
+      'amen3.title':   'Klíma',
+      'amen3.desc':    'Légkondicionáló és elektromos fűtés',
+      'amen4.title':   'Saját Fürdőszoba',
+      'amen4.desc':    'Friss törölközők és tisztálkodószerek biztosítva',
+      'amen5.title':   'Minőségi Ágynemű',
+      'amen5.desc':    'Szállodai minőségű ágynemű és párnák',
+      'amen6.title':   'Önálló Bejelentkezés',
+      'amen6.desc':    'Rugalmas érkezés és indulás',
+      'amen7.title':   'Rendszeres Takarítás',
+      'amen7.desc':    'Professzionális takarítószolgálat',
+      'amen8.title':   'Egyedi Dekoráció',
+      'amen8.desc':    'Eredeti műalkotások minden apartmanban',
+      // Gallery
+      'gallery.label': 'Galéria',
+      'gallery.title': 'Győződjön meg személyesen',
+      'gallery.hint':  'Vigye az egeret a képek fölé a böngészéshez',
+      // Booking
+      'book.label':        'Foglalás',
+      'book.title':        'Foglalja le szobáját',
+      'book.sub':          'Töltse ki az alábbi adatokat, és 24 órán belül visszaigazoljuk a szabad szobákat. Jelenleg nem szükséges fizetés.',
+      'book.success_title':'Kérelem Megérkezett!',
+      'book.success_body': 'Köszönjük — áttekintjük kérelmét, és 24 órán belül e-mailben visszaigazoljuk a dátumokat és a részleteket.',
+      // Form
+      'form.name_label':   'Teljes Név *',
+      'form.name_ph':      'pl. Kovács Anna',
+      'form.email_label':  'E-mail cím *',
+      'form.phone_label':  'Telefonszám',
+      'form.guests_label': 'Vendégek száma *',
+      'form.guests_opt0':  'Válasszon...',
+      'form.guests_opt1':  '1 fő',
+      'form.guests_opt2':  '2 fő',
+      'form.guests_opt3':  '3 fő',
+      'form.guests_opt4':  '4 fő',
+      'form.checkin_label':'Érkezés dátuma *',
+      'form.checkout_label':'Távozás dátuma *',
+      'form.room_label':   'Szoba preferencia',
+      'form.room_opt0':    'Nincs preferencia — bármely szabad szoba',
+      'form.room_opt1':    'Íves Loft Suite',
+      'form.room_opt2':    'Standard Stúdió',
+      'form.room_opt3':    'Loft Stúdió',
+      'form.msg_label':    'Különleges kérések vagy kérdések',
+      'form.msg_ph':       'Korai bejelentkezés, késői kijelentkezés, ételallergia, akadálymentesítési igény...',
+      'form.submit':       'Foglalási kérelem küldése →',
+      'form.note':         'Jelenleg nem szükséges fizetés · 24 órán belül válaszolunk',
+      // Location
+      'loc.label':         'Megközelítés',
+      'loc.title':         'Találjon meg minket Budapesten',
+      'loc.addr_label':    'Cím',
+      'loc.addr1':         'Szondi utca, Budapest',
+      'loc.addr2':         'VI. kerület, 1067',
+      'loc.metro_label':   'Metró',
+      'loc.metro1':        'M1 Oktogon — 5 perc gyaloglás',
+      'loc.metro2':        'M3 Nyugati — 10 perc gyaloglás',
+      'loc.email_label':   'E-mail',
+      'loc.phone_label':   'Telefon / WhatsApp',
+      'loc.nearby_title':  'Közeli Látnivalók',
+      'loc.near1':         'Széchenyi Gyógyfürdő — 15 perc',
+      'loc.near2':         'Andrássy út (UNESCO) — 5 perc',
+      'loc.near3':         'Magyar Állami Operaház — 8 perc',
+      'loc.near4':         'Dohány utcai Zsinagóga — 12 perc',
+      'loc.near5':         'Szent István Bazilika — 15 perc',
+      'loc.near6':         'Budai Vár — 30 perc villamossal',
+      // Footer
+      'footer.brand_p':   'Modern loft apartmanok egy gyönyörűen felújított épületben Budapest szívében. Az Ön otthona a nagyvilágban.',
+      'footer.links_h':   'Gyors linkek',
+      'footer.contact_h': 'Kapcsolat',
+      'footer.copy':      '© 2025 Iza-Szondi Homes. Minden jog fenntartva. · Minősített Panzió, Budapest',
+    }
+  };
+
+  function applyLanguage(lang) {
+    if (!TRANSLATIONS[lang]) return;
+    currentLang = lang;
+    const t = TRANSLATIONS[lang];
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.dataset.i18nPlaceholder;
+      if (t[key] !== undefined) el.placeholder = t[key];
+    });
+    document.querySelectorAll('[data-i18n-option]').forEach(el => {
+      const key = el.dataset.i18nOption;
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    updateNights();
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.lang === lang)
+    );
+    localStorage.setItem('lang', lang);
+  }
+
+  // ── Navbar scroll effect ──────────────────────────────────────────────────
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── Hamburger menu ────────────────────────────────────────────────────────
+  function toggleMenu() {
+    document.getElementById('nav-links').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+  });
+
+  // ── Night counter ─────────────────────────────────────────────────────────
+  const checkin  = document.getElementById('check_in');
+  const checkout = document.getElementById('check_out');
+  const hint     = document.getElementById('nights-hint');
+
+  function updateNights() {
+    if (!checkin || !checkout || !hint) return;
+    const a = new Date(checkin.value);
+    const b = new Date(checkout.value);
+    if (checkin.value && checkout.value && b > a) {
+      const nights = Math.round((b - a) / 86400000);
+      hint.textContent = currentLang === 'hu'
+        ? `${nights} éjszaka`
+        : `${nights} night${nights !== 1 ? 's' : ''}`;
+    } else {
+      hint.textContent = '';
+    }
+  }
+
+  if (checkin) {
+    const today = new Date().toISOString().slice(0, 10);
+    checkin.min = today;
+    checkout.min = today;
+    checkin.addEventListener('change', () => {
+      checkout.min = checkin.value;
+      if (checkout.value && checkout.value <= checkin.value) checkout.value = '';
+      updateNights();
+    });
+    checkout.addEventListener('change', updateNights);
+  }
+
+  // ── Room card "Book" links pre-fill room preference ───────────────────────
+  const roomKeyMap = {
+    'loft-suite':   'arched-loft',
+    'studio':       'standard-studio',
+    'loft-studio':  'loft-studio',
+  };
+  document.querySelectorAll('.btn-room').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card  = btn.closest('.room-card');
+      const badge = card ? card.querySelector('.room-badge') : null;
+      const sel   = document.getElementById('room_pref');
+      if (badge && sel) {
+        const val = roomKeyMap[badge.dataset.roomKey];
+        if (val) sel.value = val;
+      }
+    });
+  });
+
+  // ── Scroll-reveal ─────────────────────────────────────────────────────────
+  const revealStyle = document.createElement('style');
+  revealStyle.textContent = `.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}.reveal.visible{opacity:1;transform:none}`;
+  document.head.appendChild(revealStyle);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('section, .room-card, .amenity-card').forEach(el => {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+
+  // ── Init language ─────────────────────────────────────────────────────────
+  applyLanguage(currentLang);
+</script>
+</body>
+</html>
