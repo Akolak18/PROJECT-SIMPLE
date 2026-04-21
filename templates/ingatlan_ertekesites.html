@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ingatlan Értékesítés – Property</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a3a5c;
+      --navy-dark: #122840;
+      --gold: #c8a04a;
+      --gold-light: #e8c878;
+      --gray-bg: #f4f6f9;
+      --gray-border: #e0e4ea;
+      --text: #1e2a38;
+      --muted: #6b7a8d;
+      --white: #ffffff;
+      --radius: 10px;
+      --shadow: 0 2px 14px rgba(0,0,0,.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.13);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--gray-bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    .nav-logo {
+      color: var(--white);
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      color: rgba(255,255,255,.8);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, #1e4a7a 100%);
+      color: var(--white);
+      padding: 64px 32px 48px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -.01em;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 1.1rem;
+      opacity: .8;
+      margin-bottom: 36px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── SEARCH BOX ── */
+    .search-box {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 20px 24px;
+      max-width: 900px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+    .search-field label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 6px;
+    }
+    .search-field input,
+    .search-field select {
+      width: 100%;
+      border: 1.5px solid var(--gray-border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: .92rem;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color .2s;
+    }
+    .search-field input:focus,
+    .search-field select:focus {
+      outline: none;
+      border-color: var(--navy);
+    }
+    .btn-search {
+      background: var(--gold);
+      color: var(--navy-dark);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      white-space: nowrap;
+    }
+    .btn-search:hover { background: var(--gold-light); }
+    .btn-search:active { transform: scale(.97); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+      padding: 10px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: .88rem;
+      color: var(--muted);
+    }
+    .stats-bar strong { color: var(--navy); }
+    .sort-wrap { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .sort-wrap label { font-weight: 600; }
+    .sort-wrap select {
+      border: 1.5px solid var(--gray-border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: .85rem;
+      color: var(--text);
+      background: var(--white);
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* ── FILTER TAGS ── */
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .filter-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: .8rem;
+      font-weight: 600;
+    }
+    .filter-tag a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      font-size: .85rem;
+      line-height: 1;
+    }
+    .filter-tag a:hover { color: var(--white); }
+
+    /* ── GRID ── */
+    .property-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .property-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    .property-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-img {
+      position: relative;
+      height: 210px;
+      overflow: hidden;
+    }
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s;
+    }
+    .property-card:hover .card-img img { transform: scale(1.05); }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--gold);
+      color: var(--navy-dark);
+      font-size: .72rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .card-badge.premium { background: var(--navy); color: var(--gold); }
+    .card-badge.uj { background: #16a34a; color: #fff; }
+    .card-badge.befektetes { background: #7c3aed; color: #fff; }
+    .card-badge.egyedi { background: #dc2626; color: #fff; }
+
+    .card-body {
+      padding: 18px 18px 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-location {
+      font-size: .8rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 4px;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .card-price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+    .card-stats {
+      display: flex;
+      gap: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--gray-border);
+      font-size: .82rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .card-stat {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .card-stat svg {
+      width: 14px;
+      height: 14px;
+      opacity: .6;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--muted);
+    }
+    .empty-state .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text); }
+    .empty-state a {
+      display: inline-block;
+      margin-top: 16px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 10px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ── WHY US SECTION ── */
+    .why-section {
+      background: var(--white);
+      margin-top: 56px;
+      padding: 56px 24px;
+      border-top: 1px solid var(--gray-border);
+    }
+    .why-inner { max-width: 1280px; margin: 0 auto; }
+    .section-title {
+      text-align: center;
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 40px;
+      font-size: 1rem;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 28px;
+    }
+    .why-card {
+      text-align: center;
+      padding: 28px 20px;
+      border-radius: var(--radius);
+      background: var(--gray-bg);
+      border: 1.5px solid var(--gray-border);
+    }
+    .why-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .why-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .why-card p { font-size: .87rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,.6);
+      text-align: center;
+      padding: 24px;
+      font-size: .85rem;
+      margin-top: 0;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .search-box {
+        grid-template-columns: 1fr 1fr;
+      }
+      .btn-search { grid-column: span 2; }
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .hero { padding: 40px 16px 36px; }
+      .stats-bar { padding: 10px 16px; flex-wrap: wrap; gap: 12px; }
+      .sort-wrap { margin-left: 0; width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .search-box { grid-template-columns: 1fr; padding: 16px; }
+      .btn-search { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/ingatlan-ertekesites" class="nav-logo">Property<span>Hub</span></a>
+  <div class="nav-links">
+    <a href="/ingatlan-ertekesites" class="active">Ingatlanok</a>
+    <a href="#miert-mi">Miért mi?</a>
+    <a href="/ingatlan-ertekesites/kapcsolat">Kapcsolat</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Találja meg <span>álmai ingatlanát</span></h1>
+  <p>{{ properties|length + 0 }} válogatott ingatlan Budapesten és vidéken – profi tanácsadással, átlátható folyamattal.</p>
+
+  <form class="search-box" method="get" action="/ingatlan-ertekesites">
+    <div class="search-field">
+      <label for="helyszin">Helyszín</label>
+      <input type="text" id="helyszin" name="helyszin" placeholder="pl. Budapest, Győr…" value="{{ filters.helyszin }}" />
+    </div>
+    <div class="search-field">
+      <label for="tipus">Típus</label>
+      <select id="tipus" name="tipus">
+        <option value="">Minden típus</option>
+        {% for t in tipusok %}
+        <option value="{{ t }}" {% if filters.tipus == t %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="search-field">
+      <label for="ar_max">Max. ár</label>
+      <select id="ar_max" name="ar_max">
+        <option value="">Nincs limit</option>
+        <option value="30000000" {% if filters.ar_max == '30000000' %}selected{% endif %}>30 M Ft-ig</option>
+        <option value="60000000" {% if filters.ar_max == '60000000' %}selected{% endif %}>60 M Ft-ig</option>
+        <option value="100000000" {% if filters.ar_max == '100000000' %}selected{% endif %}>100 M Ft-ig</option>
+        <option value="150000000" {% if filters.ar_max == '150000000' %}selected{% endif %}>150 M Ft-ig</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label for="szobak_min">Min. szobák</label>
+      <select id="szobak_min" name="szobak_min">
+        <option value="">Mindegy</option>
+        <option value="1" {% if filters.szobak_min == '1' %}selected{% endif %}>1+</option>
+        <option value="2" {% if filters.szobak_min == '2' %}selected{% endif %}>2+</option>
+        <option value="3" {% if filters.szobak_min == '3' %}selected{% endif %}>3+</option>
+        <option value="4" {% if filters.szobak_min == '4' %}selected{% endif %}>4+</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-search">Keresés</button>
+  </form>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <span><strong>{{ properties|length }}</strong> ingatlan találat</span>
+  {% if active_filters %}
+  <span>Szűrők aktívak</span>
+  {% endif %}
+  <div class="sort-wrap">
+    <label for="sort">Rendezés:</label>
+    <select id="sort" onchange="applySort(this.value)">
+      <option value="ar_asc" {% if sort == 'ar_asc' %}selected{% endif %}>Ár: növekvő</option>
+      <option value="ar_desc" {% if sort == 'ar_desc' %}selected{% endif %}>Ár: csökkenő</option>
+      <option value="terulet_desc" {% if sort == 'terulet_desc' %}selected{% endif %}>Terület: nagyobb előre</option>
+    </select>
+  </div>
+</div>
+
+<div class="main-wrap">
+
+  <!-- ACTIVE FILTER TAGS -->
+  {% if active_filters %}
+  <div class="filter-tags">
+    {% for label, remove_url in active_filters %}
+    <span class="filter-tag">{{ label }} <a href="{{ remove_url }}">✕</a></span>
+    {% endfor %}
+    <a href="/ingatlan-ertekesites" style="font-size:.82rem;color:var(--muted);text-decoration:none;align-self:center;">Összes törlése</a>
+  </div>
+  {% endif %}
+
+  <!-- GRID -->
+  {% if properties %}
+  <div class="property-grid">
+    {% for p in properties %}
+    <a href="/ingatlan-ertekesites/{{ p.slug }}" class="property-card">
+      <div class="card-img">
+        <img src="{{ p.kepek[0] }}" alt="{{ p.teljes_cim }}" loading="lazy" />
+        {% if p.cimke %}
+        <span class="card-badge {% if p.cimke == 'Prémium' %}premium{% elif p.cimke == 'Új' %}uj{% elif p.cimke == 'Befektetés' %}befektetes{% elif p.cimke == 'Egyedi' %}egyedi{% endif %}">
+          {{ p.cimke }}
+        </span>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <div class="card-location">{{ p.helyszin }}{% if p.kerulet %}, {{ p.kerulet }}{% endif %}</div>
+        <div class="card-title">{{ p.tipus }} – {{ p.cim }}</div>
+        <div class="card-price">{{ format_ar(p.ar) }}</div>
+        <div class="card-stats">
+          <span class="card-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+            {{ p.terulet }} m²
+          </span>
+          <span class="card-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M9 21V12h6v9"/></svg>
+            {{ p.szobak }} szoba
+          </span>
+          <span class="card-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 12a8 8 0 018-8M4 12a8 8 0 008 8"/></svg>
+            {{ p.furdoszoba }} fürdő
+          </span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <h3>Nincs találat</h3>
+    <p>A keresési feltételeknek egyetlen ingatlan sem felel meg.</p>
+    <a href="/ingatlan-ertekesites">Összes ingatlan megtekintése</a>
+  </div>
+  {% endif %}
+</div>
+
+<!-- WHY US -->
+<section class="why-section" id="miert-mi">
+  <div class="why-inner">
+    <h2 class="section-title">Miért válasszon minket?</h2>
+    <p class="section-sub">Több mint 10 éves tapasztalat az ingatlanpiacon</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🏆</div>
+        <h3>Hiteles értékbecslés</h3>
+        <p>Piaci árat elemzünk, hogy Ön a legjobb döntést hozhassa meg.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🤝</div>
+        <h3>Dedikált tanácsadó</h3>
+        <p>Egyetlen kapcsolattartó az elejétől a kulcsátadásig.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📸</div>
+        <h3>Professzionális fotók</h3>
+        <p>Minden ingatlant profi fotós örökít meg, hogy a legjobb fényben mutatkozzék.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📑</div>
+        <h3>Jogi ügyintézés</h3>
+        <p>Szerződéskötéstől a földhivatali bejegyzésig mindent intézünk.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💰</div>
+        <h3>Kedvező jutalék</h3>
+        <p>Átlátható, versenyképes díjak – rejtett költségek nélkül.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2024 PropertyHub – Ingatlan értékesítés |
+  <a href="/ingatlan-ertekesites/kapcsolat">Kapcsolat</a>
+</footer>
+
+<script>
+  function applySort(val) {
+    const url = new URL(window.location);
+    url.searchParams.set('sort', val);
+    window.location = url.toString();
+  }
+</script>
+</body>
+</html>

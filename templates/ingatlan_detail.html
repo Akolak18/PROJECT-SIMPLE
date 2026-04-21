@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ p.teljes_cim }} – PropertyHub</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a3a5c;
+      --navy-dark: #122840;
+      --gold: #c8a04a;
+      --gold-light: #e8c878;
+      --gray-bg: #f4f6f9;
+      --gray-border: #e0e4ea;
+      --text: #1e2a38;
+      --muted: #6b7a8d;
+      --white: #ffffff;
+      --radius: 10px;
+      --shadow: 0 2px 14px rgba(0,0,0,.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--gray-bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    .nav-logo {
+      color: var(--white);
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      color: rgba(255,255,255,.8);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+      padding: 10px 32px;
+      font-size: .83rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .breadcrumb a { color: var(--navy); text-decoration: none; font-weight: 600; }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 28px;
+    }
+    .main-col {}
+    .side-col {}
+
+    /* ── GALLERY ── */
+    .gallery {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #000;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .gallery-main {
+      position: relative;
+      height: 460px;
+      cursor: pointer;
+    }
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity .25s;
+    }
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,.45);
+      color: #fff;
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+      z-index: 2;
+    }
+    .gallery-nav:hover { background: rgba(0,0,0,.7); }
+    .gallery-nav.prev { left: 14px; }
+    .gallery-nav.next { right: 14px; }
+    .gallery-count {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      background: rgba(0,0,0,.5);
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .gallery-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--gold);
+      color: var(--navy-dark);
+      font-size: .75rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      z-index: 2;
+    }
+    .gallery-badge.premium { background: var(--navy); color: var(--gold); }
+    .gallery-badge.uj { background: #16a34a; color: #fff; }
+    .gallery-badge.befektetes { background: #7c3aed; color: #fff; }
+    .gallery-badge.egyedi { background: #dc2626; color: #fff; }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 4px;
+      background: #111;
+      padding: 4px;
+    }
+    .gallery-thumb {
+      flex: 1;
+      height: 72px;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: .55;
+      transition: opacity .2s;
+      border-radius: 3px;
+    }
+    .gallery-thumb.active, .gallery-thumb:hover { opacity: 1; }
+
+    /* ── PROPERTY HEADER ── */
+    .prop-header { margin-bottom: 24px; }
+    .prop-type-badge {
+      display: inline-block;
+      background: var(--gray-bg);
+      border: 1.5px solid var(--gray-border);
+      color: var(--navy);
+      font-size: .78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .prop-title {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+    .prop-location {
+      color: var(--muted);
+      font-size: .95rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ── KEY STATS ── */
+    .key-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 14px 12px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--gray-border);
+    }
+    .stat-icon { font-size: 1.3rem; margin-bottom: 4px; }
+    .stat-val { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+    .stat-lbl { font-size: .75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+
+    /* ── DESCRIPTION ── */
+    .section-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    .section-card h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--gray-border);
+    }
+    .desc-text {
+      font-size: .95rem;
+      color: #374151;
+      line-height: 1.75;
+    }
+
+    /* ── DETAILS TABLE ── */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .detail-row {
+      display: contents;
+    }
+    .detail-row div {
+      padding: 10px 0;
+      font-size: .9rem;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .detail-row .dlabel { color: var(--muted); font-weight: 600; }
+    .detail-row .dval { font-weight: 700; color: var(--text); text-align: right; }
+
+    /* ── FEATURES ── */
+    .features-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .feature-tag {
+      background: var(--gray-bg);
+      border: 1.5px solid var(--gray-border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar-price-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 2px solid var(--navy);
+      margin-bottom: 20px;
+      position: sticky;
+      top: 80px;
+    }
+    .price-label { font-size: .78rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .price-big { font-size: 2rem; font-weight: 900; color: var(--navy); margin-bottom: 4px; }
+    .price-per-sqm { font-size: .85rem; color: var(--muted); margin-bottom: 20px; }
+
+    .energy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #dcfce7;
+      border: 1.5px solid #86efac;
+      color: #166534;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: .85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 10px; }
+    .contact-form input,
+    .contact-form textarea {
+      border: 1.5px solid var(--gray-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: .9rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color .2s;
+      resize: vertical;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--navy);
+    }
+    .contact-form textarea { min-height: 90px; }
+    .btn-contact {
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .btn-contact:hover { background: var(--gold); color: var(--navy-dark); }
+    .btn-contact:active { transform: scale(.97); }
+
+    .phone-cta {
+      text-align: center;
+      margin-top: 14px;
+      font-size: .87rem;
+      color: var(--muted);
+    }
+    .phone-cta a { color: var(--navy); font-weight: 700; text-decoration: none; font-size: 1rem; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 88vh;
+      border-radius: 6px;
+      object-fit: contain;
+      box-shadow: 0 8px 40px rgba(0,0,0,.5);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      color: #fff;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      opacity: .7;
+    }
+    .lightbox-close:hover { opacity: 1; }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,.15);
+      color: #fff;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,.28); }
+    .lightbox-nav.prev { left: 24px; }
+    .lightbox-nav.next { right: 24px; }
+
+    /* ── SUCCESS TOAST ── */
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #16a34a;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: .92rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 500;
+      animation: slideUp .3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .sidebar-price-card { position: static; }
+      .side-col { order: -1; }
+    }
+    @media (max-width: 600px) {
+      .key-stats { grid-template-columns: repeat(2, 1fr); }
+      .gallery-main { height: 260px; }
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .page-wrap { padding: 16px; }
+      .breadcrumb { padding: 10px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/ingatlan-ertekesites" class="nav-logo">Property<span>Hub</span></a>
+  <div class="nav-links">
+    <a href="/ingatlan-ertekesites">Ingatlanok</a>
+    <a href="/ingatlan-ertekesites#miert-mi">Miért mi?</a>
+    <a href="/ingatlan-ertekesites/kapcsolat">Kapcsolat</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="/ingatlan-ertekesites">← Ingatlanok</a>
+  <span>/</span>
+  <span>{{ p.helyszin }}{% if p.kerulet %}, {{ p.kerulet }}{% endif %}</span>
+  <span>/</span>
+  <span>{{ p.cim }}</span>
+</div>
+
+<div class="page-wrap">
+  <!-- MAIN -->
+  <div class="main-col">
+
+    <!-- GALLERY -->
+    <div class="gallery">
+      <div class="gallery-main" onclick="openLightbox(currentImg)">
+        <img id="main-img" src="{{ p.kepek[0] }}" alt="{{ p.teljes_cim }}" />
+        {% if p.cimke %}
+        <span class="gallery-badge {% if p.cimke == 'Prémium' %}premium{% elif p.cimke == 'Új' %}uj{% elif p.cimke == 'Befektetés' %}befektetes{% elif p.cimke == 'Egyedi' %}egyedi{% endif %}">
+          {{ p.cimke }}
+        </span>
+        {% endif %}
+        {% if p.kepek|length > 1 %}
+        <button class="gallery-nav prev" onclick="event.stopPropagation(); changeImg(-1)">&#8249;</button>
+        <button class="gallery-nav next" onclick="event.stopPropagation(); changeImg(1)">&#8250;</button>
+        <span class="gallery-count" id="img-count">1 / {{ p.kepek|length }}</span>
+        {% endif %}
+      </div>
+      {% if p.kepek|length > 1 %}
+      <div class="gallery-thumbs">
+        {% for kep in p.kepek %}
+        <img src="{{ kep }}" alt="Fotó {{ loop.index }}" class="gallery-thumb {% if loop.first %}active{% endif %}"
+             onclick="setImg({{ loop.index0 }})" />
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- HEADER -->
+    <div class="prop-header">
+      <span class="prop-type-badge">{{ p.tipus }}</span>
+      <h1 class="prop-title">{{ p.teljes_cim }}</h1>
+      <div class="prop-location">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        {{ p.helyszin }}{% if p.kerulet %}, {{ p.kerulet }}{% endif %}
+      </div>
+    </div>
+
+    <!-- KEY STATS -->
+    <div class="key-stats">
+      <div class="stat-card">
+        <div class="stat-icon">📐</div>
+        <div class="stat-val">{{ p.terulet }} m²</div>
+        <div class="stat-lbl">Terület</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🛏️</div>
+        <div class="stat-val">{{ p.szobak }}</div>
+        <div class="stat-lbl">Szoba</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🚿</div>
+        <div class="stat-val">{{ p.furdoszoba }}</div>
+        <div class="stat-lbl">Fürdőszoba</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏢</div>
+        <div class="stat-val">{{ p.emelet if p.emelet > 0 else 'Fszt.' }}</div>
+        <div class="stat-lbl">Emelet</div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="section-card">
+      <h2>Leírás</h2>
+      <p class="desc-text">{{ p.leiras }}</p>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="section-card">
+      <h2>Ingatlan adatok</h2>
+      <div class="details-grid">
+        <div class="detail-row"><div class="dlabel">Típus</div><div class="dval">{{ p.tipus }}</div></div>
+        <div class="detail-row"><div class="dlabel">Alapterület</div><div class="dval">{{ p.terulet }} m²</div></div>
+        <div class="detail-row"><div class="dlabel">Szobák száma</div><div class="dval">{{ p.szobak }}</div></div>
+        <div class="detail-row"><div class="dlabel">Fürdőszoba</div><div class="dval">{{ p.furdoszoba }}</div></div>
+        <div class="detail-row"><div class="dlabel">Emelet</div><div class="dval">{{ p.emelet if p.emelet > 0 else 'Földszint' }}</div></div>
+        <div class="detail-row"><div class="dlabel">Építési év</div><div class="dval">{{ p.epitesi_ev }}</div></div>
+        <div class="detail-row"><div class="dlabel">Állapot</div><div class="dval">{{ p.allapot }}</div></div>
+        <div class="detail-row"><div class="dlabel">Energiaosztály</div><div class="dval">{{ p.energiaosztaly }}</div></div>
+        <div class="detail-row" style="border-bottom:none"><div class="dlabel">Ár/m²</div><div class="dval">{{ format_ar((p.ar / p.terulet)|int) }}</div></div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    {% if p.szolgaltatasok %}
+    <div class="section-card">
+      <h2>Felszereltség és jellemzők</h2>
+      <div class="features-list">
+        {% for s in p.szolgaltatasok %}
+        <span class="feature-tag">✓ {{ s }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="side-col">
+    <div class="sidebar-price-card">
+      <div class="price-label">Eladási ár</div>
+      <div class="price-big">{{ format_ar(p.ar) }}</div>
+      <div class="price-per-sqm">{{ format_ar((p.ar / p.terulet)|int) }} / m²</div>
+
+      {% if p.energiaosztaly in ['A+', 'A', 'B'] %}
+      <div class="energy-badge">⚡ Energiaosztály: {{ p.energiaosztaly }}</div>
+      {% endif %}
+
+      <form class="contact-form" onsubmit="sendInquiry(event)">
+        <input type="text" name="nev" placeholder="Neve" required />
+        <input type="tel" name="tel" placeholder="Telefonszám" required />
+        <input type="email" name="email" placeholder="E-mail cím" required />
+        <textarea name="uzenet" placeholder="Üzenet (pl. mikor érne rá megtekintésre?)">Érdeklődöm a(z) {{ p.cim }} ingatlan iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
+        <button type="submit" class="btn-contact">Érdeklődöm – visszahívást kérek</button>
+      </form>
+
+      <div class="phone-cta">
+        vagy hívjon minket: <br>
+        <a href="tel:+3612345678">+36 1 234 5678</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <button class="lightbox-nav prev" onclick="event.stopPropagation(); lbNav(-1)">&#8249;</button>
+  <img class="lightbox-img" id="lb-img" src="" alt="" onclick="event.stopPropagation()" />
+  <button class="lightbox-nav next" onclick="event.stopPropagation(); lbNav(1)">&#8250;</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Üzenetét megkaptuk! Hamarosan felvesszük Önnel a kapcsolatot.</div>
+
+<script>
+  const images = {{ p.kepek | tojson }};
+  let currentImg = 0;
+
+  function setImg(i) {
+    currentImg = i;
+    document.getElementById('main-img').src = images[i];
+    document.getElementById('img-count').textContent = (i + 1) + ' / ' + images.length;
+    document.querySelectorAll('.gallery-thumb').forEach((t, idx) => {
+      t.classList.toggle('active', idx === i);
+    });
+  }
+
+  function changeImg(dir) {
+    setImg((currentImg + dir + images.length) % images.length);
+  }
+
+  function openLightbox(i) {
+    currentImg = i;
+    document.getElementById('lb-img').src = images[i];
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function lbNav(dir) {
+    currentImg = (currentImg + dir + images.length) % images.length;
+    document.getElementById('lb-img').src = images[currentImg];
+    setImg(currentImg);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'Escape')     closeLightbox();
+  });
+
+  function sendInquiry(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.textContent = 'Küldés…';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Érdeklődöm – visszahívást kérek';
+      btn.disabled = false;
+      e.target.reset();
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    }, 900);
+  }
+</script>
+</body>
+</html>
