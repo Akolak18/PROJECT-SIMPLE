@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ingatlan értékesítés — Property Sales</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:    #c9a84c;
+      --gold-lt: #e8c87a;
+      --dark:    #1a1a2e;
+      --mid:     #2d2d44;
+      --text:    #3d3d3d;
+      --light:   #f8f6f1;
+      --white:   #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ──────────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(26, 26, 46, 0.97);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 68px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.35);
+    }
+    .nav-logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,.80);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      letter-spacing: .03em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold);
+      color: var(--dark) !important;
+      padding: 9px 20px;
+      border-radius: 6px;
+      font-weight: 700 !important;
+      transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--gold-lt) !important; color: var(--dark) !important; }
+
+    /* ── HERO ─────────────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(135deg, rgba(26,26,46,.88) 0%, rgba(26,26,46,.65) 60%, rgba(201,168,76,.18) 100%),
+        url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      padding: 100px 40px 60px;
+    }
+    .hero-inner {
+      max-width: 760px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--dark);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 4px;
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 22px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,.82);
+      max-width: 580px;
+      margin-bottom: 36px;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .15s, filter .15s;
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .btn-gold   { background: var(--gold); color: var(--dark); }
+    .btn-outline { background: transparent; border: 2px solid rgba(255,255,255,.6); color: var(--white); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); filter: none; }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 52px;
+      flex-wrap: wrap;
+    }
+    .hero-stat strong {
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-stat span {
+      font-size: .82rem;
+      color: rgba(255,255,255,.65);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ── SECTION BASE ─────────────────────────────────────────────────────── */
+    section { padding: 90px 40px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: #666;
+      max-width: 600px;
+      margin-bottom: 56px;
+    }
+
+    /* ── SERVICES ─────────────────────────────────────────────────────────── */
+    #elonyok { background: var(--light); }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 34px 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.06);
+      transition: transform .25s, box-shadow .25s;
+      border-top: 4px solid transparent;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 36px rgba(0,0,0,.11);
+      border-top-color: var(--gold);
+    }
+    .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .card p { font-size: .93rem; color: #666; }
+
+    /* ── PROCESS ──────────────────────────────────────────────────────────── */
+    #folyamat { background: var(--white); }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 36px; left: 10%; right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-lt));
+      z-index: 0;
+    }
+    .step {
+      text-align: center;
+      padding: 20px 20px 30px;
+      position: relative;
+      z-index: 1;
+    }
+    .step-num {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--dark);
+      border: 3px solid var(--gold);
+      color: var(--gold);
+      font-size: 1.4rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .step p { font-size: .87rem; color: #777; }
+
+    /* ── STATS ────────────────────────────────────────────────────────────── */
+    #statisztikak {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--mid) 100%);
+      padding: 70px 40px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 32px;
+      text-align: center;
+    }
+    .stat-item strong {
+      display: block;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-item p {
+      font-size: .9rem;
+      color: rgba(255,255,255,.65);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    /* ── PROPERTIES ───────────────────────────────────────────────────────── */
+    #ingatlanok { background: var(--light); }
+    .prop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .prop-card {
+      background: var(--white);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(0,0,0,.07);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .prop-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 38px rgba(0,0,0,.12);
+    }
+    .prop-img {
+      height: 210px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .prop-tag {
+      position: absolute;
+      top: 14px; left: 14px;
+      background: var(--gold);
+      color: var(--dark);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 4px;
+    }
+    .prop-tag.new { background: #2ecc71; color: #fff; }
+    .prop-body { padding: 22px; }
+    .prop-price {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+    .prop-name {
+      font-size: .95rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 12px;
+    }
+    .prop-meta {
+      display: flex;
+      gap: 16px;
+      font-size: .82rem;
+      color: #888;
+      border-top: 1px solid #eee;
+      padding-top: 12px;
+    }
+    .prop-meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* ── TESTIMONIALS ─────────────────────────────────────────────────────── */
+    #velemenyek { background: var(--white); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .testi-card {
+      background: var(--light);
+      border-radius: 14px;
+      padding: 32px 28px;
+      position: relative;
+    }
+    .testi-card::before {
+      content: '\201C';
+      font-size: 5rem;
+      line-height: 1;
+      color: var(--gold);
+      opacity: .35;
+      position: absolute;
+      top: 10px; left: 20px;
+      font-family: Georgia, serif;
+    }
+    .testi-text {
+      font-size: .95rem;
+      color: #555;
+      font-style: italic;
+      margin-bottom: 20px;
+      padding-top: 28px;
+    }
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testi-avatar {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--dark);
+      flex-shrink: 0;
+    }
+    .testi-author strong { display: block; font-size: .93rem; color: var(--dark); }
+    .testi-author span   { font-size: .8rem; color: #888; }
+    .stars { color: var(--gold); font-size: .9rem; margin-bottom: 8px; }
+
+    /* ── CONTACT ──────────────────────────────────────────────────────────── */
+    #kapcsolat {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--mid) 100%);
+    }
+    #kapcsolat .section-title { color: var(--white); }
+    #kapcsolat .section-sub   { color: rgba(255,255,255,.65); }
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 56px;
+      align-items: start;
+    }
+    .contact-info { color: rgba(255,255,255,.85); }
+    .contact-info h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .contact-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 22px;
+      align-items: flex-start;
+    }
+    .contact-item .ci-icon {
+      font-size: 1.3rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .contact-item p { font-size: .93rem; line-height: 1.55; }
+    .contact-item strong { color: var(--white); }
+    .form-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 38px 36px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.25);
+    }
+    .form-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 24px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: .83rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: .93rem;
+      color: var(--text);
+      background: #fafafa;
+      transition: border-color .2s;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: var(--white);
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      margin-top: 6px;
+    }
+    .form-submit:hover {
+      background: var(--gold-lt);
+      transform: translateY(-1px);
+    }
+    .form-note {
+      font-size: .77rem;
+      color: #aaa;
+      text-align: center;
+      margin-top: 12px;
+    }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 24px;
+      color: #276749;
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ───────────────────────────────────────────────────────────── */
+    footer {
+      background: #111120;
+      color: rgba(255,255,255,.55);
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: .83rem;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer .logo { color: var(--white); font-weight: 800; font-size: 1.1rem; }
+    footer .logo span { color: var(--gold); }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────────────────── */
+    @media (max-width: 820px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 64px 20px; }
+      .hero { padding: 110px 20px 60px; }
+      .steps::before { display: none; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 32px; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Property<span>Sales</span></a>
+  <ul class="nav-links">
+    <li><a href="#elonyok">Előnyök</a></li>
+    <li><a href="#folyamat">Folyamat</a></li>
+    <li><a href="#ingatlanok">Ingatlanok</a></li>
+    <li><a href="#velemenyek">Vélemények</a></li>
+    <li><a href="#kapcsolat" class="nav-cta">Ingyenes tanácsadás</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="fooldal">
+  <div class="hero-inner">
+    <div class="hero-badge">Prémium Ingatlan Értékesítés</div>
+    <h1>Az Ön ingatlana a legjobb <em>áron</em>, a leggyorsabban</h1>
+    <p>
+      Professzionális ingatlanértékesítési szolgáltatás, ahol egyetlen kapcsolattartó kíséri végig
+      a teljes folyamatot — az első megtekintéstől az átadásig.
+    </p>
+    <div class="hero-btns">
+      <a href="#kapcsolat" class="btn btn-gold">Ingyenes értékbecslés</a>
+      <a href="#folyamat" class="btn btn-outline">Hogyan működik?</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <strong>850+</strong>
+        <span>Eladott ingatlan</span>
+      </div>
+      <div class="hero-stat">
+        <strong>98%</strong>
+        <span>Elégedett ügyfél</span>
+      </div>
+      <div class="hero-stat">
+        <strong>42 nap</strong>
+        <span>Átlagos értékesítési idő</span>
+      </div>
+      <div class="hero-stat">
+        <strong>15+ év</strong>
+        <span>Tapasztalat</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section id="elonyok">
+  <div class="container">
+    <div class="section-label">Miért mi?</div>
+    <h2 class="section-title">Előnyök, amelyek valóban számítanak</h2>
+    <p class="section-sub">
+      Értékesítési folyamatunkat az ügyféli élmény köré építettük —
+      így az ingatlan eladása öröm, nem teher.
+    </p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <h3>Egyetlen kapcsolattartó</h3>
+        <p>
+          Nem kell több emberrel kommunikálnia. Egy dedikált tanácsadó végigkíséri az
+          egész folyamaton — a szerződéskötéstől az átadásig.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Precíz piaci értékbecslés</h3>
+        <p>
+          Valós piaci adatok és helyszíni elemzés alapján határozzuk meg az optimális
+          eladási árat, hogy ne hagyjon pénzt az asztalon.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📸</div>
+        <h3>Prémium marketing csomag</h3>
+        <p>
+          Professzionális fotózás, virtuális túra, céltudatos hirdetési stratégia a
+          legfontosabb hazai és nemzetközi portálokon.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚖️</div>
+        <h3>Teljes jogi támogatás</h3>
+        <p>
+          Szerződéskészítés, ügyvédi koordináció, hatósági ügyintézés —
+          minden adminisztrációs terhet levesszük a válláról.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h3>Minősített vevőbázis</h3>
+        <p>
+          Saját, előre minősített vevői adatbázisból azonnal ajánlunk komoly érdeklődőket,
+          megelőzve az időrabló megtekintéseket.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔔</div>
+        <h3>Folyamatos visszajelzés</h3>
+        <p>
+          Heti rendszeres státuszriport, minden érdeklődőről visszajelzés — Ön mindig
+          tisztában van az értékesítés aktuális állásával.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="folyamat">
+  <div class="container">
+    <div class="section-label">Lépésről lépésre</div>
+    <h2 class="section-title">Az értékesítési folyamat</h2>
+    <p class="section-sub">
+      Átlátható, hatékony folyamat — pontosan tudja, mi történik és mikor.
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Ingyenes tanácsadás</h3>
+        <p>Helyszíni felmérés, piaci értékbecslés, személyes stratégia kialakítása.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Marketing kampány</h3>
+        <p>Professzionális fotók, leírás, hirdetések indítása a legfontosabb platformokon.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Megtekintések &amp; tárgyalás</h3>
+        <p>Minősített érdeklődők fogadása, ajánlatok kezelése, tárgyalási támogatás.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Szerződéskötés</h3>
+        <p>Ügyvédi koordináció, adásvételi szerződés előkészítése és aláírása.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <h3>Sikeres átadás</h3>
+        <p>Kulcsátadás, dokumentálás, földhivatali ügyintézés — teljeskörűen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="statisztikak">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <strong>850+</strong>
+        <p>Sikeresen értékesített ingatlan</p>
+      </div>
+      <div class="stat-item">
+        <strong>42</strong>
+        <p>Átlagos értékesítési nap</p>
+      </div>
+      <div class="stat-item">
+        <strong>98%</strong>
+        <p>Ügyfél-elégedettség</p>
+      </div>
+      <div class="stat-item">
+        <strong>15+</strong>
+        <p>Év piaci tapasztalat</p>
+      </div>
+      <div class="stat-item">
+        <strong>3,2 Mrd</strong>
+        <p>Ft értékű ingatlan értékesítve</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPERTIES -->
+<section id="ingatlanok">
+  <div class="container">
+    <div class="section-label">Kiemelt ajánlatok</div>
+    <h2 class="section-title">Frissen hirdetett ingatlanok</h2>
+    <p class="section-sub">Válogatott prémium ingatlanok, amelyeket éppen értékesítünk.</p>
+    <div class="prop-grid">
+      <div class="prop-card">
+        <div class="prop-img" style="background-image:url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80')">
+          <span class="prop-tag new">Új hirdetés</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">89 900 000 Ft</div>
+          <div class="prop-name">Budai panorámás újépítésű lakás</div>
+          <div class="prop-meta">
+            <span>🛏 3 szoba</span>
+            <span>📐 78 m²</span>
+            <span>📍 Budapest II.</span>
+          </div>
+        </div>
+      </div>
+      <div class="prop-card">
+        <div class="prop-img" style="background-image:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80')">
+          <span class="prop-tag">Kiemelt</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">245 000 000 Ft</div>
+          <div class="prop-name">Kertvárosi luxus családi ház</div>
+          <div class="prop-meta">
+            <span>🛏 5 szoba</span>
+            <span>📐 220 m²</span>
+            <span>📍 Budapest XII.</span>
+          </div>
+        </div>
+      </div>
+      <div class="prop-card">
+        <div class="prop-img" style="background-image:url('https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80')">
+          <span class="prop-tag">Befektetés</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">54 500 000 Ft</div>
+          <div class="prop-name">Belvároshoz közeli tégla lakás</div>
+          <div class="prop-meta">
+            <span>🛏 2 szoba</span>
+            <span>📐 52 m²</span>
+            <span>📍 Budapest VII.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="#kapcsolat" class="btn btn-gold">Összes ingatlan megtekintése</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="velemenyek">
+  <div class="container">
+    <div class="section-label">Ügyfeleink mondják</div>
+    <h2 class="section-title">Valódi vélemények, valódi ügyfelektől</h2>
+    <p class="section-sub">Több mint 850 sikeres értékesítés tapasztalata áll mögöttünk.</p>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">
+          "Hihetetlen volt, milyen gyorsan és milyen jó áron sikerült eladni a lakásunkat.
+          Egyetlen kapcsolattartóm volt, aki mindent intézett — nekem szinte semmi dolgom nem volt."
+        </p>
+        <div class="testi-author">
+          <div class="testi-avatar">KM</div>
+          <div>
+            <strong>Kovács Márta</strong>
+            <span>Budapest, 2024</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">
+          "Nagyon profik. A piaci értékbecslés pontosnak bizonyult, a marketing anyagok
+          prémium minőségűek voltak. 3 hét alatt megvolt a vevő, a vételár meghaladta
+          a várakozásainkat."
+        </p>
+        <div class="testi-author">
+          <div class="testi-avatar">SZ</div>
+          <div>
+            <strong>Szabó Zoltán</strong>
+            <span>Budapest, 2024</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">
+          "Külföldről kellett intéznem az eladást, és féltem, hogy sok baj lesz belőle.
+          Nem volt. Mindent megoldottak helyettem — a fotózástól az ügyvédig.
+          Maximálisan ajánlom."
+        </p>
+        <div class="testi-author">
+          <div class="testi-avatar">HÉ</div>
+          <div>
+            <strong>Horváth Éva</strong>
+            <span>München / Budapest, 2024</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="kapcsolat">
+  <div class="container">
+    <div class="section-label" style="color:var(--gold-lt)">Lépjen velünk kapcsolatba</div>
+    <h2 class="section-title">Ingyenes értékbecslés és tanácsadás</h2>
+    <p class="section-sub">
+      Adja meg elérhetőségeit és visszahívjuk — kötelezettség nélkül.
+    </p>
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <h3>Elérhetőségeink</h3>
+        <div class="contact-item">
+          <div class="ci-icon">📞</div>
+          <p><strong>Telefon</strong><br>+36 1 234 5678</p>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">✉️</div>
+          <p><strong>E-mail</strong><br>info@propertysales.hu</p>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">📍</div>
+          <p><strong>Iroda</strong><br>1051 Budapest, Arany János utca 10.<br>H–P: 9:00–18:00</p>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">⏱️</div>
+          <p><strong>Visszahívás</strong><br>Munkanapokon 4 órán belül visszahívjuk.</p>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>Küldjön üzenetet</h3>
+        <form id="contact-form" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nev">Teljes neve *</label>
+              <input type="text" id="nev" name="nev" placeholder="Pl. Kiss János" required />
+            </div>
+            <div class="form-group">
+              <label for="telefon">Telefonszám *</label>
+              <input type="tel" id="telefon" name="telefon" placeholder="+36 30 123 4567" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail cím</label>
+            <input type="email" id="email" name="email" placeholder="pelda@email.hu" />
+          </div>
+          <div class="form-group">
+            <label for="tipus">Ingatlan típusa</label>
+            <select id="tipus" name="tipus">
+              <option value="">— Kérjük válasszon —</option>
+              <option>Lakás</option>
+              <option>Ház / Villa</option>
+              <option>Telek</option>
+              <option>Üzlethelyiség / Iroda</option>
+              <option>Egyéb</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="uzenet">Üzenet</label>
+            <textarea id="uzenet" name="uzenet" placeholder="Írja le röviden az ingatlant és kérdéseit…"></textarea>
+          </div>
+          <button type="submit" class="form-submit">Ingyenes tanácsadást kérek →</button>
+          <p class="form-note">Adatait bizalmasan kezeljük, harmadik félnek nem adjuk át.</p>
+        </form>
+        <div class="form-success" id="form-success">
+          ✅ Köszönjük megkeresését! Hamarosan felvesszük Önnel a kapcsolatot.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="logo">Property<span>Sales</span></span>
+  <span>© 2024 PropertySales Kft. — Minden jog fenntartva.</span>
+  <span>
+    <a href="#">Adatvédelem</a> &nbsp;·&nbsp;
+    <a href="#">Általános feltételek</a>
+  </span>
+</footer>
+
+<script>
+  /* Smooth active nav highlight */
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".nav-links a[href^='#']");
+
+  window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 90) current = sec.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute("href") === "#" + current
+        ? "var(--gold)" : "";
+    });
+  });
+
+  /* Counter animation */
+  function animateCounters() {
+    document.querySelectorAll(".stat-item strong, .hero-stat strong").forEach(el => {
+      const raw   = el.textContent.trim();
+      const num   = parseFloat(raw.replace(/[^\d.]/g, ""));
+      const suffix = raw.replace(/[\d.,]/g, "").trim();
+      if (isNaN(num)) return;
+      let start = 0;
+      const step = num / 60;
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= num) { start = num; clearInterval(timer); }
+        el.textContent = (Number.isInteger(num) ? Math.round(start) : start.toFixed(1)) + (suffix ? " " + suffix : "");
+      }, 22);
+    });
+  }
+
+  const statsSection = document.getElementById("statisztikak");
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      animateCounters();
+      observer.disconnect();
+    }
+  }, { threshold: .3 });
+  observer.observe(statsSection);
+
+  /* Contact form */
+  function submitForm(e) {
+    e.preventDefault();
+    const form = document.getElementById("contact-form");
+    const success = document.getElementById("form-success");
+    form.style.display = "none";
+    success.style.display = "block";
+  }
+</script>
+</body>
+</html>

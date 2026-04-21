@@ -23,6 +23,11 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-secret-key")
 
 
+@app.route("/ingatlan-ertekesites")
+def property_sales():
+    return render_template("property_sales.html")
+
+
 @app.route("/")
 def index():
     today = datetime.today()
