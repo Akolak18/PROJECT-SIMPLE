@@ -503,12 +503,12 @@
     <div class="key-stats">
       <div class="stat-card">
         <div class="stat-icon">📐</div>
-        <div class="stat-val">{{ p.terulet }} m²</div>
+        <div class="stat-val">{{ p.terulet ~ ' m²' if p.terulet > 0 else '—' }}</div>
         <div class="stat-lbl">Terület</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">🛏️</div>
-        <div class="stat-val">{{ p.szobak }}</div>
+        <div class="stat-val">{{ p.szobak if p.szobak > 0 else '—' }}</div>
         <div class="stat-lbl">Szoba</div>
       </div>
       <div class="stat-card">
@@ -534,14 +534,14 @@
       <h2>Ingatlan adatok</h2>
       <div class="details-grid">
         <div class="detail-row"><div class="dlabel">Típus</div><div class="dval">{{ p.tipus }}</div></div>
-        <div class="detail-row"><div class="dlabel">Alapterület</div><div class="dval">{{ p.terulet }} m²</div></div>
-        <div class="detail-row"><div class="dlabel">Szobák száma</div><div class="dval">{{ p.szobak }}</div></div>
+        <div class="detail-row"><div class="dlabel">Alapterület</div><div class="dval">{{ p.terulet ~ ' m²' if p.terulet > 0 else '—' }}</div></div>
+        <div class="detail-row"><div class="dlabel">Szobák száma</div><div class="dval">{{ p.szobak if p.szobak > 0 else '—' }}</div></div>
         <div class="detail-row"><div class="dlabel">Fürdőszoba</div><div class="dval">{{ p.furdoszoba }}</div></div>
         <div class="detail-row"><div class="dlabel">Emelet</div><div class="dval">{{ p.emelet if p.emelet > 0 else 'Földszint' }}</div></div>
         <div class="detail-row"><div class="dlabel">Építési év</div><div class="dval">{{ p.epitesi_ev }}</div></div>
         <div class="detail-row"><div class="dlabel">Állapot</div><div class="dval">{{ p.allapot }}</div></div>
         <div class="detail-row"><div class="dlabel">Energiaosztály</div><div class="dval">{{ p.energiaosztaly }}</div></div>
-        <div class="detail-row" style="border-bottom:none"><div class="dlabel">Ár/m²</div><div class="dval">{{ format_ar((p.ar / p.terulet)|int) }}</div></div>
+        <div class="detail-row" style="border-bottom:none"><div class="dlabel">Ár/m²</div><div class="dval">{{ format_ar((p.ar // p.terulet)) if p.terulet > 0 and p.ar > 0 else '—' }}</div></div>
       </div>
     </div>
 
@@ -564,7 +564,7 @@
     <div class="sidebar-price-card">
       <div class="price-label">Eladási ár</div>
       <div class="price-big">{{ format_ar(p.ar) }}</div>
-      <div class="price-per-sqm">{{ format_ar((p.ar / p.terulet)|int) }} / m²</div>
+      <div class="price-per-sqm">{{ format_ar((p.ar // p.terulet)) ~ ' / m²' if p.terulet > 0 and p.ar > 0 else '' }}</div>
 
       {% if p.energiaosztaly in ['A+', 'A', 'B'] %}
       <div class="energy-badge">⚡ Energiaosztály: {{ p.energiaosztaly }}</div>
@@ -580,7 +580,8 @@
 
       <div class="phone-cta">
         vagy hívjon minket: <br>
-        <a href="tel:+3612345678">+36 1 234 5678</a>
+        <a href="tel:+3611111111">+36 1 111 1111</a><br>
+        <a href="mailto:gueswhat@gmail.com" style="font-size:.85rem;">gueswhat@gmail.com</a>
       </div>
     </div>
   </div>
