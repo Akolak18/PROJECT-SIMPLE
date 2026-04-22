@@ -24,63 +24,122 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-      background: var(--gray-bg);
+      background: #eef1f6;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(26,58,92,.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(200,160,74,.05) 0%, transparent 50%);
       color: var(--text);
       line-height: 1.6;
     }
 
     /* ── NAV ── */
     nav {
-      background: var(--navy);
-      padding: 0 32px;
+      background: rgba(18,40,64,.97);
+      backdrop-filter: blur(12px);
+      padding: 0 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 64px;
+      height: 68px;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+      box-shadow: 0 2px 24px rgba(0,0,0,.35);
+      border-bottom: 1px solid rgba(200,160,74,.2);
     }
     .nav-logo {
       color: var(--white);
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       font-weight: 800;
       letter-spacing: .04em;
       text-decoration: none;
     }
     .nav-logo span { color: var(--gold); }
-    .nav-links { display: flex; gap: 28px; }
+    .nav-links { display: flex; gap: 32px; }
     .nav-links a {
-      color: rgba(255,255,255,.8);
+      color: rgba(255,255,255,.75);
       text-decoration: none;
-      font-size: .9rem;
-      font-weight: 500;
+      font-size: .88rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
       transition: color .2s;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
 
     /* ── HERO ── */
     .hero {
-      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, #1e4a7a 100%);
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(160deg, #0d1f33 0%, #1a3a5c 45%, #1e4a7a 100%);
       color: var(--white);
-      padding: 64px 32px 48px;
+      padding: 80px 32px 60px;
       text-align: center;
     }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          -55deg,
+          transparent 0px, transparent 40px,
+          rgba(255,255,255,.018) 40px, rgba(255,255,255,.018) 41px
+        ),
+        repeating-linear-gradient(
+          35deg,
+          transparent 0px, transparent 60px,
+          rgba(200,160,74,.04) 60px, rgba(200,160,74,.04) 61px
+        );
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 200px;
+      background: radial-gradient(ellipse, rgba(200,160,74,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(200,160,74,.15);
+      border: 1px solid rgba(200,160,74,.35);
+      color: var(--gold-light);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
     .hero h1 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800;
-      margin-bottom: 12px;
-      letter-spacing: -.01em;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 900;
+      margin-bottom: 14px;
+      letter-spacing: -.02em;
+      line-height: 1.15;
     }
     .hero h1 span { color: var(--gold); }
     .hero p {
-      font-size: 1.1rem;
-      opacity: .8;
-      margin-bottom: 36px;
-      max-width: 560px;
+      font-size: 1.05rem;
+      opacity: .75;
+      margin-bottom: 40px;
+      max-width: 500px;
       margin-left: auto;
       margin-right: auto;
+      line-height: 1.7;
     }
 
     /* ── SEARCH BOX ── */
@@ -201,18 +260,19 @@
 
     .property-card {
       background: var(--white);
-      border-radius: var(--radius);
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      border: 1px solid rgba(255,255,255,.8);
+      transition: transform .25s, box-shadow .25s;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
     }
     .property-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(26,58,92,.16);
     }
 
     .card-img {
@@ -314,49 +374,68 @@
 
     /* ── WHY US SECTION ── */
     .why-section {
-      background: var(--white);
-      margin-top: 56px;
-      padding: 56px 24px;
-      border-top: 1px solid var(--gray-border);
+      background: linear-gradient(160deg, #0d1f33 0%, #1a3a5c 100%);
+      margin-top: 64px;
+      padding: 72px 24px;
+      position: relative;
+      overflow: hidden;
     }
-    .why-inner { max-width: 1280px; margin: 0 auto; }
+    .why-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent 0px, transparent 40px,
+        rgba(255,255,255,.015) 40px, rgba(255,255,255,.015) 41px
+      );
+      pointer-events: none;
+    }
+    .why-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
     .section-title {
       text-align: center;
-      font-size: 1.7rem;
-      font-weight: 800;
-      color: var(--navy);
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: var(--white);
       margin-bottom: 8px;
+      letter-spacing: -.01em;
     }
     .section-sub {
       text-align: center;
-      color: var(--muted);
-      margin-bottom: 40px;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 48px;
       font-size: 1rem;
     }
     .why-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 28px;
+      gap: 20px;
     }
     .why-card {
       text-align: center;
-      padding: 28px 20px;
-      border-radius: var(--radius);
-      background: var(--gray-bg);
-      border: 1.5px solid var(--gray-border);
+      padding: 32px 24px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(8px);
+      transition: background .2s, transform .2s;
     }
-    .why-icon { font-size: 2.2rem; margin-bottom: 12px; }
-    .why-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
-    .why-card p { font-size: .87rem; color: var(--muted); line-height: 1.5; }
+    .why-card:hover {
+      background: rgba(255,255,255,.1);
+      transform: translateY(-4px);
+    }
+    .why-icon { font-size: 2.4rem; margin-bottom: 14px; }
+    .why-card h3 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .why-card p { font-size: .87rem; color: rgba(255,255,255,.6); line-height: 1.6; }
 
     /* ── FOOTER ── */
     footer {
-      background: var(--navy-dark);
-      color: rgba(255,255,255,.6);
+      background: #0a1828;
+      color: rgba(255,255,255,.45);
       text-align: center;
-      padding: 24px;
+      padding: 28px;
       font-size: .85rem;
-      margin-top: 0;
+      border-top: 1px solid rgba(200,160,74,.2);
     }
     footer a { color: var(--gold); text-decoration: none; }
 
@@ -392,8 +471,10 @@
 
 <!-- HERO -->
 <section class="hero">
-  <h1>Találja meg <span>álmai ingatlanát</span></h1>
-  <p>{{ properties|length }} válogatott lakás Budapest VIII. kerületében – profi tanácsadással, átlátható folyamattal.</p>
+  <div class="hero-content">
+  <div class="hero-eyebrow">Budapest VIII. kerület</div>
+  <h1>Találja meg <span>álmai lakását</span></h1>
+  <p>{{ properties|length }} válogatott ingatlan – profi tanácsadással, átlátható folyamattal, egyetlen kapcsolattartóval.</p>
 
   <form class="search-box" method="get" action="/ingatlan-ertekesites">
     <div class="search-field">
@@ -431,6 +512,7 @@
     </div>
     <button type="submit" class="btn-search">Keresés</button>
   </form>
+  </div>
 </section>
 
 <!-- STATS BAR -->
