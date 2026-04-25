@@ -18,7 +18,6 @@ PROPERTIES = [
         "kepek": [
             "/static/images/utcafront.png",
             "/static/images/utcafront2.png",
-            "/static/images/Madártávlati kép.png",
         ],
         "szolgaltatasok": ["Lift", "Erkély", "Klíma"],
         "cimke": "",
@@ -43,7 +42,6 @@ PROPERTIES = [
         "kepek": [
             "/static/images/utcafront2.png",
             "/static/images/utcafront3.png",
-            "/static/images/Belsőudvar.png",
         ],
         "szolgaltatasok": ["Lift", "Klíma", "Beépített konyha"],
         "cimke": "",
@@ -68,7 +66,6 @@ PROPERTIES = [
         "kepek": [
             "/static/images/utcafront3.png",
             "/static/images/utcafront4.png",
-            "/static/images/Madártávlati kép2.png",
         ],
         "szolgaltatasok": ["Lift", "Erkély", "Garázs"],
         "cimke": "Új",
@@ -92,8 +89,6 @@ PROPERTIES = [
         "leiras": "Eladó lakás Budapest VIII. kerületében, a Krúdy Gyula utcán. Részletek hamarosan.",
         "kepek": [
             "/static/images/utcafront4.png",
-            "/static/images/Madártávlati kép.png",
-            "/static/images/Madártávlati kép3.png",
         ],
         "szolgaltatasok": ["Lift", "Klíma", "Erkély", "Beépített szekrények"],
         "cimke": "Kiemelt",
@@ -116,9 +111,8 @@ PROPERTIES = [
         "allapot": "Újszerű",
         "leiras": "Eladó lakás Budapest VIII. kerületében, a Mikszáth Kálmán téren. Részletek hamarosan.",
         "kepek": [
-            "/static/images/Madártávlati kép2.png",
-            "/static/images/Belsőudvar.png",
             "/static/images/utcafront.png",
+            "/static/images/Belsőudvar.png",
         ],
         "szolgaltatasok": ["Lift", "2 fürdőszoba", "Erkély", "Klíma", "Garázs"],
         "cimke": "Prémium",
@@ -141,9 +135,8 @@ PROPERTIES = [
         "allapot": "Felújított",
         "leiras": "Eladó lakás Budapest VIII. kerületében, a József körúton. Részletek hamarosan.",
         "kepek": [
-            "/static/images/Madártávlati kép3.png",
-            "/static/images/utcafront4.png",
             "/static/images/Belsőudvar.png",
+            "/static/images/utcafront3.png",
         ],
         "szolgaltatasok": ["Lift", "Erkély", "Klíma"],
         "cimke": "",
