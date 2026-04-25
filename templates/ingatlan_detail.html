@@ -460,6 +460,36 @@
   <span>{{ p.cim }}</span>
 </div>
 
+{% if not p.get('elerheto', True) %}
+<div style="
+  background: #fee2e2;
+  border-bottom: 3px solid #fca5a5;
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: .93rem;
+  font-weight: 600;
+  color: #991b1b;
+  flex-wrap: wrap;
+">
+  <span style="font-size:1.4rem; flex-shrink:0;">🔴</span>
+  <span>Ez a lakás <strong>már nem elérhető.</strong> Hasonló lehetőségekért tekintse meg aktív kínálatunkat, vagy vegye fel velünk a kapcsolatot!</span>
+  <a href="/ingatlan-ertekesites" style="
+    margin-left: auto;
+    background: #991b1b;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  ">← Aktív kínálat</a>
+</div>
+{% endif %}
+
 <div class="page-wrap">
   <!-- MAIN -->
   <div class="main-col">
@@ -561,7 +591,23 @@
 
   <!-- SIDEBAR -->
   <div class="side-col">
-    <div class="sidebar-price-card">
+    <div class="sidebar-price-card" {% if not p.get('elerheto', True) %}style="border-color: #fca5a5; background: #fff5f5;"{% endif %}>
+      {% if not p.get('elerheto', True) %}
+      <div style="text-align:center; padding: 10px 0 18px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:#fee2e2; color:#991b1b; border:1.5px solid #fca5a5; border-radius:10px; padding:10px 20px; font-weight:800; font-size:1rem;">
+          🔴 Nem elérhető
+        </div>
+        <p style="margin-top:14px; color:#6b7a8d; font-size:.87rem; line-height:1.6;">
+          Ez a lakás már elkelt. Érdekli az V. emeleti kínálat vagy hasonló méretű lakás?
+        </p>
+      </div>
+      <form class="contact-form" onsubmit="sendInquiry(event)">
+        <input type="text" name="nev" placeholder="Neve" required />
+        <input type="tel" name="tel" placeholder="Telefonszám" required />
+        <textarea name="uzenet" placeholder="Miben segíthetünk?">Érdeklődöm hasonló, elérhető lakások iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
+        <button type="submit" class="btn-contact" style="background:#991b1b;">Hasonló lakásokat keresek</button>
+      </form>
+      {% else %}
       <div class="price-label">Eladási ár</div>
       <div class="price-big">{{ format_ar(p.ar) }}</div>
       <div class="price-per-sqm">{{ format_ar((p.ar // p.terulet)) ~ ' / m²' if p.terulet > 0 and p.ar > 0 else '' }}</div>
@@ -577,6 +623,7 @@
         <textarea name="uzenet" placeholder="Üzenet (pl. mikor érne rá megtekintésre?)">Érdeklődöm a(z) {{ p.cim }} ingatlan iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
         <button type="submit" class="btn-contact">Érdeklődöm – visszahívást kérek</button>
       </form>
+      {% endif %}
 
       <div class="phone-cta">
         vagy hívjon minket: <br>

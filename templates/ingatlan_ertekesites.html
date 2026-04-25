@@ -307,6 +307,34 @@
     .card-badge.befektetes { background: #7c3aed; color: #fff; }
     .card-badge.egyedi { background: #dc2626; color: #fff; }
 
+    .property-card--unavailable {
+      opacity: .68;
+      filter: grayscale(35%);
+    }
+    .property-card--unavailable:hover {
+      transform: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      cursor: default;
+    }
+    .card-unavail-strip {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(30,20,20,.75));
+      padding: 28px 12px 10px;
+      text-align: center;
+    }
+    .card-unavail-badge {
+      display: inline-block;
+      background: #b91c1c;
+      color: #fff;
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
     .card-body {
       padding: 18px 18px 14px;
       flex: 1;
@@ -548,7 +576,8 @@
   {% if properties %}
   <div class="property-grid">
     {% for p in properties %}
-    <a href="/ingatlan-ertekesites/{{ p.slug }}" class="property-card">
+    <a href="/ingatlan-ertekesites/{{ p.slug }}" class="property-card{% if not p.get('elerheto', True) %} property-card--unavailable{% endif %}"
+       {% if not p.get('elerheto', True) %}onclick="return true"{% endif %}>
       <div class="card-img">
         <img src="{{ p.kepek[0] }}" alt="{{ p.teljes_cim }}" loading="lazy" />
         {% if p.cimke %}
@@ -556,11 +585,16 @@
           {{ p.cimke }}
         </span>
         {% endif %}
+        {% if not p.get('elerheto', True) %}
+        <div class="card-unavail-strip">
+          <span class="card-unavail-badge">Nem elérhető</span>
+        </div>
+        {% endif %}
       </div>
       <div class="card-body">
         <div class="card-location">{{ p.helyszin }}{% if p.kerulet %}, {{ p.kerulet }}{% endif %}</div>
         <div class="card-title">{{ p.tipus }} – {{ p.cim }}</div>
-        <div class="card-price">{{ format_ar(p.ar) }}</div>
+        <div class="card-price">{% if not p.get('elerheto', True) %}<span style="color:#b91c1c;font-size:1rem;">Nem elérhető</span>{% else %}{{ format_ar(p.ar) }}{% endif %}</div>
         <div class="card-stats">
           <span class="card-stat">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
