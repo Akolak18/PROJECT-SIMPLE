@@ -5,306 +5,360 @@ BUILDING_IMAGES = [
     "/static/images/utcafront3.png",
 ]
 
-def _desc_kis(emelet, erdelytipus="erkéllyel"):
+
+def _desc_kis(emelet, erkely_m2, erkely_tip="erkéllyel"):
     return (
-        f"Modern, kompakt 1 szobás lakás a Lujza Residence új építésű társasházban, "
-        f"a {emelet}. emeleten. Tágas {erdelytipus}, beépített szekrények, "
-        f"korszerű étkezőkonyha, elegáns fürdőszoba. Padlófűtés az egész lakásban, "
-        f"klímarendszer-előkészítéssel. Ideális első otthonnak vagy befektetési célra – "
-        f"a VIII. kerület dinamikusan fejlődő, könnyen értékesíthető ingatlanpiacon."
+        f"Modern, 1 szobás lakás a Lujza Residence új építésű társasházban, "
+        f"a {emelet}. emeleten. Tágas {erkely_m2} m² {erkely_tip}, beépített szekrények, "
+        f"korszerű konyha, elegáns fürdőszoba. Padlófűtés az egész lakásban, "
+        f"klímarendszer-előkészítéssel. Ideális első otthonnak vagy befektetési célra."
     )
 
-def _desc_kozepes(emelet, erdelytipus="loggával"):
+
+def _desc_kozepes(emelet, terulet, erkely_m2, erkely_tip="loggával"):
     return (
-        f"Kényelmes 2 szobás lakás (nappali + hálószoba) a Lujza Residence társasházban, "
-        f"a {emelet}. emeleten. Tágas, napfényes nappali {erdelytipus}, "
-        f"korszerű beépített konyha, elegáns fürdőszoba. "
+        f"Kényelmes 2 szobás lakás a Lujza Residence társasházban, "
+        f"a {emelet}. emeleten ({terulet} m² hasznos alapterület, {erkely_m2} m² {erkely_tip}). "
+        f"Napfényes nappali, korszerű beépített konyha, elegáns fürdőszoba. "
         f"Padlófűtés, klímarendszer-előkészítés. "
         f"Kiváló közlekedési kapcsolatok: metró, villamos és buszok közvetlen közelben."
     )
 
-def _desc_nagy(emelet):
+
+def _desc_nagy_erkelyes(emelet, terulet, erkely_m2):
     return (
-        f"Tágas, 3 szobás prémium lakás a Lujza Residence társasházban, "
-        f"a {emelet}. emeleten. Nappali + 2 hálószoba elrendezés, "
-        f"külön teakonyha, gardróbszoba és erkély. "
-        f"A legmagasabb minőségű kivitelezés: padlófűtés, klímarendszer, "
-        f"beépített szekrények, prémium burkolatok. "
-        f"Ideális választás családok számára – tágas, jól átgondolt alaprajz."
+        f"Tágas {terulet} m²-es lakás a Lujza Residence társasházban, "
+        f"a {emelet}. emeleten, hatalmas {erkely_m2} m²-es erkéllyel. "
+        f"Napfényes nappali-étkező, 2 hálószoba, elegáns fürdőszoba, beépített szekrények. "
+        f"Padlófűtés, klímarendszer-előkészítés. "
+        f"Kiváló közlekedési kapcsolatok: metró, villamos és buszok közvetlen közelben."
     )
+
+
+def _desc_penthouse(emelet, terulet):
+    return (
+        f"Egyedi lakás hatalmas tetőterasszal a {emelet}. emeleten ({terulet} m² hasznos alapterület). "
+        f"Lenyűgöző panoráma Budapestre, terasz nyárikonyha kialakítási lehetőséggel. "
+        f"Prémium kivitelezés: padlófűtés, klímarendszer, beépített szekrények. "
+        f"Ritka lehetőség – ilyen lakás kevés van az épületben!"
+    )
+
+
+def _desc_tetoszint(emelet, terulet):
+    return (
+        f"Prémium lakás a Lujza Residence legfelső emeletein ({emelet}. emelet, {terulet} m²). "
+        f"Erkéllyel, panorámás városi kilátással. Padlófűtés, klímarendszer. "
+        f"Az épület legmagasabban fekvő lakásainak egyike – csendes, exkluzív légkör."
+    )
+
 
 PROPERTIES = [
 
-    # ── I. EMELET ─────────────────────────────────────────────────────────
+    # ══════════════════════════════════════════════════════════════════════
+    # I. EMELET  –  A/1 – A/5
+    # ══════════════════════════════════════════════════════════════════════
     {
-        "id": 1, "slug": "a01-i-emelet-nagy",
+        "id": 1, "slug": "a01-i-emelet",
         "cim": "A/1 – I. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/1 lakás (I. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 79, "szobak": 3, "furdoszoba": 1,
+        "teljes_cim": "Lujza utca 24. – A/1 (I. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 45, "szobak": 2, "furdoszoba": 1,
         "emelet": 1, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_nagy(1),
+        "leiras": _desc_kozepes(1, 44.93, 3.82, "loggával"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Teakonyha", "Gardróbszoba", "Padlófűtés", "Lift", "Mélygarázs"],
+        "szolgaltatasok": ["Loggia (3,82 m²)", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
         "cimke": "", "energiaosztaly": "A+",
     },
     {
-        "id": 2, "slug": "a02-i-emelet-kozepes",
+        "id": 2, "slug": "a02-i-emelet",
         "cim": "A/2 – I. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/2 lakás (I. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 45, "szobak": 2, "furdoszoba": 1,
+        "teljes_cim": "Lujza utca 24. – A/2 (I. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 48, "szobak": 2, "furdoszoba": 1,
         "emelet": 1, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kozepes(1, "loggával"),
+        "leiras": _desc_kozepes(1, 47.58, 2.74, "loggával"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Loggia", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
+        "szolgaltatasok": ["Loggia (2,74 m²)", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
         "cimke": "", "energiaosztaly": "A+",
     },
     {
-        "id": 3, "slug": "a03-i-emelet-kis",
+        "id": 3, "slug": "a03-i-emelet",
         "cim": "A/3 – I. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/3 lakás (I. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 36, "szobak": 1, "furdoszoba": 1,
+        "teljes_cim": "Lujza utca 24. – A/3 (I. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
         "emelet": 1, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kis(1),
+        "leiras": _desc_kis(1, 5.09, "erkéllyel"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Padlófűtés", "Lift", "Mélygarázs"],
+        "szolgaltatasok": ["Erkély (5,09 m²)", "Padlófűtés", "Lift", "Mélygarázs"],
         "cimke": "", "energiaosztaly": "A+",
     },
     {
-        "id": 4, "slug": "a04-i-emelet-kis",
+        "id": 4, "slug": "a04-i-emelet",
         "cim": "A/4 – I. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/4 lakás (I. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 36, "szobak": 1, "furdoszoba": 1,
+        "teljes_cim": "Lujza utca 24. – A/4 (I. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
         "emelet": 1, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kis(1),
+        "leiras": _desc_kis(1, 5.09, "erkéllyel"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Padlófűtés", "Lift", "Mélygarázs"],
+        "szolgaltatasok": ["Erkély (5,09 m²)", "Padlófűtés", "Lift", "Mélygarázs"],
+        "cimke": "", "energiaosztaly": "A+",
+    },
+    {
+        "id": 5, "slug": "a05-i-emelet",
+        "cim": "A/5 – I. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/5 (I. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
+        "emelet": 1, "epitesi_ev": 2026, "allapot": "Új építésű",
+        "leiras": _desc_kis(1, 5.09, "erkéllyel"),
+        "kepek": BUILDING_IMAGES,
+        "szolgaltatasok": ["Erkély (5,09 m²)", "Padlófűtés", "Lift", "Mélygarázs"],
         "cimke": "", "energiaosztaly": "A+",
     },
 
-    # ── II. EMELET ────────────────────────────────────────────────────────
+    # ══════════════════════════════════════════════════════════════════════
+    # II. EMELET  –  A/6 – A/10  (azonos az I. emelettel)
+    # ══════════════════════════════════════════════════════════════════════
     {
-        "id": 5, "slug": "a05-ii-emelet-nagy",
-        "cim": "A/5 – II. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/5 lakás (II. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 79, "szobak": 3, "furdoszoba": 1,
-        "emelet": 2, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_nagy(2),
-        "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Teakonyha", "Gardróbszoba", "Padlófűtés", "Lift", "Mélygarázs"],
-        "cimke": "", "energiaosztaly": "A+",
-    },
-    {
-        "id": 6, "slug": "a06-ii-emelet-kozepes",
+        "id": 6, "slug": "a06-ii-emelet",
         "cim": "A/6 – II. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/6 lakás (II. emelet)",
+        "teljes_cim": "Lujza utca 24. – A/6 (II. emelet)",
         "tipus": "Lakás", "ar": 0, "terulet": 45, "szobak": 2, "furdoszoba": 1,
         "emelet": 2, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kozepes(2, "loggával"),
+        "leiras": _desc_kozepes(2, 44.93, 3.82, "loggával"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Loggia", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
+        "szolgaltatasok": ["Loggia (3,82 m²)", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
         "cimke": "", "energiaosztaly": "A+",
     },
     {
-        "id": 7, "slug": "a07-ii-emelet-kis",
+        "id": 7, "slug": "a07-ii-emelet",
         "cim": "A/7 – II. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/7 lakás (II. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 36, "szobak": 1, "furdoszoba": 1,
+        "teljes_cim": "Lujza utca 24. – A/7 (II. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 48, "szobak": 2, "furdoszoba": 1,
         "emelet": 2, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kis(2),
+        "leiras": _desc_kozepes(2, 47.58, 2.74, "loggával"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Padlófűtés", "Lift", "Mélygarázs"],
+        "szolgaltatasok": ["Loggia (2,74 m²)", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
         "cimke": "", "energiaosztaly": "A+",
     },
     {
-        "id": 8, "slug": "a08-ii-emelet-kis",
+        "id": 8, "slug": "a08-ii-emelet",
         "cim": "A/8 – II. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/8 lakás (II. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 36, "szobak": 1, "furdoszoba": 1,
+        "teljes_cim": "Lujza utca 24. – A/8 (II. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
         "emelet": 2, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kis(2),
+        "leiras": _desc_kis(2, 5.09, "erkéllyel"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Padlófűtés", "Lift", "Mélygarázs"],
+        "szolgaltatasok": ["Erkély (5,09 m²)", "Padlófűtés", "Lift", "Mélygarázs"],
+        "cimke": "", "energiaosztaly": "A+",
+    },
+    {
+        "id": 9, "slug": "a09-ii-emelet",
+        "cim": "A/9 – II. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/9 (II. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
+        "emelet": 2, "epitesi_ev": 2026, "allapot": "Új építésű",
+        "leiras": _desc_kis(2, 5.09, "erkéllyel"),
+        "kepek": BUILDING_IMAGES,
+        "szolgaltatasok": ["Erkély (5,09 m²)", "Padlófűtés", "Lift", "Mélygarázs"],
+        "cimke": "", "energiaosztaly": "A+",
+    },
+    {
+        "id": 10, "slug": "a10-ii-emelet",
+        "cim": "A/10 – II. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/10 (II. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
+        "emelet": 2, "epitesi_ev": 2026, "allapot": "Új építésű",
+        "leiras": _desc_kis(2, 5.09, "erkéllyel"),
+        "kepek": BUILDING_IMAGES,
+        "szolgaltatasok": ["Erkély (5,09 m²)", "Padlófűtés", "Lift", "Mélygarázs"],
         "cimke": "", "energiaosztaly": "A+",
     },
 
-    # ── III. EMELET ───────────────────────────────────────────────────────
+    # ══════════════════════════════════════════════════════════════════════
+    # III. EMELET  –  A/11 – A/15  (A/14 egyedi, nagy erkélyes lakás)
+    # ══════════════════════════════════════════════════════════════════════
     {
-        "id": 9, "slug": "a09-iii-emelet-nagy",
-        "cim": "A/9 – III. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/9 lakás (III. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 79, "szobak": 3, "furdoszoba": 1,
-        "emelet": 3, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_nagy(3),
-        "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Teakonyha", "Gardróbszoba", "Padlófűtés", "Lift", "Mélygarázs"],
-        "cimke": "Kiemelt", "energiaosztaly": "A+",
-    },
-    {
-        "id": 10, "slug": "a10-iii-emelet-kozepes",
-        "cim": "A/10 – III. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/10 lakás (III. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 48, "szobak": 2, "furdoszoba": 1,
-        "emelet": 3, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kozepes(3, "loggával"),
-        "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Loggia", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
-        "cimke": "", "energiaosztaly": "A+",
-    },
-    {
-        "id": 11, "slug": "a11-iii-emelet-kis",
+        "id": 11, "slug": "a11-iii-emelet",
         "cim": "A/11 – III. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/11 lakás (III. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 36, "szobak": 1, "furdoszoba": 1,
+        "teljes_cim": "Lujza utca 24. – A/11 (III. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 45, "szobak": 2, "furdoszoba": 1,
         "emelet": 3, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kis(3),
+        "leiras": _desc_kozepes(3, 44.93, 3.82, "loggával"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Padlófűtés", "Lift", "Mélygarázs"],
+        "szolgaltatasok": ["Loggia (3,82 m²)", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
         "cimke": "", "energiaosztaly": "A+",
     },
     {
-        "id": 12, "slug": "a12-iii-emelet-kis",
+        "id": 12, "slug": "a12-iii-emelet",
         "cim": "A/12 – III. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/12 lakás (III. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 36, "szobak": 1, "furdoszoba": 1,
+        "teljes_cim": "Lujza utca 24. – A/12 (III. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 48, "szobak": 2, "furdoszoba": 1,
         "emelet": 3, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kis(3),
+        "leiras": _desc_kozepes(3, 47.58, 2.74, "loggával"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Padlófűtés", "Lift", "Mélygarázs"],
+        "szolgaltatasok": ["Loggia (2,74 m²)", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
         "cimke": "", "energiaosztaly": "A+",
     },
-
-    # ── IV. EMELET ────────────────────────────────────────────────────────
     {
-        "id": 13, "slug": "a13-iv-emelet-nagy",
-        "cim": "A/13 – IV. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/13 lakás (IV. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 79, "szobak": 3, "furdoszoba": 1,
-        "emelet": 4, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_nagy(4),
+        "id": 13, "slug": "a13-iii-emelet",
+        "cim": "A/13 – III. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/13 (III. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
+        "emelet": 3, "epitesi_ev": 2026, "allapot": "Új építésű",
+        "leiras": _desc_kis(3, 4, "erkéllyel"),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Erkély", "Teakonyha", "Gardróbszoba", "Padlófűtés", "Lift", "Mélygarázs"],
+        "szolgaltatasok": ["Erkély (4 m²)", "Padlófűtés", "Lift", "Mélygarázs"],
         "cimke": "Kiemelt", "energiaosztaly": "A+",
     },
     {
-        "id": 14, "slug": "a14-iv-emelet-kozepes",
-        "cim": "A/14 – IV. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/14 lakás (IV. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 48, "szobak": 2, "furdoszoba": 1,
+        "id": 14, "slug": "a14-iii-emelet",
+        "cim": "A/14 – III. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/14 (III. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 70, "szobak": 2, "furdoszoba": 1,
+        "emelet": 3, "epitesi_ev": 2026, "allapot": "Új építésű",
+        "leiras": _desc_nagy_erkelyes(3, 70.28, 10.22),
+        "kepek": BUILDING_IMAGES,
+        "szolgaltatasok": ["Erkély (10,22 m²)", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
+        "cimke": "Kiemelt", "energiaosztaly": "A+",
+    },
+    {
+        "id": 15, "slug": "a15-iii-emelet",
+        "cim": "A/15 – III. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/15 (III. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
+        "emelet": 3, "epitesi_ev": 2026, "allapot": "Új építésű",
+        "leiras": _desc_kis(3, 5.09, "erkéllyel"),
+        "kepek": BUILDING_IMAGES,
+        "szolgaltatasok": ["Erkély (5,09 m²)", "Padlófűtés", "Lift", "Mélygarázs"],
+        "cimke": "", "energiaosztaly": "A+",
+    },
+
+    # ══════════════════════════════════════════════════════════════════════
+    # IV. EMELET  –  A/16 – A/20  (adatok pontosítandók)
+    # ══════════════════════════════════════════════════════════════════════
+    {
+        "id": 16, "slug": "a16-iv-emelet",
+        "cim": "A/16 – IV. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/16 (IV. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 45, "szobak": 2, "furdoszoba": 1,
         "emelet": 4, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kozepes(4, "loggával"),
+        "leiras": _desc_kozepes(4, 44.93, 3.82, "loggával"),
         "kepek": BUILDING_IMAGES,
         "szolgaltatasok": ["Loggia", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
         "cimke": "", "energiaosztaly": "A+",
     },
     {
-        "id": 15, "slug": "a15-iv-emelet-kis",
-        "cim": "A/15 – IV. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/15 lakás (IV. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 36, "szobak": 1, "furdoszoba": 1,
+        "id": 17, "slug": "a17-iv-emelet",
+        "cim": "A/17 – IV. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/17 (IV. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 48, "szobak": 2, "furdoszoba": 1,
         "emelet": 4, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kis(4),
+        "leiras": _desc_kozepes(4, 47.58, 2.74, "loggával"),
+        "kepek": BUILDING_IMAGES,
+        "szolgaltatasok": ["Loggia", "Padlófűtés", "Lift", "Mélygarázs", "Klíma-előkészítés"],
+        "cimke": "", "energiaosztaly": "A+",
+    },
+    {
+        "id": 18, "slug": "a18-iv-emelet",
+        "cim": "A/18 – IV. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/18 (IV. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
+        "emelet": 4, "epitesi_ev": 2026, "allapot": "Új építésű",
+        "leiras": _desc_kis(4, 5.09, "erkéllyel"),
+        "kepek": BUILDING_IMAGES,
+        "szolgaltatasok": ["Erkély", "Padlófűtés", "Lift", "Mélygarázs"],
+        "cimke": "Kiemelt", "energiaosztaly": "A+",
+    },
+    {
+        "id": 19, "slug": "a19-iv-emelet",
+        "cim": "A/19 – IV. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/19 (IV. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
+        "emelet": 4, "epitesi_ev": 2026, "allapot": "Új építésű",
+        "leiras": _desc_kis(4, 5.09, "erkéllyel"),
         "kepek": BUILDING_IMAGES,
         "szolgaltatasok": ["Erkély", "Padlófűtés", "Lift", "Mélygarázs"],
         "cimke": "", "energiaosztaly": "A+",
     },
     {
-        "id": 16, "slug": "a16-iv-emelet-kis",
-        "cim": "A/16 – IV. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/16 lakás (IV. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 36, "szobak": 1, "furdoszoba": 1,
+        "id": 20, "slug": "a20-iv-emelet",
+        "cim": "A/20 – IV. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/20 (IV. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 35, "szobak": 1, "furdoszoba": 1,
         "emelet": 4, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kis(4),
+        "leiras": _desc_kis(4, 5.09, "erkéllyel"),
         "kepek": BUILDING_IMAGES,
         "szolgaltatasok": ["Erkély", "Padlófűtés", "Lift", "Mélygarázs"],
         "cimke": "", "energiaosztaly": "A+",
     },
 
-    # ── V. EMELET ─────────────────────────────────────────────────────────
+    # ══════════════════════════════════════════════════════════════════════
+    # V. EMELET  –  A/21 – A/23  (adatok pontosítandók)
+    # ══════════════════════════════════════════════════════════════════════
     {
-        "id": 17, "slug": "a17-v-emelet-tetoterasszal",
-        "cim": "A/17 – V. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/17 lakás (V. emelet, tetőterasz)",
+        "id": 21, "slug": "a21-v-emelet-tetoterasszal",
+        "cim": "A/21 – V. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/21 (V. emelet, tetőterasz)",
         "tipus": "Lakás", "ar": 0, "terulet": 72, "szobak": 2, "furdoszoba": 1,
         "emelet": 5, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": (
-            "Egyedi, 2 szobás lakás hatalmas tetőterasszal az ötödik emeleten. "
-            "A 71,98 m² hasznos alapterületű ingatlan Budapest egyik legkülönlegesebb "
-            "új lakása – a tágas tetőterasz nyárikonyha kialakítására is alkalmas, "
-            "és lenyűgöző kilátást biztosít a városra. "
-            "Prémium kivitelezés: padlófűtés, klímarendszer, beépített szekrények. "
-            "Ritka lehetőség – ilyen lakás kevés van!"
-        ),
+        "leiras": _desc_penthouse(5, 71.98),
         "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Tetőterasz", "Padlófűtés", "Klíma", "Lift", "Mélygarázs", "Panoráma kilátás"],
+        "szolgaltatasok": ["Tetőterasz", "Panoráma kilátás", "Padlófűtés", "Klíma", "Lift", "Mélygarázs"],
         "cimke": "Egyedi", "energiaosztaly": "A+",
     },
     {
-        "id": 18, "slug": "a18-v-emelet-kozepes",
-        "cim": "A/18 – V. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/18 lakás (V. emelet)",
+        "id": 22, "slug": "a22-v-emelet",
+        "cim": "A/22 – V. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/22 (V. emelet)",
         "tipus": "Lakás", "ar": 0, "terulet": 48, "szobak": 2, "furdoszoba": 1,
         "emelet": 5, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kozepes(5, "erkéllyel"),
+        "leiras": _desc_kozepes(5, 47.68, 0, "erkéllyel"),
         "kepek": BUILDING_IMAGES,
         "szolgaltatasok": ["Erkély", "Padlófűtés", "Klíma", "Lift", "Mélygarázs"],
         "cimke": "", "energiaosztaly": "A+",
     },
     {
-        "id": 19, "slug": "a19-v-emelet-kis",
-        "cim": "A/19 – V. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/19 lakás (V. emelet)",
+        "id": 23, "slug": "a23-v-emelet",
+        "cim": "A/23 – V. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/23 (V. emelet)",
         "tipus": "Lakás", "ar": 0, "terulet": 36, "szobak": 1, "furdoszoba": 1,
         "emelet": 5, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": _desc_kis(5, "erkéllyel"),
+        "leiras": _desc_kis(5, 0, "erkéllyel"),
         "kepek": BUILDING_IMAGES,
         "szolgaltatasok": ["Erkély", "Padlófűtés", "Klíma", "Lift", "Mélygarázs"],
         "cimke": "", "energiaosztaly": "A+",
     },
 
-    # ── VI. EMELET ────────────────────────────────────────────────────────
+    # ══════════════════════════════════════════════════════════════════════
+    # VI. EMELET  –  A/24 – A/26  (adatok pontosítandók)
+    # ══════════════════════════════════════════════════════════════════════
     {
-        "id": 20, "slug": "a20-vi-emelet-nagy",
-        "cim": "A/20 – VI. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/20 lakás (VI. emelet)",
+        "id": 24, "slug": "a24-vi-emelet",
+        "cim": "A/24 – VI. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/24 (VI. emelet)",
         "tipus": "Lakás", "ar": 0, "terulet": 50, "szobak": 2, "furdoszoba": 1,
         "emelet": 6, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": (
-            "Prémium 2 szobás lakás a Lujza Residence legfelső emeletén. "
-            "Hatodik emeleti elhelyezkedés, lenyűgöző kilátással Budapestre. "
-            "Modern, tágas alaprajz, padlófűtés, klímarendszer. "
-            "Exkluzív tetőszinti helyszín – Budapest legjobb befektetései közé tartozik."
-        ),
-        "kepek": BUILDING_IMAGES,
-        "szolgaltatasok": ["Panoráma kilátás", "Padlófűtés", "Klíma", "Lift", "Mélygarázs"],
-        "cimke": "Prémium", "energiaosztaly": "A+",
-    },
-    {
-        "id": 21, "slug": "a21-vi-emelet-kozepes",
-        "cim": "A/21 – VI. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/21 lakás (VI. emelet)",
-        "tipus": "Lakás", "ar": 0, "terulet": 43, "szobak": 2, "furdoszoba": 1,
-        "emelet": 6, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": (
-            "Elegáns 2 szobás lakás a Lujza Residence hatodik emeletén. "
-            "Kompakt, jól kialakított alaprajz, erkéllyel és panorámás kilátással. "
-            "Padlófűtés, klímarendszer, prémium burkolatok. "
-            "Kiváló lehetőség befektetésnek vagy fiatal pároknak."
-        ),
+        "leiras": _desc_tetoszint(6, 50),
         "kepek": BUILDING_IMAGES,
         "szolgaltatasok": ["Erkély", "Panoráma kilátás", "Padlófűtés", "Klíma", "Lift", "Mélygarázs"],
         "cimke": "Prémium", "energiaosztaly": "A+",
     },
     {
-        "id": 22, "slug": "a22-vi-emelet-kozepes",
-        "cim": "A/22 – VI. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
-        "teljes_cim": "Lujza utca 24. – A/22 lakás (VI. emelet)",
+        "id": 25, "slug": "a25-vi-emelet",
+        "cim": "A/25 – VI. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/25 (VI. emelet)",
+        "tipus": "Lakás", "ar": 0, "terulet": 43, "szobak": 2, "furdoszoba": 1,
+        "emelet": 6, "epitesi_ev": 2026, "allapot": "Új építésű",
+        "leiras": _desc_tetoszint(6, 43),
+        "kepek": BUILDING_IMAGES,
+        "szolgaltatasok": ["Erkély", "Panoráma kilátás", "Padlófűtés", "Klíma", "Lift", "Mélygarázs"],
+        "cimke": "Prémium", "energiaosztaly": "A+",
+    },
+    {
+        "id": 26, "slug": "a26-vi-emelet",
+        "cim": "A/26 – VI. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
+        "teljes_cim": "Lujza utca 24. – A/26 (VI. emelet)",
         "tipus": "Lakás", "ar": 0, "terulet": 41, "szobak": 2, "furdoszoba": 1,
         "emelet": 6, "epitesi_ev": 2026, "allapot": "Új építésű",
-        "leiras": (
-            "Modern 2 szobás lakás a Lujza Residence hatodik emeletén. "
-            "Erkéllyel, panorámás városi kilátással. Padlófűtés, klímarendszer. "
-            "Az épület legmagasabban fekvő lakásainak egyike – csendes, exkluzív légkör."
-        ),
+        "leiras": _desc_tetoszint(6, 41),
         "kepek": BUILDING_IMAGES,
         "szolgaltatasok": ["Erkély", "Panoráma kilátás", "Padlófűtés", "Klíma", "Lift", "Mélygarázs"],
         "cimke": "Prémium", "energiaosztaly": "A+",
