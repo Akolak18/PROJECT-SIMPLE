@@ -12,7 +12,7 @@ import os
 from datetime import datetime, timedelta
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify, render_template, request, Response
+from flask import Flask, jsonify, render_template, request, Response, redirect, url_for
 
 import previo_client as previo
 from excel_export import build_excel
@@ -28,6 +28,11 @@ app.jinja_env.globals["format_ar"] = props.format_ar
 
 @app.route("/")
 def index():
+    return redirect(url_for("property_sales"))
+
+
+@app.route("/takarito")
+def cleaning_schedule():
     today = datetime.today()
     date_from = request.args.get("date_from", today.strftime("%Y-%m-%d"))
     date_to   = request.args.get("date_to",   (today + timedelta(days=30)).strftime("%Y-%m-%d"))
