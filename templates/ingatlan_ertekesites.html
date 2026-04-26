@@ -661,6 +661,69 @@
   </div>
 </section>
 
+<!-- PARKING & STORAGE -->
+<section style="background:#f4f6f9; padding: 56px 24px; border-top: 1px solid var(--gray-border);">
+  <div style="max-width:1280px; margin:0 auto;">
+    <div style="text-align:center; margin-bottom:36px;">
+      <div style="display:inline-block; background:rgba(26,58,92,.08); border:1px solid rgba(26,58,92,.15); color:var(--navy); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Épület infrastruktúra</div>
+      <h2 style="font-size:1.7rem; font-weight:900; color:var(--navy); letter-spacing:-.01em;">Parkolók és tárolók</h2>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+
+      <!-- PARKING -->
+      <div style="background:#fff; border-radius:12px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,.07); border:1.5px solid var(--gray-border);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+          <span style="font-size:1.6rem;">🚗</span>
+          <h3 style="font-size:1.1rem; font-weight:800; color:var(--navy);">Parkolók – 16 férőhely</h3>
+        </div>
+        <table style="width:100%; border-collapse:collapse; font-size:.9rem;">
+          <thead>
+            <tr style="background:#f4f6f9;">
+              <th style="text-align:left; padding:8px 12px; color:var(--muted); font-weight:700; border-radius:6px 0 0 6px;">Szint</th>
+              <th style="text-align:center; padding:8px 12px; color:var(--muted); font-weight:700;">Normál</th>
+              <th style="text-align:center; padding:8px 12px; color:var(--muted); font-weight:700; border-radius:0 6px 6px 0;">Csökkentett</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--gray-border);">
+              <td style="padding:10px 12px; font-weight:600;">Földszint</td>
+              <td style="text-align:center; padding:10px 12px;">4</td>
+              <td style="text-align:center; padding:10px 12px;">1</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 12px; font-weight:600;">Pince</td>
+              <td style="text-align:center; padding:10px 12px;">11</td>
+              <td style="text-align:center; padding:10px 12px;">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- STORAGE -->
+      <div style="background:#fff; border-radius:12px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,.07); border:1.5px solid var(--gray-border);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+          <span style="font-size:1.6rem;">📦</span>
+          <h3 style="font-size:1.1rem; font-weight:800; color:var(--navy);">Tárolók – 10 egység</h3>
+        </div>
+        <p style="font-size:.82rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;">Földszint – 3 db</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;">
+          {% for m2 in ['5,65 m²', '5,72 m²', '5,72 m²'] %}
+          <span style="background:#ebf4ff; border:1.5px solid #bee3f8; color:var(--navy); border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700;">{{ m2 }}</span>
+          {% endfor %}
+        </div>
+        <p style="font-size:.82rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;">Pince – 7 db</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          {% for m2 in ['5,01 m²', '3,21 m²', '3,12 m²', '3,41 m²', '3,10 m²', '3,10 m²', '3,10 m²'] %}
+          <span style="background:#f0fdf4; border:1.5px solid #bbf7d0; color:#166534; border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700;">{{ m2 }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- WHY US -->
 <section class="why-section" id="miert-mi">
   <div class="why-inner">
