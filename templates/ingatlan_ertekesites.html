@@ -649,11 +649,11 @@
       {% for img, label in [
         ('/static/images/utcafront.png', 'Utcafront'),
         ('/static/images/utcafront4.png', 'Saroknézet'),
-        ('static/images/Madártávlati kép.png', 'Madártávlat – déli'),
+        ('/static/images/Madártávlati kép.png', 'Madártávlat – déli'),
         ('/static/images/Madártávlati kép3.png', 'Madártávlat – nyugati')
       ] %}
       <div style="position:relative; overflow:hidden; border-radius:8px; height:160px;">
-        <img src="/{{ img }}" alt="{{ label }}" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
+        <img src="{{ img }}" alt="{{ label }}" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
         <div style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent, rgba(0,0,0,.55)); color:#fff; font-size:.75rem; font-weight:600; padding:20px 10px 8px; text-align:center;">{{ label }}</div>
       </div>
       {% endfor %}
