@@ -388,6 +388,7 @@ for _p in PROPERTIES:
     _p['kulter']         = [s for s in _p['szolgaltatasok'] if any(k in s for k in _KULTER_KULCSOK)]
     megtartott           = [s for s in _p['szolgaltatasok'] if not any(k in s for k in _KIZART)]
     _p['szolgaltatasok'] = _UJ_SZOLG + [s for s in megtartott if s not in _UJ_SZOLG]
+    _p['kepek']          = [f"/static/images/A{_p['id']}.png"] + BUILDING_IMAGES
 
 CONTACT_PHONE = "+36705055527"
 CONTACT_EMAIL = "lujza24@gmail.com"
