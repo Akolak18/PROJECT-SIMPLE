@@ -152,7 +152,7 @@
       margin: 0 auto;
       box-shadow: var(--shadow-lg);
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr auto;
+      grid-template-columns: 1fr 1fr auto;
       gap: 12px;
       align-items: end;
     }
@@ -474,6 +474,8 @@
         grid-template-columns: 1fr 1fr;
       }
       .btn-search { grid-column: span 2; }
+      .search-box .search-field:nth-child(1),
+      .search-box .search-field:nth-child(2) { grid-column: span 1; }
       nav { padding: 0 16px; }
       .nav-links { display: none; }
       .hero { padding: 40px 16px 36px; }
@@ -507,19 +509,6 @@
 
   <form class="search-box" method="get" action="/ingatlan-ertekesites">
     <div class="search-field">
-      <label for="helyszin">Helyszín</label>
-      <input type="text" id="helyszin" name="helyszin" placeholder="pl. Budapest, Győr…" value="{{ filters.helyszin }}" />
-    </div>
-    <div class="search-field">
-      <label for="tipus">Típus</label>
-      <select id="tipus" name="tipus">
-        <option value="">Minden típus</option>
-        {% for t in tipusok %}
-        <option value="{{ t }}" {% if filters.tipus == t %}selected{% endif %}>{{ t }}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="search-field">
       <label for="ar_max">Max. ár</label>
       <select id="ar_max" name="ar_max">
         <option value="">Nincs limit</option>
@@ -535,8 +524,6 @@
         <option value="">Mindegy</option>
         <option value="1" {% if filters.szobak_min == '1' %}selected{% endif %}>1+</option>
         <option value="2" {% if filters.szobak_min == '2' %}selected{% endif %}>2+</option>
-        <option value="3" {% if filters.szobak_min == '3' %}selected{% endif %}>3+</option>
-        <option value="4" {% if filters.szobak_min == '4' %}selected{% endif %}>4+</option>
       </select>
     </div>
     <button type="submit" class="btn-search">Keresés</button>
@@ -777,7 +764,7 @@
     </p>
 
     <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
-      <a href="tel:+3611111111" style="
+      <a href="tel:+36705055527" style="
         display: flex; align-items: center; gap: 12px;
         background: var(--navy); color: #fff;
         padding: 16px 28px; border-radius: 12px;
@@ -785,7 +772,7 @@
         box-shadow: 0 4px 16px rgba(26,58,92,.25);
         transition: background .2s;
       " onmouseover="this.style.background='#1e4a7a'" onmouseout="this.style.background='#1a3a5c'">
-        📞 +36705055527
+        📞 +36 70 505 5527
       </a>
       <a href="mailto:lujza24@gmail.com" style="
         display: flex; align-items: center; gap: 12px;
