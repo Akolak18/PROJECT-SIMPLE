@@ -571,6 +571,9 @@
         <div class="detail-row"><div class="dlabel">Szobák száma</div><div class="dval">{{ p.szobak if p.szobak > 0 else '—' }}</div></div>
         <div class="detail-row"><div class="dlabel">Fürdőszoba</div><div class="dval">{{ p.furdoszoba }}</div></div>
         <div class="detail-row"><div class="dlabel">Emelet</div><div class="dval">{{ p.emelet if p.emelet > 0 else 'Földszint' }}</div></div>
+        {% for s in p.szolgaltatasok if 'Loggia' in s or 'Erkély' in s or 'Tetőterasz' in s %}
+        <div class="detail-row"><div class="dlabel">Külső tér</div><div class="dval">{{ s }}</div></div>
+        {% endfor %}
         <div class="detail-row"><div class="dlabel">Átadás tervezett</div><div class="dval">{{ p.epitesi_ev }} I–II. félév</div></div>
         <div class="detail-row"><div class="dlabel">Állapot</div><div class="dval">{{ p.allapot }}</div></div>
         <div class="detail-row"><div class="dlabel">Energiaosztály</div><div class="dval">{{ p.energiaosztaly }}</div></div>
