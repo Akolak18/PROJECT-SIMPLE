@@ -368,14 +368,29 @@ PROPERTIES = [
     },
 ]
 
-_KULTER_KULCSOK = ('Loggia', 'Erkély', 'Tetőterasz')
-_KIZART = ('Loggia', 'Erkély', 'Tetőterasz', 'Mélygarázs')
-for _p in PROPERTIES:
-    _p['kulter'] = [s for s in _p['szolgaltatasok'] if any(k in s for k in _KULTER_KULCSOK)]
-    _p['szolgaltatasok'] = [s for s in _p['szolgaltatasok'] if not any(k in s for k in _KIZART)]
+import re as _re
 
-CONTACT_PHONE = "+36 1 111 1111"
-CONTACT_EMAIL = "gueswhat@gmail.com"
+_KULTER_KULCSOK = ('Loggia', 'Erkély', 'Tetőterasz')
+_KIZART        = ('Loggia', 'Erkély', 'Tetőterasz', 'Mélygarázs', 'Klíma-előkészítés', 'Klíma')
+_UJ_SZOLG      = ['Hőszivattyús rendszer', 'Klimatizált', 'Fancoil', 'Padlófűtés', 'Redőnykiállások']
+
+def _kulter_ar(szolgaltatasok):
+    total = 0
+    for s in szolgaltatasok:
+        if any(k in s for k in _KULTER_KULCSOK):
+            m = _re.search(r'(\d+[,.]\d+)', s)
+            if m:
+                total += float(m.group(1).replace(',', '.')) * (_M2_AR // 2)
+    return int(total)
+
+for _p in PROPERTIES:
+    _p['ar']            += _kulter_ar(_p['szolgaltatasok'])
+    _p['kulter']         = [s for s in _p['szolgaltatasok'] if any(k in s for k in _KULTER_KULCSOK)]
+    megtartott           = [s for s in _p['szolgaltatasok'] if not any(k in s for k in _KIZART)]
+    _p['szolgaltatasok'] = _UJ_SZOLG + [s for s in megtartott if s not in _UJ_SZOLG]
+
+CONTACT_PHONE = "+36705055527"
+CONTACT_EMAIL = "lujza24@gmail.com"
 
 _TAROLO_AR_M2 = 1_500_000
 _PARKOLO_AR   = 10_000_000
