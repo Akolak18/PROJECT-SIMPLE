@@ -436,12 +436,13 @@
       font-size: 1rem;
     }
     .why-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 300px));
+      display: flex;
+      flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
     }
     .why-card {
+      flex: 0 1 300px;
       text-align: center;
       padding: 32px 24px;
       border-radius: 14px;
