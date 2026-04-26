@@ -371,6 +371,47 @@ PROPERTIES = [
 CONTACT_PHONE = "+36 1 111 1111"
 CONTACT_EMAIL = "gueswhat@gmail.com"
 
+_TAROLO_AR_M2 = 1_500_000
+_PARKOLO_AR   = 10_000_000
+
+TAROLOK = [
+    {"id": "t1",  "szint": "Földszint", "terulet": 5.65},
+    {"id": "t2",  "szint": "Földszint", "terulet": 5.72},
+    {"id": "t3",  "szint": "Földszint", "terulet": 5.72},
+    {"id": "t4",  "szint": "Pince",     "terulet": 5.01},
+    {"id": "t5",  "szint": "Pince",     "terulet": 3.21},
+    {"id": "t6",  "szint": "Pince",     "terulet": 3.12},
+    {"id": "t7",  "szint": "Pince",     "terulet": 3.41},
+    {"id": "t8",  "szint": "Pince",     "terulet": 3.10},
+    {"id": "t9",  "szint": "Pince",     "terulet": 3.10},
+    {"id": "t10", "szint": "Pince",     "terulet": 3.10},
+]
+
+for t in TAROLOK:
+    t["ar"] = int(t["terulet"] * _TAROLO_AR_M2)
+
+PARKOLOK = [
+    {"id": "p1",  "szint": "Földszint", "tipus": "Normál"},
+    {"id": "p2",  "szint": "Földszint", "tipus": "Normál"},
+    {"id": "p3",  "szint": "Földszint", "tipus": "Normál"},
+    {"id": "p4",  "szint": "Földszint", "tipus": "Normál"},
+    {"id": "p5",  "szint": "Földszint", "tipus": "Csökkentett"},
+    {"id": "p6",  "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p7",  "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p8",  "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p9",  "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p10", "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p11", "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p12", "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p13", "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p14", "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p15", "szint": "Pince",     "tipus": "Normál"},
+    {"id": "p16", "szint": "Pince",     "tipus": "Normál"},
+]
+
+for p in PARKOLOK:
+    p["ar"] = _PARKOLO_AR
+
 
 def get_all():
     return PROPERTIES

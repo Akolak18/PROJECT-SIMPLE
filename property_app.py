@@ -78,7 +78,8 @@ def property_detail(slug):
     p = props.get_by_slug(slug)
     if p is None:
         return "Ingatlan nem található.", 404
-    return render_template("ingatlan_detail.html", p=p)
+    return render_template("ingatlan_detail.html", p=p,
+                           tarolok=props.TAROLOK, parkolok=props.PARKOLOK)
 
 
 if __name__ == "__main__":

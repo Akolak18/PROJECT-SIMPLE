@@ -623,6 +623,64 @@
       <p style="margin-top:10px; font-size:.82rem; color:var(--muted);">Kattintson a képre a nagyobb nézethez.</p>
     </div>
 
+    <!-- KIEGÉSZÍTŐK -->
+    <div class="section-card">
+      <h2>Kiegészítők – opcionális vásárlás</h2>
+
+      <!-- TÁROLÓK -->
+      <h3 style="font-size:.95rem; font-weight:800; color:var(--navy); margin-bottom:12px;">📦 Tárolók</h3>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:24px;">
+        {% for t in tarolok %}
+        <div style="background:var(--gray-bg); border:1.5px solid var(--gray-border); border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div>
+            <div style="font-size:.78rem; color:var(--muted); font-weight:700;">{{ t.szint }}</div>
+            <div style="font-weight:800; color:var(--text);">{{ "%.2f"|format(t.terulet)|replace(".",",") }} m²</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:.88rem; font-weight:800; color:var(--navy);">{{ format_ar(t.ar) }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <p style="font-size:.8rem; color:var(--muted); margin-bottom:24px;">Ár: 1 500 000 Ft/m² · A tárolók az összes lakáshoz megvásárolhatók, készlet erejéig.</p>
+
+      <!-- PARKOLÓK -->
+      <h3 style="font-size:.95rem; font-weight:800; color:var(--navy); margin-bottom:12px;">🚗 Parkolóhelyek</h3>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+        {% for szint, tip, db in [
+          ('Földszint', 'Normál', 4),
+          ('Földszint', 'Csökkentett', 1),
+          ('Pince', 'Normál', 11)
+        ] %}
+        <div style="background:var(--gray-bg); border:1.5px solid var(--gray-border); border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:.78rem; color:var(--muted); font-weight:700;">{{ szint }} · {{ tip }}</div>
+            <div style="font-weight:800; color:var(--text);">{{ db }} db</div>
+          </div>
+          <div style="font-size:.88rem; font-weight:800; color:var(--navy);">10 M Ft / db</div>
+        </div>
+        {% endfor %}
+      </div>
+      <p style="font-size:.8rem; color:var(--muted); margin-bottom:20px;">16 parkolóhely összesen · készlet erejéig.</p>
+
+      <!-- REFERENCE PLANS -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px;">
+        <div>
+          <p style="font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:6px;">Földszint – parkolók &amp; tárolók</p>
+          <img src="/static/images/Földszint.png" alt="Földszint alaprajz"
+               style="width:100%; border-radius:6px; border:1px solid var(--gray-border); cursor:zoom-in;"
+               onclick="openLightboxFp(this.src)" />
+        </div>
+        <div>
+          <p style="font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:6px;">Pince – parkolók &amp; tárolók</p>
+          <img src="/static/images/Pince.png" alt="Pince alaprajz"
+               style="width:100%; border-radius:6px; border:1px solid var(--gray-border); cursor:zoom-in;"
+               onclick="openLightboxFp(this.src)" />
+        </div>
+      </div>
+      <p style="margin-top:8px; font-size:.78rem; color:var(--muted);">Kattintson a képre a nagyobb nézethez.</p>
+    </div>
+
   </div>
 
   <!-- SIDEBAR -->
