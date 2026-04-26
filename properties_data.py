@@ -297,7 +297,7 @@ PROPERTIES = [
     # V. EMELET  –  A/19 – A/21
     # ══════════════════════════════════════════════════════════════════════
     {
-        "id": 19, "slug": "a19-v-emelet-tetoterasszal", "elerheto": True,
+        "id": 19, "slug": "a19-v-emelet-tetoterasszal", "elerheto": False,
         "cim": "A/19 – V. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
         "teljes_cim": "Lujza utca 24. – A/19 (V. emelet, tetőterasz)",
         "tipus": "Lakás", "ar": _ar(71.99), "terulet": 72, "szobak": 2, "furdoszoba": 1,
@@ -308,7 +308,7 @@ PROPERTIES = [
         "cimke": "Egyedi", "energiaosztaly": "A+",
     },
     {
-        "id": 20, "slug": "a20-v-emelet", "elerheto": True,
+        "id": 20, "slug": "a20-v-emelet", "elerheto": False,
         "cim": "A/20 – V. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
         "teljes_cim": "Lujza utca 24. – A/20 (V. emelet)",
         "tipus": "Lakás", "ar": _ar(65.47), "terulet": 65, "szobak": 2, "furdoszoba": 1,
@@ -319,7 +319,7 @@ PROPERTIES = [
         "cimke": "Prémium", "energiaosztaly": "A+",
     },
     {
-        "id": 21, "slug": "a21-v-emelet", "elerheto": True,
+        "id": 21, "slug": "a21-v-emelet", "elerheto": False,
         "cim": "A/21 – V. emelet", "helyszin": "Budapest", "kerulet": "VIII. kerület",
         "teljes_cim": "Lujza utca 24. – A/21 (V. emelet)",
         "tipus": "Lakás", "ar": _ar(35.14), "terulet": 35, "szobak": 1, "furdoszoba": 1,

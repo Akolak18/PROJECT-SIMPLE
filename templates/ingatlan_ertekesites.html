@@ -587,14 +587,14 @@
         {% endif %}
         {% if not p.get('elerheto', True) %}
         <div class="card-unavail-strip">
-          <span class="card-unavail-badge">Nem elérhető</span>
+          <span class="card-unavail-badge">Elkelt</span>
         </div>
         {% endif %}
       </div>
       <div class="card-body">
         <div class="card-location">{{ p.helyszin }}{% if p.kerulet %}, {{ p.kerulet }}{% endif %}</div>
         <div class="card-title">{{ p.tipus }} – {{ p.cim }}</div>
-        <div class="card-price">{% if not p.get('elerheto', True) %}<span style="color:#b91c1c;font-size:1rem;">Nem elérhető</span>{% else %}{{ format_ar(p.ar) }}{% endif %}</div>
+        <div class="card-price">{% if not p.get('elerheto', True) %}<span style="color:#b91c1c;font-size:1rem;">Elkelt</span>{% else %}{{ format_ar(p.ar) }}{% endif %}</div>
         <div class="card-stats">
           <span class="card-stat">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
