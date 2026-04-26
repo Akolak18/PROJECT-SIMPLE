@@ -390,7 +390,7 @@ for _p in PROPERTIES:
     _p['szolgaltatasok'] = _UJ_SZOLG + [s for s in megtartott if s not in _UJ_SZOLG]
     _p['kepek']          = [f"/static/images/A{_p['id']}.png"] + BUILDING_IMAGES
 
-CONTACT_PHONE = "+36705055527"
+CONTACT_PHONE = "+36 70 505 5527"
 CONTACT_EMAIL = "lujza24@gmail.com"
 
 _TAROLO_AR_M2 = 1_500_000
