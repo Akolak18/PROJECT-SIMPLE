@@ -90,6 +90,7 @@ def property_sales():
     return render_template(
         "ingatlan_ertekesites.html",
         properties=results,
+        total_count=len(props.get_all()),
         tipusok=props.TIPUSOK,
         helyszinek=props.HELYSZINEK,
         filters={"helyszin": helyszin, "tipus": tipus, "ar_max": ar_max_str, "szobak_min": szobak_str},
