@@ -368,12 +368,11 @@ PROPERTIES = [
     },
 ]
 
+_KULTER_KULCSOK = ('Loggia', 'Erkély', 'Tetőterasz')
 _KIZART = ('Loggia', 'Erkély', 'Tetőterasz', 'Mélygarázs')
 for _p in PROPERTIES:
-    _p['szolgaltatasok'] = [
-        s for s in _p['szolgaltatasok']
-        if not any(k in s for k in _KIZART)
-    ]
+    _p['kulter'] = [s for s in _p['szolgaltatasok'] if any(k in s for k in _KULTER_KULCSOK)]
+    _p['szolgaltatasok'] = [s for s in _p['szolgaltatasok'] if not any(k in s for k in _KIZART)]
 
 CONTACT_PHONE = "+36 1 111 1111"
 CONTACT_EMAIL = "gueswhat@gmail.com"
