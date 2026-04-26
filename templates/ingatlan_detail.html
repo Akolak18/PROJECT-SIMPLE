@@ -587,6 +587,42 @@
     </div>
     {% endif %}
 
+    <!-- FLOOR PLAN -->
+    {% set emelet = p.emelet %}
+    {% if emelet == 0 %}
+      {% set alaprajz_kep = '/static/images/Földszint.png' %}
+      {% set alaprajz_nev = 'Földszint' %}
+    {% elif emelet == 1 %}
+      {% set alaprajz_kep = '/static/images/I. emelet.png' %}
+      {% set alaprajz_nev = 'I. emelet' %}
+    {% elif emelet == 2 %}
+      {% set alaprajz_kep = '/static/images/II. emelet.png' %}
+      {% set alaprajz_nev = 'II. emelet' %}
+    {% elif emelet == 3 %}
+      {% set alaprajz_kep = '/static/images/III. emelet.png' %}
+      {% set alaprajz_nev = 'III. emelet' %}
+    {% elif emelet == 4 %}
+      {% set alaprajz_kep = '/static/images/IV. emelet.png' %}
+      {% set alaprajz_nev = 'IV. emelet' %}
+    {% elif emelet == 5 %}
+      {% set alaprajz_kep = '/static/images/V. emelet.png' %}
+      {% set alaprajz_nev = 'V. emelet' %}
+    {% elif emelet == 6 %}
+      {% set alaprajz_kep = '/static/images/VI. emelet.png' %}
+      {% set alaprajz_nev = 'VI. emelet' %}
+    {% else %}
+      {% set alaprajz_kep = '/static/images/Pince.png' %}
+      {% set alaprajz_nev = 'Pince' %}
+    {% endif %}
+    <div class="section-card">
+      <h2>Szintalaprajz – {{ alaprajz_nev }}</h2>
+      <img src="{{ alaprajz_kep }}"
+           alt="Alaprajz – {{ alaprajz_nev }}"
+           style="width:100%; border-radius:8px; border:1px solid var(--gray-border); cursor:zoom-in;"
+           onclick="openLightboxFp(this.src)" />
+      <p style="margin-top:10px; font-size:.82rem; color:var(--muted);">Kattintson a képre a nagyobb nézethez.</p>
+    </div>
+
   </div>
 
   <!-- SIDEBAR -->
@@ -686,6 +722,12 @@
     if (e.key === 'ArrowRight') lbNav(1);
     if (e.key === 'Escape')     closeLightbox();
   });
+
+  function openLightboxFp(src) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
 
   function sendInquiry(e) {
     e.preventDefault();
