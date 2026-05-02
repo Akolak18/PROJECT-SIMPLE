@@ -383,12 +383,18 @@ def _kulter_ar(szolgaltatasok):
                 total += float(m.group(1).replace(',', '.')) * (_M2_AR // 2)
     return int(total)
 
+_FOKEPE = {
+    24: "/static/images/A24_3d.png",
+}
+
 for _p in PROPERTIES:
     _p['ar']            += _kulter_ar(_p['szolgaltatasok'])
     _p['kulter']         = [s for s in _p['szolgaltatasok'] if any(k in s for k in _KULTER_KULCSOK)]
     megtartott           = [s for s in _p['szolgaltatasok'] if not any(k in s for k in _KIZART)]
     _p['szolgaltatasok'] = _UJ_SZOLG + [s for s in megtartott if s not in _UJ_SZOLG]
-    _p['kepek']          = [f"/static/images/A{_p['id']}.png"] + BUILDING_IMAGES
+    _elso = _FOKEPE.get(_p['id'], f"/static/images/A{_p['id']}.png")
+    _tobbi = [f"/static/images/A{_p['id']}.png"] if _p['id'] in _FOKEPE else []
+    _p['kepek'] = [_elso] + _tobbi + BUILDING_IMAGES
 
 CONTACT_PHONE = "+36 70 505 5527"
 CONTACT_EMAIL = "lujza24@gmail.com"
