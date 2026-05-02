@@ -565,8 +565,7 @@
   <div class="property-grid">
     {% for p in properties %}
     <a href="/ingatlan-ertekesites/{{ p.slug }}"
-       class="property-card{% if not p.get('elerheto', True) %} property-card--unavailable{% endif %}"
-       {% if p.get('elerheto', True) %}onclick="window._aptUrl=this.href; document.getElementById('extras-modal').style.display='flex'; document.body.style.overflow='hidden'; return false;"{% endif %}>
+       class="property-card{% if not p.get('elerheto', True) %} property-card--unavailable{% endif %}">
       <div class="card-img">
         <img src="{{ p.kepek[0] }}" alt="{{ p.teljes_cim }}" loading="lazy" />
         {% if p.cimke %}
@@ -963,8 +962,18 @@
   }
 
   function continueToApartment() {
-    window.location.href = window._aptUrl;
+    window.location.href = window._aptUrl || '/ingatlan-ertekesites';
   }
+
+  document.addEventListener('click', function(e) {
+    var card = e.target.closest('.property-card:not(.property-card--unavailable)');
+    if (card) {
+      e.preventDefault();
+      window._aptUrl = card.href;
+      document.getElementById('extras-modal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+  });
 
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeExtrasModal();
