@@ -564,8 +564,9 @@
   {% if properties %}
   <div class="property-grid">
     {% for p in properties %}
-    <a href="/ingatlan-ertekesites/{{ p.slug }}" class="property-card{% if not p.get('elerheto', True) %} property-card--unavailable{% endif %}"
-       {% if p.get('elerheto', True) %}onclick="return showExtrasModal(event, this.href)"{% endif %}>
+    <a href="/ingatlan-ertekesites/{{ p.slug }}"
+       class="property-card{% if not p.get('elerheto', True) %} property-card--unavailable{% endif %}"
+       {% if p.get('elerheto', True) %}data-apt-link="true"{% endif %}>
       <div class="card-img">
         <img src="{{ p.kepek[0] }}" alt="{{ p.teljes_cim }}" loading="lazy" />
         {% if p.cimke %}
@@ -958,18 +959,8 @@
 <script>
   let _nextUrl = '';
 
-  function showExtrasModal(event, href) {
-    event.preventDefault();
-    _nextUrl = href;
-    const modal = document.getElementById('extras-modal');
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    return false;
-  }
-
   function closeExtrasModal() {
-    const modal = document.getElementById('extras-modal');
-    modal.style.display = 'none';
+    document.getElementById('extras-modal').style.display = 'none';
     document.body.style.overflow = '';
   }
 
@@ -977,8 +968,19 @@
     window.location.href = _nextUrl;
   }
 
-  document.getElementById('extras-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeExtrasModal();
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[data-apt-link]').forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        _nextUrl = card.getAttribute('href');
+        document.getElementById('extras-modal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    document.getElementById('extras-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeExtrasModal();
+    });
   });
 
   document.addEventListener('keydown', function(e) {
