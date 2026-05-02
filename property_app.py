@@ -21,16 +21,19 @@ def property_sales():
     tipus      = request.args.get("tipus", "").strip()
     ar_max_str = request.args.get("ar_max", "").strip()
     szobak_str = request.args.get("szobak_min", "").strip()
+    emelet_str = request.args.get("emelet", "").strip()
     sort       = request.args.get("sort", "ar_asc")
 
     ar_max     = int(ar_max_str) if ar_max_str.isdigit() else None
     szobak_min = int(szobak_str) if szobak_str.isdigit() else None
+    emelet     = int(emelet_str) if emelet_str.lstrip("-").isdigit() else None
 
     results = props.search(
         helyszin=helyszin,
         tipus=tipus,
         ar_max=ar_max,
         szobak_min=szobak_min,
+        emelet=emelet,
     )
 
     if sort == "ar_desc":
@@ -46,7 +49,8 @@ def property_sales():
     def remove_url(skip_key):
         parts = []
         for k, v in [("helyszin", helyszin), ("tipus", tipus),
-                     ("ar_max", ar_max_str), ("szobak_min", szobak_str), ("sort", sort)]:
+                     ("ar_max", ar_max_str), ("szobak_min", szobak_str),
+                     ("emelet", emelet_str), ("sort", sort)]:
             if k == skip_key or not v:
                 continue
             parts.append(f"{k}={v}")
@@ -60,6 +64,11 @@ def property_sales():
         active_filters.append((f"Max. ár: {props.format_ar(ar_max)}", remove_url("ar_max")))
     if szobak_min:
         active_filters.append((f"{szobak_min}+ szoba", remove_url("szobak_min")))
+    if emelet is not None:
+        emelet_nev = "Földszint" if emelet == 0 else f"{emelet}. emelet"
+        active_filters.append((emelet_nev, remove_url("emelet")))
+
+    EMELETEK = sorted(set(p["emelet"] for p in props.get_all()))
 
     return render_template(
         "ingatlan_ertekesites.html",
@@ -67,7 +76,9 @@ def property_sales():
         total_count=len(props.get_all()),
         tipusok=props.TIPUSOK,
         helyszinek=props.HELYSZINEK,
-        filters={"helyszin": helyszin, "tipus": tipus, "ar_max": ar_max_str, "szobak_min": szobak_str},
+        emeletek=EMELETEK,
+        filters={"helyszin": helyszin, "tipus": tipus, "ar_max": ar_max_str,
+                 "szobak_min": szobak_str, "emelet": emelet_str},
         active_filters=active_filters,
         sort=sort,
     )
