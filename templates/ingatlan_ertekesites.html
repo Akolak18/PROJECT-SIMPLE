@@ -566,7 +566,7 @@
     {% for p in properties %}
     <a href="/ingatlan-ertekesites/{{ p.slug }}"
        class="property-card{% if not p.get('elerheto', True) %} property-card--unavailable{% endif %}"
-       {% if p.get('elerheto', True) %}data-apt-link="true"{% endif %}>
+       {% if p.get('elerheto', True) %}onclick="window._aptUrl=this.href; document.getElementById('extras-modal').style.display='flex'; document.body.style.overflow='hidden'; return false;"{% endif %}>
       <div class="card-img">
         <img src="{{ p.kepek[0] }}" alt="{{ p.teljes_cim }}" loading="lazy" />
         {% if p.cimke %}
@@ -957,31 +957,14 @@
 </style>
 
 <script>
-  let _nextUrl = '';
-
   function closeExtrasModal() {
     document.getElementById('extras-modal').style.display = 'none';
     document.body.style.overflow = '';
   }
 
   function continueToApartment() {
-    window.location.href = _nextUrl;
+    window.location.href = window._aptUrl;
   }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('[data-apt-link]').forEach(function(card) {
-      card.addEventListener('click', function(e) {
-        e.preventDefault();
-        _nextUrl = card.getAttribute('href');
-        document.getElementById('extras-modal').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    document.getElementById('extras-modal').addEventListener('click', function(e) {
-      if (e.target === this) closeExtrasModal();
-    });
-  });
 
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeExtrasModal();
