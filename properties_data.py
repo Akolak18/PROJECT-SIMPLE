@@ -20,9 +20,9 @@ def _ar(terulet_m2):
 def _desc_kis(emelet, erkely_m2, erkely_tip="erkéllyel"):
     return (
         f"Modern, 1 szobás lakás a Lujza Residence új építésű társasházban, "
-        f"a {emelet}. emeleten. Tágas {erkely_m2} m² {erkely_tip}, beépített szekrények, "
-        f"korszerű konyha, elegáns fürdőszoba. Padlófűtés az egész lakásban, "
-        f"klímarendszer-előkészítéssel. Átadás: 2028 I–II. félév. "
+        f"a {emelet}. emeleten. Tágas {erkely_m2} m² {erkely_tip}, "
+        f"elegáns fürdőszoba (WC, zuhany). Padlófűtés az egész lakásban, "
+        f"split klíma. Átadás: 2028 I–II. félév. "
         f"Ideális első otthonnak vagy befektetési célra."
     )
 
@@ -31,8 +31,8 @@ def _desc_kozepes(emelet, terulet, erkely_m2, erkely_tip="loggával"):
     return (
         f"Kényelmes 2 szobás lakás a Lujza Residence társasházban, "
         f"a {emelet}. emeleten ({terulet} m² hasznos alapterület, {erkely_m2} m² {erkely_tip}). "
-        f"Napfényes nappali, korszerű beépített konyha, elegáns fürdőszoba. "
-        f"Padlófűtés, klímarendszer-előkészítés. Átadás: 2028 I–II. félév. "
+        f"Napfényes nappali, elegáns fürdőszoba (WC, zuhany). "
+        f"Padlófűtés, split klíma. Átadás: 2028 I–II. félév. "
         f"Kiváló közlekedési kapcsolatok: metró, villamos és buszok közvetlen közelben."
     )
 
@@ -41,8 +41,8 @@ def _desc_nagy_erkelyes(emelet, terulet, erkely_m2):
     return (
         f"Tágas {terulet} m²-es lakás a Lujza Residence társasházban, "
         f"a {emelet}. emeleten, hatalmas {erkely_m2} m²-es erkéllyel. "
-        f"Napfényes nappali-étkező, 2 hálószoba, elegáns fürdőszoba, beépített szekrények. "
-        f"Padlófűtés, klímarendszer-előkészítés. Átadás: 2028 I–II. félév. "
+        f"Napfényes nappali-étkező, 2 hálószoba, elegáns fürdőszoba (WC, zuhany). "
+        f"Padlófűtés, split klíma. Átadás: 2028 I–II. félév. "
         f"Kiváló közlekedési kapcsolatok: metró, villamos és buszok közvetlen közelben."
     )
 
@@ -51,8 +51,8 @@ def _desc_penthouse(emelet, terulet, tetoterasszal_m2):
     return (
         f"Egyedi {terulet} m²-es lakás hatalmas, {tetoterasszal_m2} m²-es privát tetőterasszal "
         f"a {emelet}. emeleten. Lenyűgöző panoráma Budapestre – nyárikonyha és pihenőtér "
-        f"kialakítási lehetőséggel. Prémium kivitelezés: padlófűtés, klímarendszer, "
-        f"beépített szekrények. Átadás: 2028 I–II. félév. "
+        f"kialakítási lehetőséggel. Prémium kivitelezés: padlófűtés, split klíma. "
+        f"Átadás: 2028 I–II. félév. "
         f"Ritka lehetőség – ilyen lakás kevés van az épületben!"
     )
 
@@ -62,7 +62,7 @@ def _desc_tetoszint_terasszal(emelet, terulet, tetoterasszal_m2):
         f"Exkluzív {terulet} m²-es lakás a Lujza Residence legfelső emeletén ({emelet}. emelet), "
         f"privát {tetoterasszal_m2} m²-es tetőterasszal. "
         f"Lenyűgöző panoráma Budapestre – nyárikonyha és pihenőtér kialakítási lehetőséggel. "
-        f"Padlófűtés, klímarendszer, beépített szekrények. Átadás: 2028 I–II. félév. "
+        f"Padlófűtés, split klíma. Átadás: 2028 I–II. félév. "
         f"Az épület egyik legexkluzívabb és legkeresettebb egysége."
     )
 
@@ -72,7 +72,7 @@ def _desc_tetoszint_erkely_terasszal(emelet, terulet, erkely_m2, tetoterasszal_m
         f"Különleges {terulet} m²-es lakás a Lujza Residence {emelet}. emeletén, "
         f"{erkely_m2} m²-es erkéllyel és {tetoterasszal_m2} m²-es privát tetőterasszal. "
         f"Két külső tér – ideális szabadtéri élet a városban. "
-        f"Padlófűtés, klímarendszer-előkészítés, elegáns fürdőszoba. Átadás: 2028 I–II. félév. "
+        f"Padlófűtés, split klíma, elegáns fürdőszoba (WC, zuhany). Átadás: 2028 I–II. félév. "
         f"Ritka kombináció az újépítésű piacon."
     )
 
