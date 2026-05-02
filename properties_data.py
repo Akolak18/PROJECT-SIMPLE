@@ -371,8 +371,8 @@ PROPERTIES = [
 import re as _re
 
 _KULTER_KULCSOK = ('Loggia', 'Erkély', 'Tetőterasz')
-_KIZART        = ('Loggia', 'Erkély', 'Tetőterasz', 'Mélygarázs', 'Klíma-előkészítés', 'Klíma')
-_UJ_SZOLG      = ['Hőszivattyús rendszer', 'Klimatizált', 'Fancoil', 'Padlófűtés', 'Redőnykiállások']
+_KIZART        = ('Loggia', 'Erkély', 'Tetőterasz', 'Mélygarázs', 'Klíma-előkészítés', 'Klíma', 'Redőnykiállások')
+_UJ_SZOLG      = ['Hőszivattyús rendszer', 'Klimatizált', 'Fancoil', 'Padlófűtés', 'Motoros okosredőny']
 
 def _kulter_ar(szolgaltatasok):
     total = 0
