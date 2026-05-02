@@ -378,7 +378,7 @@ def _kulter_ar(szolgaltatasok):
     total = 0
     for s in szolgaltatasok:
         if any(k in s for k in _KULTER_KULCSOK):
-            m = _re.search(r'(\d+[,.]\d+)', s)
+            m = _re.search(r'(\d+(?:[,.]\d+)?)', s)
             if m:
                 total += float(m.group(1).replace(',', '.')) * (_M2_AR // 2)
     return int(total)
