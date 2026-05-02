@@ -75,15 +75,31 @@
     .breadcrumb a:hover { color: var(--gold); }
 
     /* ── LAYOUT ── */
-    .page-wrap {
-      max-width: 1020px;
+    .page-outer {
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 32px 20px;
+      padding: 28px 20px;
+    }
+
+    /* Gallery + price side by side */
+    .top-row {
       display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 24px;
+      grid-template-columns: 1fr 280px;
+      gap: 22px;
+      margin-bottom: 24px;
       align-items: start;
     }
+    .price-col {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+    }
+
+    /* All other content below */
+    .content-col {
+      width: 100%;
+    }
+
     .main-col {}
     .side-col {}
 
@@ -427,20 +443,29 @@
       to   { transform: translateY(0);    opacity: 1; }
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 780px) {
-      .page-wrap { grid-template-columns: 1fr 260px; gap: 16px; }
-      .price-big { font-size: 1.6rem; }
+    /* ── SIDEBAR ── */
+    .sidebar-price-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-lg);
+      border: 2px solid var(--navy);
+      margin-bottom: 0;
     }
-    @media (max-width: 600px) {
-      .page-wrap { grid-template-columns: 1fr; padding: 12px; gap: 14px; }
-      .side-col { order: -1; position: static; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .top-row { grid-template-columns: 1fr; gap: 14px; }
+      .price-col { position: static; order: -1; }
+      .price-big { font-size: 1.5rem; }
+    }
+    @media (max-width: 500px) {
+      .page-outer { padding: 12px; }
       .key-stats { grid-template-columns: repeat(2, 1fr); }
-      .gallery-main { height: 220px; }
+      .gallery-main { height: 210px; }
       nav { padding: 0 16px; }
       .nav-links { display: none; }
       .breadcrumb { padding: 10px 16px; }
-      .price-big { font-size: 1.4rem; }
     }
   </style>
 </head>
@@ -495,10 +520,11 @@
 </div>
 {% endif %}
 
-<div class="page-wrap">
-  <!-- MAIN -->
-  <div class="main-col">
+<div class="page-outer">
 
+<!-- TOP ROW: Gallery + Price -->
+<div class="top-row">
+  <div class="gallery-col">
     <!-- GALLERY -->
     <div class="gallery">
       <div class="gallery-main" onclick="openLightbox(currentImg)">
@@ -523,6 +549,52 @@
       </div>
       {% endif %}
     </div>
+  </div><!-- /gallery-col -->
+
+  <!-- PRICE CARD -->
+  <div class="price-col">
+    <div class="sidebar-price-card" {% if not p.get('elerheto', True) %}style="border-color: #fca5a5; background: #fff5f5;"{% endif %}>
+      {% if not p.get('elerheto', True) %}
+      <div style="text-align:center; padding: 10px 0 18px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:#fee2e2; color:#991b1b; border:1.5px solid #fca5a5; border-radius:10px; padding:10px 20px; font-weight:800; font-size:1rem;">
+          🔴 Elkelt
+        </div>
+        <p style="margin-top:14px; color:#6b7a8d; font-size:.87rem; line-height:1.6;">
+          Ez a lakás már elkelt. Érdekli az V. emeleti kínálat vagy hasonló méretű lakás?
+        </p>
+      </div>
+      <form class="contact-form" onsubmit="sendInquiry(event)">
+        <input type="text" name="nev" placeholder="Neve" required />
+        <input type="tel" name="tel" placeholder="Telefonszám" required />
+        <textarea name="uzenet" placeholder="Miben segíthetünk?">Érdeklődöm hasonló, elérhető lakások iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
+        <button type="submit" class="btn-contact" style="background:#991b1b;">Hasonló lakásokat keresek</button>
+      </form>
+      {% else %}
+      <div class="price-label">Eladási ár</div>
+      <div class="price-big">{{ format_ar(p.ar) }}</div>
+      <div class="price-per-sqm">{{ format_ar((p.ar // p.terulet)) ~ ' / m²' if p.terulet > 0 and p.ar > 0 else '' }}</div>
+      {% if p.energiaosztaly in ['A+', 'A', 'B'] %}
+      <div class="energy-badge">⚡ Energiaosztály: {{ p.energiaosztaly }}</div>
+      {% endif %}
+      <form class="contact-form" onsubmit="sendInquiry(event)">
+        <input type="text" name="nev" placeholder="Neve" required />
+        <input type="tel" name="tel" placeholder="Telefonszám" required />
+        <input type="email" name="email" placeholder="E-mail cím" required />
+        <textarea name="uzenet" placeholder="Üzenet (pl. mikor érne rá megtekintésre?)">Érdeklődöm a(z) {{ p.cim }} ingatlan iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
+        <button type="submit" class="btn-contact">Érdeklődöm – visszahívást kérek</button>
+      </form>
+      {% endif %}
+      <div class="phone-cta">
+        vagy hívjon minket: <br>
+        <a href="tel:+36705055527">+36 70 505 5527</a><br>
+        <a href="mailto:lujza24@gmail.com" style="font-size:.85rem;">lujza24@gmail.com</a>
+      </div>
+    </div>
+  </div><!-- /price-col -->
+</div><!-- /top-row -->
+
+<!-- CONTENT BELOW -->
+<div class="content-col">
 
     <!-- HEADER -->
     <div class="prop-header">
@@ -692,52 +764,8 @@
       <p style="margin-top:8px; font-size:.78rem; color:var(--muted);">Kattintson a képre a nagyobb nézethez.</p>
     </div>
 
-  </div>
-
-  <!-- SIDEBAR -->
-  <div class="side-col">
-    <div class="sidebar-price-card" {% if not p.get('elerheto', True) %}style="border-color: #fca5a5; background: #fff5f5;"{% endif %}>
-      {% if not p.get('elerheto', True) %}
-      <div style="text-align:center; padding: 10px 0 18px;">
-        <div style="display:inline-flex; align-items:center; gap:8px; background:#fee2e2; color:#991b1b; border:1.5px solid #fca5a5; border-radius:10px; padding:10px 20px; font-weight:800; font-size:1rem;">
-          🔴 Elkelt
-        </div>
-        <p style="margin-top:14px; color:#6b7a8d; font-size:.87rem; line-height:1.6;">
-          Ez a lakás már elkelt. Érdekli az V. emeleti kínálat vagy hasonló méretű lakás?
-        </p>
-      </div>
-      <form class="contact-form" onsubmit="sendInquiry(event)">
-        <input type="text" name="nev" placeholder="Neve" required />
-        <input type="tel" name="tel" placeholder="Telefonszám" required />
-        <textarea name="uzenet" placeholder="Miben segíthetünk?">Érdeklődöm hasonló, elérhető lakások iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
-        <button type="submit" class="btn-contact" style="background:#991b1b;">Hasonló lakásokat keresek</button>
-      </form>
-      {% else %}
-      <div class="price-label">Eladási ár</div>
-      <div class="price-big">{{ format_ar(p.ar) }}</div>
-      <div class="price-per-sqm">{{ format_ar((p.ar // p.terulet)) ~ ' / m²' if p.terulet > 0 and p.ar > 0 else '' }}</div>
-
-      {% if p.energiaosztaly in ['A+', 'A', 'B'] %}
-      <div class="energy-badge">⚡ Energiaosztály: {{ p.energiaosztaly }}</div>
-      {% endif %}
-
-      <form class="contact-form" onsubmit="sendInquiry(event)">
-        <input type="text" name="nev" placeholder="Neve" required />
-        <input type="tel" name="tel" placeholder="Telefonszám" required />
-        <input type="email" name="email" placeholder="E-mail cím" required />
-        <textarea name="uzenet" placeholder="Üzenet (pl. mikor érne rá megtekintésre?)">Érdeklődöm a(z) {{ p.cim }} ingatlan iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
-        <button type="submit" class="btn-contact">Érdeklődöm – visszahívást kérek</button>
-      </form>
-      {% endif %}
-
-      <div class="phone-cta">
-        vagy hívjon minket: <br>
-        <a href="tel:+36705055527">+36 70 505 5527</a><br>
-        <a href="mailto:lujza24@gmail.com" style="font-size:.85rem;">lujza24@gmail.com</a>
-      </div>
-    </div>
-  </div>
-</div>
+</div><!-- /content-col -->
+</div><!-- /page-outer -->
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
