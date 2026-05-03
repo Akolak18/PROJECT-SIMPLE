@@ -1,12 +1,12 @@
 BUILDING_IMAGES = [
-    "/static/images/utcafront.png",
-    "/static/images/utcafront2.png",
-    "/static/images/utcafront3.png",
-    "/static/images/utcafront4.png",
+    "/static/images/utcafront_0.png",
+    "/static/images/utcafront_2.png",
+    "/static/images/utcafront_3.png",
+    "/static/images/utcafront_4.png",
     "/static/images/Belsőudvar.png",
-    "/static/images/Madártávlati kép.png",
-    "/static/images/Madártávlati kép2.png",
-    "/static/images/Madártávlati kép3.png",
+    "/static/images/Madártávlati kép_0.png",
+    "/static/images/Madártávlati kép_2.1.png",
+    "/static/images/Madártávlati kép_3.png",
 ]
 
 # 1 800 000 Ft/m² × hasznos alapterület
