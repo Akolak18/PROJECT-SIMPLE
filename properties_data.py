@@ -1,12 +1,12 @@
 BUILDING_IMAGES = [
-    "/static/images/utcafront_0.png",
-    "/static/images/utcafront_2.png",
-    "/static/images/utcafront_3.png",
-    "/static/images/utcafront_4.png",
-    "/static/images/Belsőudvar.png",
-    "/static/images/Madártávlati kép_0.png",
-    "/static/images/Madártávlati kép_2.1.png",
-    "/static/images/Madártávlati kép_3.png",
+    "/static/images/utcafront_0.jpg",
+    "/static/images/utcafront_2.jpg",
+    "/static/images/utcafront_3.jpg",
+    "/static/images/utcafront_4.jpg",
+    "/static/images/Belsőudvar.jpg",
+    "/static/images/Madártávlati kép_0.jpg",
+    "/static/images/Madártávlati kép_2.1.jpg",
+    "/static/images/Madártávlati kép_3.jpg",
 ]
 
 # 1 800 000 Ft/m² × hasznos alapterület
@@ -383,15 +383,15 @@ def _kulter_ar(szolgaltatasok):
                 total += float(m.group(1).replace(',', '.')) * (_M2_AR // 2)
     return int(total)
 
-_FOKEPE = {i: f"/static/images/A{i}_3d.png" for i in range(1, 25)}
+_FOKEPE = {i: f"/static/images/A{i}_3d.jpg" for i in range(1, 25)}
 
 for _p in PROPERTIES:
     _p['ar']            += _kulter_ar(_p['szolgaltatasok'])
     _p['kulter']         = [s for s in _p['szolgaltatasok'] if any(k in s for k in _KULTER_KULCSOK)]
     megtartott           = [s for s in _p['szolgaltatasok'] if not any(k in s for k in _KIZART)]
     _p['szolgaltatasok'] = _UJ_SZOLG + [s for s in megtartott if s not in _UJ_SZOLG]
-    _elso = _FOKEPE.get(_p['id'], f"/static/images/A{_p['id']}.png")
-    _tobbi = [f"/static/images/A{_p['id']}.png"] if _p['id'] in _FOKEPE else []
+    _elso = _FOKEPE.get(_p['id'], f"/static/images/A{_p['id']}.jpg")
+    _tobbi = [f"/static/images/A{_p['id']}.jpg"] if _p['id'] in _FOKEPE else []
     _p['kepek'] = [_elso] + _tobbi + BUILDING_IMAGES
 
 CONTACT_PHONE = "+36 70 505 5527"
