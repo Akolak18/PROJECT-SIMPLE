@@ -383,9 +383,7 @@ def _kulter_ar(szolgaltatasok):
                 total += float(m.group(1).replace(',', '.')) * (_M2_AR // 2)
     return int(total)
 
-_FOKEPE = {
-    24: "/static/images/A24_3d.png",
-}
+_FOKEPE = {i: f"/static/images/A{i}_3d.png" for i in range(1, 25)}
 
 for _p in PROPERTIES:
     _p['ar']            += _kulter_ar(_p['szolgaltatasok'])
