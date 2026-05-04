@@ -153,6 +153,64 @@
     .badge-noshow     { background: #fbd38d; color: #7b341e; }
     .badge-default    { background: #e2e8f0; color: #4a5568; }
 
+    /* ── Floor plan modal ────────────────────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.3);
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .modal-title { font-size: 1rem; font-weight: 700; color: #1f4e79; }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #718096;
+      line-height: 1;
+    }
+    .modal-close:hover { color: #1a202c; }
+    .modal-img {
+      max-width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+    }
+    .btn-floorplan {
+      background: #ebf4ff;
+      border: 1px solid #bee3f8;
+      color: #1f4e79;
+      border-radius: 6px;
+      padding: 3px 9px;
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-floorplan:hover { background: #bee3f8; }
+
     /* ── Empty / error state ──────────────────────────────────────────── */
     .empty {
       text-align: center;
@@ -226,6 +284,7 @@
     <thead>
       <tr>
         <th>Room</th>
+        <th>Alaprajz</th>
         <th>Check-in</th>
         <th>Check-out</th>
         <th>Nights</th>
@@ -239,7 +298,7 @@
       </tr>
     </thead>
     <tbody id="res-body">
-      <tr><td colspan="11">
+      <tr><td colspan="12">
         <div class="empty"><div class="icon">⏳</div><p>Loading…</p></div>
       </td></tr>
     </tbody>
@@ -301,7 +360,7 @@
   function renderRows(rows) {
     const tbody = document.getElementById("res-body");
     if (!rows.length) {
-      tbody.innerHTML = `<tr><td colspan="11">
+      tbody.innerHTML = `<tr><td colspan="12">
         <div class="empty"><div class="icon">📭</div><p>No reservations found for this period.</p></div>
       </td></tr>`;
       return;
@@ -313,9 +372,15 @@
       return d !== 0 ? d : (a.room || "").localeCompare(b.room || "");
     });
 
-    tbody.innerHTML = rows.map((r, i) => `
+    tbody.innerHTML = rows.map((r, i) => {
+      const plan = getFloorPlan(r.room);
+      const fpBtn = plan
+        ? `<button class="btn-floorplan" onclick="openFpModal(${JSON.stringify(r.room)})">🗺 ${plan.label}</button>`
+        : '—';
+      return `
       <tr class="${rowClass(r, i)}">
         <td><strong>${r.room || "—"}</strong></td>
+        <td>${fpBtn}</td>
         <td>${r.check_in  || "—"}</td>
         <td>${r.check_out || "—"}</td>
         <td style="text-align:center">${r.nights ?? "—"}</td>
@@ -327,7 +392,7 @@
         <td style="max-width:240px;white-space:pre-wrap">${r.note || ""}</td>
         <td>${r.channel || "—"}</td>
       </tr>
-    `).join("");
+    `}).join("");
   }
 
   // ── Load reservations from API ────────────────────────────────────────────
@@ -366,8 +431,59 @@
     window.location.href = `/export/excel?date_from=${from}&date_to=${to}`;
   }
 
+  // ── Floor plan mapping ────────────────────────────────────────────────────
+  const FLOOR_PLANS = {
+    'pince': { file: 'Pince.png',       label: 'Pince' },
+    '0':     { file: 'Földszint.png',   label: 'Földszint' },
+    '1':     { file: 'I. emelet.png',   label: 'I. emelet' },
+    '2':     { file: 'II. emelet.png',  label: 'II. emelet' },
+    '3':     { file: 'III. emelet.png', label: 'III. emelet' },
+    '4':     { file: 'IV. emelet.png',  label: 'IV. emelet' },
+    '5':     { file: 'V. emelet.png',   label: 'V. emelet' },
+    '6':     { file: 'VI. emelet.png',  label: 'VI. emelet' },
+  };
+
+  function getFloorPlan(roomName) {
+    if (!roomName) return null;
+    const lower = roomName.toLowerCase();
+    if (lower.startsWith('p') || lower.includes('pince')) return FLOOR_PLANS['pince'];
+    const match = roomName.match(/\d/);
+    if (!match) return null;
+    return FLOOR_PLANS[match[0]] || null;
+  }
+
+  function openFpModal(roomName) {
+    const plan = getFloorPlan(roomName);
+    if (!plan) return;
+    document.getElementById('fp-modal-title').textContent = roomName + ' — ' + plan.label;
+    document.getElementById('fp-modal-img').src = '/static/images/' + encodeURIComponent(plan.file);
+    document.getElementById('fp-modal').classList.add('open');
+  }
+
+  function closeFpModal(e) {
+    if (e && e.target !== document.getElementById('fp-modal')) return;
+    document.getElementById('fp-modal').classList.remove('open');
+    document.getElementById('fp-modal-img').src = '';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.getElementById('fp-modal').classList.remove('open');
+  });
+
   // ── Initial load ──────────────────────────────────────────────────────────
   loadReservations();
 </script>
+
+<!-- Floor plan modal -->
+<div class="modal-overlay" id="fp-modal" onclick="closeFpModal(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" id="fp-modal-title"></span>
+      <button class="modal-close" onclick="closeFpModal()">✕</button>
+    </div>
+    <img class="modal-img" id="fp-modal-img" src="" alt="Alaprajz" />
+  </div>
+</div>
+
 </body>
 </html>
