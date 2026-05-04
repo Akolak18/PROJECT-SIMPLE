@@ -3,10 +3,10 @@ BUILDING_IMAGES = [
     "/static/images/utcafront_2.jpg",
     "/static/images/utcafront_3.jpg",
     "/static/images/utcafront_4.jpg",
-    "/static/images/Belsőudvar.jpg",
-    "/static/images/Madártávlati kép_0.jpg",
-    "/static/images/Madártávlati kép_2.1.jpg",
-    "/static/images/Madártávlati kép_3.jpg",
+    "/static/images/belso-udvar.jpg",
+    "/static/images/madartavlati-kep-0.jpg",
+    "/static/images/madartavlati-kep-2-1.jpg",
+    "/static/images/madartavlati-kep-3.jpg",
 ]
 
 # 1 800 000 Ft/m² × hasznos alapterület

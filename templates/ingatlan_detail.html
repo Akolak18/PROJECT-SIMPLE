@@ -660,28 +660,28 @@
     <!-- FLOOR PLAN -->
     {% set emelet = p.emelet %}
     {% if emelet == 0 %}
-      {% set alaprajz_kep = '/static/images/Földszint.jpg' %}
+      {% set alaprajz_kep = '/static/images/foldszint.jpg' %}
       {% set alaprajz_nev = 'Földszint' %}
     {% elif emelet == 1 %}
-      {% set alaprajz_kep = '/static/images/I. emelet.jpg' %}
+      {% set alaprajz_kep = '/static/images/emelet-1.jpg' %}
       {% set alaprajz_nev = 'I. emelet' %}
     {% elif emelet == 2 %}
-      {% set alaprajz_kep = '/static/images/II. emelet.jpg' %}
+      {% set alaprajz_kep = '/static/images/Iemelet-1.jpg' %}
       {% set alaprajz_nev = 'II. emelet' %}
     {% elif emelet == 3 %}
-      {% set alaprajz_kep = '/static/images/III. emelet.jpg' %}
+      {% set alaprajz_kep = '/static/images/IIemelet-1.jpg' %}
       {% set alaprajz_nev = 'III. emelet' %}
     {% elif emelet == 4 %}
-      {% set alaprajz_kep = '/static/images/IV. emelet.jpg' %}
+      {% set alaprajz_kep = '/static/images/emelet-4.jpg' %}
       {% set alaprajz_nev = 'IV. emelet' %}
     {% elif emelet == 5 %}
-      {% set alaprajz_kep = '/static/images/V. emelet.jpg' %}
+      {% set alaprajz_kep = '/static/images/emelet-5.jpg' %}
       {% set alaprajz_nev = 'V. emelet' %}
     {% elif emelet == 6 %}
-      {% set alaprajz_kep = '/static/images/VI. emelet.jpg' %}
+      {% set alaprajz_kep = '/static/images/Vemelet-1.jpg' %}
       {% set alaprajz_nev = 'VI. emelet' %}
     {% else %}
-      {% set alaprajz_kep = '/static/images/Pince.jpg' %}
+      {% set alaprajz_kep = '/static/images/pince.jpg' %}
       {% set alaprajz_nev = 'Pince' %}
     {% endif %}
     <div class="section-card">
@@ -737,13 +737,13 @@
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px;">
         <div>
           <p style="font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:6px;">Földszint – parkolók &amp; tárolók</p>
-          <img src="/static/images/Parkoló.jpg" alt="Földszinti parkoló és tároló alaprajz"
+          <img src="/static/images/parkolo.jpg" alt="Földszinti parkoló és tároló alaprajz"
                style="width:100%; border-radius:6px; border:1px solid var(--gray-border); cursor:zoom-in;"
                onclick="openLightboxFp(this.src)" />
         </div>
         <div>
           <p style="font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:6px;">Pince – parkolók &amp; tárolók</p>
-          <img src="/static/images/Parkoló_mélygarázs.jpg" alt="Pince parkoló és tároló alaprajz"
+          <img src="/static/images/parkolo-melygarazs.jpg" alt="Pince parkoló és tároló alaprajz"
                style="width:100%; border-radius:6px; border:1px solid var(--gray-border); cursor:zoom-in;"
                onclick="openLightboxFp(this.src)" />
         </div>
