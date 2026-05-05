@@ -40,19 +40,22 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 68px;
+      height: 90px;
       position: sticky;
       top: 0;
       z-index: 100;
       box-shadow: 0 2px 24px rgba(0,0,0,.35);
       border-bottom: 1px solid rgba(200,160,74,.2);
+      transition: height .3s ease;
     }
+    nav.scrolled { height: 62px; }
     .nav-logo {
       text-decoration: none;
       display: flex;
       align-items: center;
     }
-    .nav-logo img { height: 48px; width: auto; object-fit: contain; }
+    .nav-logo img { height: 70px; width: auto; object-fit: contain; transition: height .3s ease; }
+    nav.scrolled .nav-logo img { height: 44px; }
     .nav-links { display: flex; gap: 32px; }
     .nav-links a {
       color: rgba(255,255,255,.75);
@@ -981,6 +984,14 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeExtrasModal();
   });
+</script>
+<script>
+  (function() {
+    var nav = document.querySelector('nav');
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+  })();
 </script>
 </body>
 </html>
