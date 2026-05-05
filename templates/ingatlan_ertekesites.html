@@ -48,13 +48,11 @@
       border-bottom: 1px solid rgba(200,160,74,.2);
     }
     .nav-logo {
-      color: var(--white);
-      font-size: 1.35rem;
-      font-weight: 800;
-      letter-spacing: .04em;
       text-decoration: none;
+      display: flex;
+      align-items: center;
     }
-    .nav-logo span { color: var(--gold); }
+    .nav-logo img { height: 48px; width: auto; object-fit: contain; }
     .nav-links { display: flex; gap: 32px; }
     .nav-links a {
       color: rgba(255,255,255,.75);
@@ -493,7 +491,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/ingatlan-ertekesites" class="nav-logo">Lujza<span>Residence</span></a>
+  <a href="/ingatlan-ertekesites" class="nav-logo"><img src="/static/images/logo.jpg" alt="Lujza Residence" /></a>
   <div class="nav-links">
     <a href="/ingatlan-ertekesites" class="active">Ingatlanok</a>
     <a href="#miert-mi">Miért mi?</a>
