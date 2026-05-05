@@ -6,8 +6,8 @@
   <title>{{ p.teljes_cim }} – Lujza Residence</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { width: 100%; }
-    body { width: 100%; max-width: 100%; overflow-x: clip; }
+    html, body { width: 100%; }
+    .page-wrapper { overflow-x: clip; }
 
     :root {
       --navy: #1a3a5c;
@@ -448,7 +448,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 700px) {
-      nav { height: 60px !important; overflow: visible !important; }
+      nav { height: 60px !important; overflow: visible !important; position: sticky !important; top: 0 !important; z-index: 200 !important; }
       .nav-logo { margin-top: 8px !important; align-self: flex-start !important; }
       .nav-logo img { height: 80px !important; filter: none !important; transition: none !important; }
       .top-row { flex-direction: column; }
@@ -476,6 +476,7 @@
     <a href="mailto:lujza24@gmail.com">Kapcsolat</a>
   </div>
 </nav>
+<div class="page-wrapper">
 
 <!-- BREADCRUMB -->
 <div class="breadcrumb">
@@ -845,5 +846,6 @@
     }, { passive: true });
   })();
 </script>
+</div>
 </body>
 </html>

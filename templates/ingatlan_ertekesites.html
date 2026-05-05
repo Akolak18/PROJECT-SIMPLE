@@ -6,8 +6,8 @@
   <title>Lujza Residence – Budapest VIII. kerület</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { width: 100%; }
-    body { width: 100%; max-width: 100%; overflow-x: clip; }
+    html, body { width: 100%; }
+    .page-wrapper { overflow-x: clip; }
 
     :root {
       --navy: #1a3a5c;
@@ -477,7 +477,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      nav { height: 60px !important; overflow: visible !important; }
+      nav { height: 60px !important; overflow: visible !important; position: sticky !important; top: 0 !important; z-index: 100 !important; }
       .nav-logo { margin-top: 8px !important; align-self: flex-start !important; }
       .nav-logo img { height: 80px !important; filter: none !important; transition: none !important; }
       .search-box {
@@ -509,6 +509,7 @@
     <a href="#kapcsolat">Kapcsolat</a>
   </div>
 </nav>
+<div class="page-wrapper">
 
 <!-- HERO -->
 <section class="hero">
@@ -1001,5 +1002,6 @@
     }, { passive: true });
   })();
 </script>
+</div>
 </body>
 </html>
