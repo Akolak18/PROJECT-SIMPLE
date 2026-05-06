@@ -395,7 +395,7 @@ for _p in PROPERTIES:
     _p['kepek'] = [_elso] + _tobbi + BUILDING_IMAGES
 
 CONTACT_PHONE = "+36 70 505 5527"
-CONTACT_EMAIL = "lujza24@gmail.com"
+CONTACT_EMAIL = "lujzaresidence24@gmail.com"
 
 _TAROLO_AR_M2 = 1_500_000
 _PARKOLO_AR   = 10_000_000
