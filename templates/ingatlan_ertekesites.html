@@ -816,15 +816,15 @@
     ">
       <div>
         <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Neve</label>
-        <input type="text" required placeholder="Kovács János" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
+        <input type="text" id="contact-nev" required placeholder="Kovács János" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
       </div>
       <div>
         <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Telefonszám</label>
-        <input type="tel" required placeholder="+36 30 123 4567" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
+        <input type="tel" id="contact-tel" required placeholder="+36 30 123 4567" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
       </div>
       <div style="grid-column: span 2;">
         <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Üzenet</label>
-        <textarea required placeholder="Miben segíthetünk?" rows="4" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);resize:vertical;"></textarea>
+        <textarea id="contact-uzenet" required placeholder="Miben segíthetünk?" rows="4" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);resize:vertical;"></textarea>
       </div>
       <div style="grid-column: span 2;">
         <button type="submit" style="
@@ -852,17 +852,15 @@
 <script>
   function submitContact(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type=submit]');
-    btn.textContent = 'Küldés…';
-    btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'Üzenet küldése';
-      btn.disabled = false;
-      e.target.reset();
-      const toast = document.getElementById('contact-toast');
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 5000);
-    }, 900);
+    const nev    = document.getElementById('contact-nev').value;
+    const tel    = document.getElementById('contact-tel').value;
+    const uzenet = document.getElementById('contact-uzenet').value;
+    const subject = encodeURIComponent('Érdeklődés – Lujza Residence');
+    const body    = encodeURIComponent(
+      'Név: ' + nev + '\nTelefon: ' + tel + '\n\n' + uzenet
+    );
+    window.location.href = 'mailto:lujzaresidence24@gmail.com?subject=' + subject + '&body=' + body;
+    e.target.reset();
   }
 </script>
 
