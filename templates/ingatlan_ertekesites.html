@@ -803,7 +803,7 @@
       </a>
     </div>
 
-    <form action="https://formspree.io/f/xojrwbwe" method="POST" id="contact-form" style="
+    <form action="https://formspree.io/f/xojrwbwe" method="POST" id="contact-form" onsubmit="submitContact(event)" style="
       background: var(--white);
       border-radius: 16px;
       padding: 32px;
@@ -824,10 +824,9 @@
       </div>
       <div style="grid-column: span 2;">
         <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Telefonszám *</label>
-        <input type="tel" name="phone" required placeholder="+36 30 123 4567"
-          pattern="^[+]?[\d\s\-()]{7,15}$"
-          title="Érvényes telefonszámot adjon meg (pl. +36 30 123 4567)"
+        <input type="tel" name="phone" id="contact-phone" required placeholder="+36 30 123 4567"
           style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
+        <span id="phone-error" style="display:none;color:#dc2626;font-size:.78rem;margin-top:4px;display:none;">Érvényes magyar telefonszámot adjon meg (pl. +36 30 123 4567 vagy 06 30 123 4567)</span>
       </div>
       <div style="grid-column: span 2;">
         <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Üzenet</label>
@@ -860,17 +859,22 @@
 
 <script>
   function submitContact(e) {
-    e.preventDefault();
-    const nev    = document.getElementById('contact-nev').value;
-    const tel    = document.getElementById('contact-tel').value;
-    const uzenet = document.getElementById('contact-uzenet').value;
-    const subject = encodeURIComponent('Érdeklődés – Lujza Residence');
-    const body    = encodeURIComponent(
-      'Név: ' + nev + '\nTelefon: ' + tel + '\n\n' + uzenet
-    );
-    window.location.href = 'mailto:lujzaresidence24@gmail.com?subject=' + subject + '&body=' + body;
-    e.target.reset();
+    const phone = document.getElementById('contact-phone').value.replace(/[\s\-()]/g, '');
+    const phoneOk = /^(\+36|06)\d{9}$/.test(phone);
+    const err = document.getElementById('phone-error');
+    if (!phoneOk) {
+      e.preventDefault();
+      err.style.display = 'block';
+      document.getElementById('contact-phone').style.borderColor = '#dc2626';
+      return;
+    }
+    err.style.display = 'none';
+    document.getElementById('contact-phone').style.borderColor = '';
   }
+  document.getElementById('contact-phone').addEventListener('input', function() {
+    document.getElementById('phone-error').style.display = 'none';
+    this.style.borderColor = '';
+  });
 </script>
 
 <script>
