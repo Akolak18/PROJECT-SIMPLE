@@ -10,30 +10,32 @@
     .page-wrapper { overflow-x: clip; }
 
     :root {
-      --navy: #1a3a5c;
-      --navy-dark: #122840;
+      --navy: #c8a04a;
+      --navy-dark: #d4af37;
       --gold: #c8a04a;
       --gold-light: #e8c878;
-      --gray-bg: #f4f6f9;
-      --gray-border: #e0e4ea;
-      --text: #1e2a38;
-      --muted: #6b7a8d;
-      --white: #ffffff;
+      --gray-bg: #0f0f0f;
+      --gray-border: #2a2a2a;
+      --text: #e8e0d0;
+      --muted: #888880;
+      --white: #1a1a1a;
       --radius: 10px;
-      --shadow: 0 2px 14px rgba(0,0,0,.08);
-      --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+      --shadow: 0 2px 14px rgba(0,0,0,.4);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.6);
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-      background: var(--gray-bg);
-      color: var(--text);
+      background: #0a0a0a;
+      color: #e8e0d0;
       line-height: 1.6;
     }
 
     /* ── NAV ── */
     nav {
-      background: var(--navy);
+      background: rgba(5,5,5,.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,160,74,.3);
       padding: 0 32px;
       display: flex;
       align-items: center;
@@ -42,7 +44,7 @@
       position: sticky;
       top: 0;
       z-index: 200;
-      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+      box-shadow: 0 2px 24px rgba(0,0,0,.6);
       transition: height .3s ease;
       overflow: visible;
     }
@@ -205,9 +207,9 @@
     .prop-header { margin-bottom: 24px; }
     .prop-type-badge {
       display: inline-block;
-      background: var(--gray-bg);
-      border: 1.5px solid var(--gray-border);
-      color: var(--navy);
+      background: rgba(200,160,74,.12);
+      border: 1.5px solid rgba(200,160,74,.3);
+      color: var(--gold-light);
       font-size: .78rem;
       font-weight: 700;
       padding: 3px 10px;
@@ -219,7 +221,7 @@
     .prop-title {
       font-size: clamp(1.3rem, 3vw, 1.8rem);
       font-weight: 800;
-      color: var(--navy);
+      color: #e8e0d0;
       margin-bottom: 6px;
       line-height: 1.25;
     }
@@ -239,36 +241,37 @@
       margin-bottom: 24px;
     }
     .stat-card {
-      background: var(--white);
+      background: #1a1a1a;
       border-radius: var(--radius);
       padding: 14px 12px;
       text-align: center;
       box-shadow: var(--shadow);
-      border: 1.5px solid var(--gray-border);
+      border: 1.5px solid #2a2a2a;
     }
     .stat-icon { font-size: 1.3rem; margin-bottom: 4px; }
-    .stat-val { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+    .stat-val { font-size: 1.1rem; font-weight: 800; color: var(--gold); }
     .stat-lbl { font-size: .75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
 
     /* ── DESCRIPTION ── */
     .section-card {
-      background: var(--white);
+      background: #1a1a1a;
       border-radius: var(--radius);
       padding: 24px;
       box-shadow: var(--shadow);
       margin-bottom: 20px;
+      border: 1px solid #2a2a2a;
     }
     .section-card h2 {
       font-size: 1.1rem;
       font-weight: 800;
-      color: var(--navy);
+      color: var(--gold);
       margin-bottom: 14px;
       padding-bottom: 10px;
-      border-bottom: 2px solid var(--gray-border);
+      border-bottom: 2px solid #2a2a2a;
     }
     .desc-text {
       font-size: .95rem;
-      color: #374151;
+      color: #c8c0b0;
       line-height: 1.75;
     }
 
@@ -284,10 +287,10 @@
     .detail-row div {
       padding: 10px 0;
       font-size: .9rem;
-      border-bottom: 1px solid var(--gray-border);
+      border-bottom: 1px solid #2a2a2a;
     }
     .detail-row .dlabel { color: var(--muted); font-weight: 600; }
-    .detail-row .dval { font-weight: 700; color: var(--text); text-align: right; }
+    .detail-row .dval { font-weight: 700; color: #e8e0d0; text-align: right; }
 
     /* ── FEATURES ── */
     .features-list {
@@ -296,36 +299,36 @@
       gap: 10px;
     }
     .feature-tag {
-      background: var(--gray-bg);
-      border: 1.5px solid var(--gray-border);
+      background: rgba(200,160,74,.1);
+      border: 1.5px solid rgba(200,160,74,.25);
       border-radius: 20px;
       padding: 5px 14px;
       font-size: .85rem;
       font-weight: 600;
-      color: var(--navy);
+      color: var(--gold-light);
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .sidebar-price-card {
-      background: var(--white);
+      background: #1a1a1a;
       border-radius: var(--radius);
       padding: 22px;
       box-shadow: var(--shadow-lg);
-      border: 2px solid var(--navy);
+      border: 2px solid rgba(200,160,74,.4);
     }
     .price-label { font-size: .78rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
-    .price-big { font-size: 2rem; font-weight: 900; color: var(--navy); margin-bottom: 4px; }
+    .price-big { font-size: 2rem; font-weight: 900; color: var(--gold); margin-bottom: 4px; }
     .price-per-sqm { font-size: .85rem; color: var(--muted); margin-bottom: 20px; }
 
     .energy-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #dcfce7;
-      border: 1.5px solid #86efac;
-      color: #166534;
+      background: rgba(22,163,74,.15);
+      border: 1.5px solid rgba(22,163,74,.4);
+      color: #4ade80;
       border-radius: 8px;
       padding: 6px 12px;
       font-size: .85rem;
@@ -336,25 +339,25 @@
     .contact-form { display: flex; flex-direction: column; gap: 10px; }
     .contact-form input,
     .contact-form textarea {
-      border: 1.5px solid var(--gray-border);
+      border: 1.5px solid #333;
       border-radius: 8px;
       padding: 10px 12px;
       font-size: .9rem;
       font-family: inherit;
-      color: var(--text);
-      background: var(--white);
+      color: #e8e0d0;
+      background: #111;
       transition: border-color .2s;
       resize: vertical;
     }
     .contact-form input:focus,
     .contact-form textarea:focus {
       outline: none;
-      border-color: var(--navy);
+      border-color: var(--gold);
     }
     .contact-form textarea { min-height: 90px; }
     .btn-contact {
-      background: var(--navy);
-      color: var(--white);
+      background: var(--gold);
+      color: #0a0a0a;
       border: none;
       border-radius: 8px;
       padding: 12px;
@@ -363,7 +366,7 @@
       cursor: pointer;
       transition: background .2s, transform .1s;
     }
-    .btn-contact:hover { background: var(--gold); color: var(--navy-dark); }
+    .btn-contact:hover { background: var(--gold-light); color: #0a0a0a; }
     .btn-contact:active { transform: scale(.97); }
 
     .phone-cta {
@@ -372,7 +375,7 @@
       font-size: .87rem;
       color: var(--muted);
     }
-    .phone-cta a { color: var(--navy); font-weight: 700; text-decoration: none; font-size: 1rem; }
+    .phone-cta a { color: var(--gold); font-weight: 700; text-decoration: none; font-size: 1rem; }
 
     /* ── LIGHTBOX ── */
     .lightbox {
@@ -489,15 +492,15 @@
 
 {% if not p.get('elerheto', True) %}
 <div style="
-  background: #fee2e2;
-  border-bottom: 3px solid #fca5a5;
+  background: rgba(185,28,28,.15);
+  border-bottom: 3px solid rgba(185,28,28,.4);
   padding: 14px 32px;
   display: flex;
   align-items: center;
   gap: 14px;
   font-size: .93rem;
   font-weight: 600;
-  color: #991b1b;
+  color: #fca5a5;
   flex-wrap: wrap;
 ">
   <span style="font-size:1.4rem; flex-shrink:0;">🔴</span>
@@ -550,13 +553,13 @@
 
   <!-- PRICE CARD -->
   <div class="price-col">
-    <div class="sidebar-price-card" {% if not p.get('elerheto', True) %}style="border-color: #fca5a5; background: #fff5f5;"{% endif %}>
+    <div class="sidebar-price-card" {% if not p.get('elerheto', True) %}style="border-color: rgba(185,28,28,.5); background: rgba(185,28,28,.08);"{% endif %}>
       {% if not p.get('elerheto', True) %}
       <div style="text-align:center; padding: 10px 0 18px;">
-        <div style="display:inline-flex; align-items:center; gap:8px; background:#fee2e2; color:#991b1b; border:1.5px solid #fca5a5; border-radius:10px; padding:10px 20px; font-weight:800; font-size:1rem;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(185,28,28,.2); color:#fca5a5; border:1.5px solid rgba(185,28,28,.5); border-radius:10px; padding:10px 20px; font-weight:800; font-size:1rem;">
           🔴 Elkelt
         </div>
-        <p style="margin-top:14px; color:#6b7a8d; font-size:.87rem; line-height:1.6;">
+        <p style="margin-top:14px; color:#888880; font-size:.87rem; line-height:1.6;">
           Ez a lakás már elkelt. Érdekli az V. emeleti kínálat vagy hasonló méretű lakás?
         </p>
       </div>
@@ -609,7 +612,7 @@
         <div class="stat-icon">📐</div>
         <div class="stat-val">{{ p.terulet ~ ' m²' if p.terulet > 0 else '—' }}</div>
         {% for s in p.kulter %}
-        <div style="font-size:.72rem; color:#6b7a8d; font-weight:600; margin-top:2px;">+ {{ s }}</div>
+        <div style="font-size:.72rem; color:#888880; font-weight:600; margin-top:2px;">+ {{ s }}</div>
         {% endfor %}
         <div class="stat-lbl">Alapterület</div>
       </div>
@@ -698,7 +701,7 @@
       <h2>Szintalaprajz – {{ alaprajz_nev }}</h2>
       <img src="{{ alaprajz_kep }}"
            alt="Alaprajz – {{ alaprajz_nev }}"
-           style="width:100%; border-radius:8px; border:1px solid var(--gray-border); cursor:zoom-in;"
+           style="width:100%; border-radius:8px; border:1px solid #2a2a2a; cursor:zoom-in;"
            onclick="openLightboxFp(this.src)" />
       <p style="margin-top:10px; font-size:.82rem; color:var(--muted);">Kattintson a képre a nagyobb nézethez.</p>
     </div>
@@ -708,16 +711,16 @@
       <h2>Kiegészítők – opcionális vásárlás</h2>
 
       <!-- TÁROLÓK -->
-      <h3 style="font-size:.95rem; font-weight:800; color:var(--navy); margin-bottom:12px;">📦 Tárolók</h3>
+      <h3 style="font-size:.95rem; font-weight:800; color:var(--gold); margin-bottom:12px;">📦 Tárolók</h3>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:24px;">
         {% for t in tarolok %}
-        <div style="background:var(--gray-bg); border:1.5px solid var(--gray-border); border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+        <div style="background:#111; border:1.5px solid #333; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
           <div>
             <div style="font-size:.78rem; color:var(--muted); font-weight:700;">{{ t.szint }}</div>
-            <div style="font-weight:800; color:var(--text);">{{ "%.2f"|format(t.terulet)|replace(".",",") }} m²</div>
+            <div style="font-weight:800; color:#e8e0d0;">{{ "%.2f"|format(t.terulet)|replace(".",",") }} m²</div>
           </div>
           <div style="text-align:right;">
-            <div style="font-size:.88rem; font-weight:800; color:var(--navy);">{{ format_ar(t.ar) }}</div>
+            <div style="font-size:.88rem; font-weight:800; color:var(--gold);">{{ format_ar(t.ar) }}</div>
           </div>
         </div>
         {% endfor %}
@@ -725,19 +728,19 @@
       <p style="font-size:.8rem; color:var(--muted); margin-bottom:24px;">Ár: 1 500 000 Ft/m² · A tárolók az összes lakáshoz megvásárolhatók, készlet erejéig.</p>
 
       <!-- PARKOLÓK -->
-      <h3 style="font-size:.95rem; font-weight:800; color:var(--navy); margin-bottom:12px;">🚗 Parkolóhelyek</h3>
+      <h3 style="font-size:.95rem; font-weight:800; color:var(--gold); margin-bottom:12px;">🚗 Parkolóhelyek</h3>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
         {% for szint, tip, db in [
           ('Földszint', 'Normál', 4),
           ('Földszint', 'Csökkentett', 1),
           ('Pince', 'Normál', 11)
         ] %}
-        <div style="background:var(--gray-bg); border:1.5px solid var(--gray-border); border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="background:#111; border:1.5px solid #333; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
           <div>
             <div style="font-size:.78rem; color:var(--muted); font-weight:700;">{{ szint }} · {{ tip }}</div>
-            <div style="font-weight:800; color:var(--text);">{{ db }} db</div>
+            <div style="font-weight:800; color:#e8e0d0;">{{ db }} db</div>
           </div>
-          <div style="font-size:.88rem; font-weight:800; color:var(--navy);">10 M Ft / db</div>
+          <div style="font-size:.88rem; font-weight:800; color:var(--gold);">10 M Ft / db</div>
         </div>
         {% endfor %}
       </div>
@@ -748,13 +751,13 @@
         <div>
           <p style="font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:6px;">Földszint – parkolók &amp; tárolók</p>
           <img src="/static/images/parkolo.jpg" alt="Földszinti parkoló és tároló alaprajz"
-               style="width:100%; border-radius:6px; border:1px solid var(--gray-border); cursor:zoom-in;"
+               style="width:100%; border-radius:6px; border:1px solid #2a2a2a; cursor:zoom-in;"
                onclick="openLightboxFp(this.src)" />
         </div>
         <div>
           <p style="font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:6px;">Pince – parkolók &amp; tárolók</p>
           <img src="/static/images/parkolo-melygarazs.jpg" alt="Pince parkoló és tároló alaprajz"
-               style="width:100%; border-radius:6px; border:1px solid var(--gray-border); cursor:zoom-in;"
+               style="width:100%; border-radius:6px; border:1px solid #2a2a2a; cursor:zoom-in;"
                onclick="openLightboxFp(this.src)" />
         </div>
       </div>
