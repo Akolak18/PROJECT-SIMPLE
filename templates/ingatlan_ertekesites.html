@@ -117,8 +117,8 @@
     .hero-content { position: relative; z-index: 1; }
     .hero-eyebrow {
       display: inline-block;
-      background: rgba(255,255,255,.35);
-      border: 1px solid rgba(160,110,20,.40);
+      background: rgba(200,160,74,.12);
+      border: 1px solid rgba(200,160,74,.3);
       color: var(--gold-light);
       font-size: .78rem;
       font-weight: 700;
@@ -267,8 +267,8 @@
       background: #1a1a1a;
       border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,.07);
-      border: 1px solid rgba(255,255,255,.8);
+      box-shadow: 0 4px 20px rgba(0,0,0,.4);
+      border: 1px solid #2a2a2a;
       transition: transform .25s, box-shadow .25s;
       text-decoration: none;
       color: inherit;
@@ -277,7 +277,8 @@
     }
     .property-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 16px 48px rgba(26,58,92,.16);
+      box-shadow: 0 16px 48px rgba(0,0,0,.5);
+      border-color: rgba(200,160,74,.4);
     }
 
     .card-img {
@@ -635,7 +636,7 @@
 <section style="background:#0f0f0f; padding: 64px 24px; border-top: 1px solid #222;">
   <div style="max-width:1280px; margin: 0 auto;">
     <div style="text-align:center; margin-bottom: 40px;">
-      <div style="display:inline-block; background:rgba(26,58,92,.08); border:1px solid rgba(26,58,92,.15); color:var(--navy); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Az épület</div>
+      <div style="display:inline-block; background:rgba(200,160,74,.1); border:1px solid rgba(200,160,74,.25); color:var(--gold-light); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Az épület</div>
       <h2 style="font-size:1.9rem; font-weight:900; color:#e8e0d0; margin-bottom:8px; letter-spacing:-.01em;">Lujza utca 24.</h2>
       <p style="color:var(--muted); font-size:1rem; max-width:520px; margin:0 auto;">Új építésű, modern társasház Budapest VIII. kerületének szívében.</p>
     </div>
@@ -672,7 +673,7 @@
 <section style="background:#0a0a0a; padding: 56px 24px; border-top: 1px solid #222;">
   <div style="max-width:1280px; margin:0 auto;">
     <div style="text-align:center; margin-bottom:36px;">
-      <div style="display:inline-block; background:rgba(26,58,92,.08); border:1px solid rgba(26,58,92,.15); color:var(--navy); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Épület infrastruktúra</div>
+      <div style="display:inline-block; background:rgba(200,160,74,.1); border:1px solid rgba(200,160,74,.25); color:var(--gold-light); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Épület infrastruktúra</div>
       <h2 style="font-size:1.7rem; font-weight:900; color:var(--navy); letter-spacing:-.01em;">Parkolók és tárolók</h2>
     </div>
 
@@ -952,7 +953,7 @@
 
       <div style="display:flex; flex-direction:column; gap:10px;">
         <button id="extras-continue-btn" onclick="continueToApartment()" style="
-          background: #1a3a5c; color:#fff;
+          background: var(--gold); color:#0a0a0a;
           border:none; border-radius:10px; padding:13px;
           font-size:.97rem; font-weight:700; cursor:pointer;
           transition: background .2s;
