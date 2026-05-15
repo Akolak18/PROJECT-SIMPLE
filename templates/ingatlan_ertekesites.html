@@ -10,34 +10,31 @@
     .page-wrapper { overflow-x: clip; }
 
     :root {
-      --navy: #1a3a5c;
-      --navy-dark: #122840;
-      --gold: #c8a04a;
-      --gold-light: #e8c878;
-      --gray-bg: #f4f6f9;
-      --gray-border: #e0e4ea;
-      --text: #1e2a38;
-      --muted: #6b7a8d;
+      --navy: #0d1117;
+      --navy-dark: #010409;
+      --gold: #e6a817;
+      --gold-light: #f5c842;
+      --gray-bg: #f0f2f5;
+      --gray-border: #d0d7de;
+      --text: #1a1a2e;
+      --muted: #57606a;
       --white: #ffffff;
-      --radius: 10px;
-      --shadow: 0 2px 14px rgba(0,0,0,.08);
-      --shadow-lg: 0 8px 32px rgba(0,0,0,.13);
+      --shadow: 0 2px 12px rgba(0,0,0,.1);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,.15);
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-      background: #eef1f6;
-      background-image:
-        radial-gradient(ellipse at 20% 50%, rgba(26,58,92,.06) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(200,160,74,.05) 0%, transparent 50%);
-      color: var(--text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
       line-height: 1.6;
     }
 
     /* ── NAV ── */
     nav {
-      background: rgba(18,40,64,.97);
-      backdrop-filter: blur(12px);
+      background: #0d1117;
+      border-bottom: 3px solid var(--gold);
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
       padding: 0 40px;
       display: flex;
       align-items: center;
@@ -46,8 +43,6 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 24px rgba(0,0,0,.35);
-      border-bottom: 1px solid rgba(200,160,74,.2);
       transition: height .3s ease;
       overflow: visible;
     }
@@ -83,9 +78,9 @@
       position: relative;
       overflow: hidden;
       background:
-        linear-gradient(150deg, rgba(255,248,225,.92) 0%, rgba(225,185,80,.88) 55%, rgba(190,145,40,.85) 100%),
+        linear-gradient(135deg, rgba(1,4,9,.95) 0%, rgba(13,17,23,.88) 60%, rgba(30,30,50,.80) 100%),
         url('/static/images/utcafront_2.jpg') center center / cover no-repeat;
-      color: var(--navy-dark);
+      color: #ffffff;
       padding: 80px 32px 60px;
       text-align: center;
     }
@@ -120,28 +115,28 @@
     .hero-content { position: relative; z-index: 1; }
     .hero-eyebrow {
       display: inline-block;
-      background: rgba(255,255,255,.35);
-      border: 1px solid rgba(160,110,20,.40);
-      color: #5a3800;
+      background: rgba(230,168,23,.15);
+      border: 1px solid rgba(230,168,23,.4);
+      color: var(--gold-light);
       font-size: .78rem;
       font-weight: 700;
-      letter-spacing: .12em;
+      letter-spacing: .2em;
       text-transform: uppercase;
       padding: 5px 16px;
       border-radius: 20px;
       margin-bottom: 18px;
     }
     .hero h1 {
-      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
       font-weight: 900;
       margin-bottom: 14px;
-      letter-spacing: -.02em;
+      letter-spacing: -.03em;
       line-height: 1.15;
     }
-    .hero h1 span { color: #7a4f00; }
+    .hero h1 span { color: var(--gold); }
     .hero p {
-      font-size: 1.05rem;
-      opacity: .80;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,.75);
       margin-bottom: 40px;
       max-width: 500px;
       margin-left: auto;
@@ -151,8 +146,8 @@
 
     /* ── SEARCH BOX ── */
     .search-box {
-      background: var(--white);
-      border-radius: 14px;
+      background: #fff;
+      border-radius: 2px;
       padding: 20px 24px;
       max-width: 900px;
       margin: 0 auto;
@@ -175,26 +170,28 @@
     .search-field select {
       width: 100%;
       border: 1.5px solid var(--gray-border);
-      border-radius: 8px;
+      border-radius: 2px;
       padding: 9px 12px;
       font-size: .92rem;
       color: var(--text);
-      background: var(--white);
+      background: var(--gray-bg);
       transition: border-color .2s;
     }
     .search-field input:focus,
     .search-field select:focus {
       outline: none;
-      border-color: var(--navy);
+      border-color: var(--gold);
     }
     .btn-search {
       background: var(--gold);
-      color: var(--navy-dark);
+      color: #000;
       border: none;
-      border-radius: 8px;
+      border-radius: 2px;
       padding: 10px 24px;
       font-size: .95rem;
-      font-weight: 700;
+      font-weight: 900;
+      letter-spacing: .05em;
+      text-transform: uppercase;
       cursor: pointer;
       transition: background .2s, transform .1s;
       white-space: nowrap;
@@ -204,25 +201,25 @@
 
     /* ── STATS BAR ── */
     .stats-bar {
-      background: var(--white);
-      border-bottom: 1px solid var(--gray-border);
+      background: #0d1117;
+      border-bottom: 1px solid #21262d;
       padding: 10px 32px;
       display: flex;
       align-items: center;
       gap: 24px;
       font-size: .88rem;
-      color: var(--muted);
+      color: rgba(255,255,255,.7);
     }
-    .stats-bar strong { color: var(--navy); }
+    .stats-bar strong { color: var(--gold); font-weight: 900; }
     .sort-wrap { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-    .sort-wrap label { font-weight: 600; }
+    .sort-wrap label { font-weight: 600; color: rgba(255,255,255,.7); }
     .sort-wrap select {
-      border: 1.5px solid var(--gray-border);
-      border-radius: 6px;
+      border: 1.5px solid #30363d;
+      border-radius: 2px;
       padding: 5px 10px;
       font-size: .85rem;
-      color: var(--text);
-      background: var(--white);
+      color: #f0f2f5;
+      background: #161b22;
     }
 
     /* ── MAIN LAYOUT ── */
@@ -266,11 +263,12 @@
     }
 
     .property-card {
-      background: var(--white);
-      border-radius: 14px;
+      background: #fff;
+      border: none;
+      border-radius: 2px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.1);
+      position: relative;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,.07);
-      border: 1px solid rgba(255,255,255,.8);
       transition: transform .25s, box-shadow .25s;
       text-decoration: none;
       color: inherit;
@@ -279,8 +277,19 @@
     }
     .property-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 16px 48px rgba(26,58,92,.16);
+      box-shadow: 0 16px 48px rgba(0,0,0,.18);
     }
+    .property-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform .3s;
+      z-index: 1;
+    }
+    .property-card:hover::before { transform: scaleX(1); }
 
     .card-img {
       position: relative;
@@ -319,7 +328,7 @@
     }
     .property-card--unavailable:hover {
       transform: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      box-shadow: 0 2px 12px rgba(0,0,0,.1);
       cursor: default;
     }
     .card-unavail-strip {
@@ -365,7 +374,7 @@
     .card-price {
       font-size: 1.25rem;
       font-weight: 800;
-      color: var(--navy);
+      color: var(--gold);
       margin-bottom: 14px;
     }
     .card-stats {
@@ -402,14 +411,15 @@
       background: var(--navy);
       color: var(--white);
       padding: 10px 24px;
-      border-radius: 8px;
+      border-radius: 2px;
       text-decoration: none;
       font-weight: 600;
     }
 
     /* ── WHY US SECTION ── */
     .why-section {
-      background: linear-gradient(160deg, #0d1f33 0%, #1a3a5c 100%);
+      background: linear-gradient(160deg, #0a0a0a 0%, #111 100%);
+      border-top: 1px solid rgba(200,160,74,.2);
       margin-top: 64px;
       padding: 72px 24px;
       position: relative;
@@ -429,11 +439,12 @@
     .why-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
     .section-title {
       text-align: center;
-      font-size: 1.9rem;
+      font-size: 1.2rem;
       font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
       color: var(--white);
       margin-bottom: 8px;
-      letter-spacing: -.01em;
     }
     .section-sub {
       text-align: center;
@@ -466,8 +477,8 @@
 
     /* ── FOOTER ── */
     footer {
-      background: #0a1828;
-      color: rgba(255,255,255,.45);
+      background: #050505;
+      color: rgba(232,224,208,.35);
       text-align: center;
       padding: 28px;
       font-size: .85rem;
@@ -634,11 +645,11 @@
 </div>
 
 <!-- BUILDING GALLERY -->
-<section style="background:#fff; padding: 64px 24px; border-top: 1px solid var(--gray-border);">
+<section style="background:#0f0f0f; padding: 64px 24px; border-top: 1px solid #222;">
   <div style="max-width:1280px; margin: 0 auto;">
     <div style="text-align:center; margin-bottom: 40px;">
-      <div style="display:inline-block; background:rgba(26,58,92,.08); border:1px solid rgba(26,58,92,.15); color:var(--navy); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Az épület</div>
-      <h2 style="font-size:1.9rem; font-weight:900; color:var(--navy); margin-bottom:8px; letter-spacing:-.01em;">Lujza utca 24.</h2>
+      <div style="display:inline-block; background:rgba(200,160,74,.1); border:1px solid rgba(200,160,74,.25); color:var(--gold-light); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Az épület</div>
+      <h2 style="font-size:1.9rem; font-weight:900; color:#e8e0d0; margin-bottom:8px; letter-spacing:-.01em;">Lujza utca 24.</h2>
       <p style="color:var(--muted); font-size:1rem; max-width:520px; margin:0 auto;">Új építésű, modern társasház Budapest VIII. kerületének szívében.</p>
     </div>
 
@@ -671,60 +682,60 @@
 </section>
 
 <!-- PARKING & STORAGE -->
-<section style="background:#f4f6f9; padding: 56px 24px; border-top: 1px solid var(--gray-border);">
+<section style="background:#0a0a0a; padding: 56px 24px; border-top: 1px solid #222;">
   <div style="max-width:1280px; margin:0 auto;">
     <div style="text-align:center; margin-bottom:36px;">
-      <div style="display:inline-block; background:rgba(26,58,92,.08); border:1px solid rgba(26,58,92,.15); color:var(--navy); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Épület infrastruktúra</div>
-      <h2 style="font-size:1.7rem; font-weight:900; color:var(--navy); letter-spacing:-.01em;">Parkolók és tárolók</h2>
+      <div style="display:inline-block; background:rgba(200,160,74,.1); border:1px solid rgba(200,160,74,.25); color:var(--gold-light); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Épület infrastruktúra</div>
+      <h2 style="font-size:1.7rem; font-weight:900; color:#e8e0d0; letter-spacing:-.01em;">Parkolók és tárolók</h2>
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
 
       <!-- PARKING -->
-      <div style="background:#fff; border-radius:12px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,.07); border:1.5px solid var(--gray-border);">
+      <div style="background:#1a1a1a; border-radius:12px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,.4); border:1.5px solid #2a2a2a;">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
           <span style="font-size:1.6rem;">🚗</span>
-          <h3 style="font-size:1.1rem; font-weight:800; color:var(--navy);">Parkolók – 16 férőhely</h3>
+          <h3 style="font-size:1.1rem; font-weight:800; color:var(--gold);">Parkolók – 16 férőhely</h3>
         </div>
         <table style="width:100%; border-collapse:collapse; font-size:.9rem;">
           <thead>
-            <tr style="background:#f4f6f9;">
+            <tr style="background:#111;">
               <th style="text-align:left; padding:8px 12px; color:var(--muted); font-weight:700; border-radius:6px 0 0 6px;">Szint</th>
               <th style="text-align:center; padding:8px 12px; color:var(--muted); font-weight:700;">Normál</th>
               <th style="text-align:center; padding:8px 12px; color:var(--muted); font-weight:700; border-radius:0 6px 6px 0;">Csökkentett</th>
             </tr>
           </thead>
           <tbody>
-            <tr style="border-bottom:1px solid var(--gray-border);">
-              <td style="padding:10px 12px; font-weight:600;">Földszint</td>
-              <td style="text-align:center; padding:10px 12px;">4</td>
-              <td style="text-align:center; padding:10px 12px;">1</td>
+            <tr style="border-bottom:1px solid #2a2a2a;">
+              <td style="padding:10px 12px; font-weight:600; color:#e8e0d0;">Földszint</td>
+              <td style="text-align:center; padding:10px 12px; color:#e8e0d0;">4</td>
+              <td style="text-align:center; padding:10px 12px; color:#e8e0d0;">1</td>
             </tr>
             <tr>
-              <td style="padding:10px 12px; font-weight:600;">Pince</td>
-              <td style="text-align:center; padding:10px 12px;">11</td>
-              <td style="text-align:center; padding:10px 12px;">—</td>
+              <td style="padding:10px 12px; font-weight:600; color:#e8e0d0;">Pince</td>
+              <td style="text-align:center; padding:10px 12px; color:#e8e0d0;">11</td>
+              <td style="text-align:center; padding:10px 12px; color:#e8e0d0;">—</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <!-- STORAGE -->
-      <div style="background:#fff; border-radius:12px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,.07); border:1.5px solid var(--gray-border);">
+      <div style="background:#1a1a1a; border-radius:12px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,.4); border:1.5px solid #2a2a2a;">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
           <span style="font-size:1.6rem;">📦</span>
-          <h3 style="font-size:1.1rem; font-weight:800; color:var(--navy);">Tárolók – 10 egység</h3>
+          <h3 style="font-size:1.1rem; font-weight:800; color:var(--gold);">Tárolók – 10 egység</h3>
         </div>
         <p style="font-size:.82rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;">Földszint – 3 db</p>
         <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;">
           {% for m2 in ['5,65 m²', '5,72 m²', '5,72 m²'] %}
-          <span style="background:#ebf4ff; border:1.5px solid #bee3f8; color:var(--navy); border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700;">{{ m2 }}</span>
+          <span style="background:rgba(200,160,74,.12); border:1.5px solid rgba(200,160,74,.3); color:var(--gold-light); border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700;">{{ m2 }}</span>
           {% endfor %}
         </div>
         <p style="font-size:.82rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;">Pince – 7 db</p>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           {% for m2 in ['5,01 m²', '3,21 m²', '3,12 m²', '3,41 m²', '3,10 m²', '3,10 m²', '3,10 m²'] %}
-          <span style="background:#f0fdf4; border:1.5px solid #bbf7d0; color:#166534; border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700;">{{ m2 }}</span>
+          <span style="background:rgba(200,160,74,.08); border:1.5px solid rgba(200,160,74,.2); color:var(--gold-light); border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700;">{{ m2 }}</span>
           {% endfor %}
         </div>
       </div>
