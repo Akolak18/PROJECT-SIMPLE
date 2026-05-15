@@ -9,29 +9,30 @@
     html, body { width: 100%; }
     .page-wrapper { overflow-x: clip; }
 
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
+
     :root {
       --navy: #1a3a5c;
       --navy-dark: #122840;
-      --gold: #c8a04a;
-      --gold-light: #e8c878;
-      --gray-bg: #f4f6f9;
-      --gray-border: #e0e4ea;
+      --gold: #b8922a;
+      --gold-light: #d4aa50;
+      --gold-pale: #f5ead6;
+      --gray-bg: #f5f3ef;
+      --gray-border: #e5e0d8;
       --text: #1e2a38;
-      --muted: #6b7a8d;
+      --muted: #7a6e62;
       --white: #ffffff;
+      --cream: #faf8f4;
       --radius: 10px;
-      --shadow: 0 2px 14px rgba(0,0,0,.08);
-      --shadow-lg: 0 8px 32px rgba(0,0,0,.13);
+      --shadow: 0 2px 14px rgba(0,0,0,.07);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.11);
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-      background: #eef1f6;
-      background-image:
-        radial-gradient(ellipse at 20% 50%, rgba(26,58,92,.06) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(200,160,74,.05) 0%, transparent 50%);
+      background: var(--cream);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     /* ── NAV ── */
@@ -83,62 +84,43 @@
       position: relative;
       overflow: hidden;
       background:
-        linear-gradient(150deg, rgba(255,248,225,.92) 0%, rgba(225,185,80,.88) 55%, rgba(190,145,40,.85) 100%),
+        linear-gradient(165deg, rgba(18,40,64,.88) 0%, rgba(26,58,92,.80) 45%, rgba(140,100,30,.75) 100%),
         url('/static/images/utcafront_2.jpg') center center / cover no-repeat;
-      color: var(--navy-dark);
-      padding: 80px 32px 60px;
+      color: #fff;
+      padding: 90px 32px 70px;
       text-align: center;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        repeating-linear-gradient(
-          -55deg,
-          transparent 0px, transparent 40px,
-          rgba(255,255,255,.018) 40px, rgba(255,255,255,.018) 41px
-        ),
-        repeating-linear-gradient(
-          35deg,
-          transparent 0px, transparent 60px,
-          rgba(200,160,74,.04) 60px, rgba(200,160,74,.04) 61px
-        );
-      pointer-events: none;
     }
     .hero::after {
       content: '';
       position: absolute;
-      bottom: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 700px;
-      height: 200px;
-      background: radial-gradient(ellipse, rgba(200,160,74,.12) 0%, transparent 70%);
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
       pointer-events: none;
     }
     .hero-content { position: relative; z-index: 1; }
     .hero-eyebrow {
       display: inline-block;
-      background: rgba(255,255,255,.35);
-      border: 1px solid rgba(160,110,20,.40);
-      color: #5a3800;
-      font-size: .78rem;
+      background: rgba(184,146,42,.2);
+      border: 1px solid rgba(184,146,42,.5);
+      color: #e8c878;
+      font-size: .75rem;
       font-weight: 700;
-      letter-spacing: .12em;
+      letter-spacing: .15em;
       text-transform: uppercase;
-      padding: 5px 16px;
+      padding: 5px 18px;
       border-radius: 20px;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
     .hero h1 {
-      font-size: clamp(2rem, 4.5vw, 3.2rem);
-      font-weight: 900;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 700;
       margin-bottom: 14px;
-      letter-spacing: -.02em;
+      letter-spacing: -.01em;
       line-height: 1.15;
     }
-    .hero h1 span { color: #7a4f00; }
+    .hero h1 span { color: var(--gold-light); }
     .hero p {
       font-size: 1.05rem;
       opacity: .80;
@@ -146,7 +128,7 @@
       max-width: 500px;
       margin-left: auto;
       margin-right: auto;
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
     /* ── SEARCH BOX ── */
@@ -213,7 +195,7 @@
       font-size: .88rem;
       color: var(--muted);
     }
-    .stats-bar strong { color: var(--navy); }
+    .stats-bar strong { color: var(--gold); }
     .sort-wrap { margin-left: auto; display: flex; align-items: center; gap: 8px; }
     .sort-wrap label { font-weight: 600; }
     .sort-wrap select {
@@ -269,17 +251,19 @@
       background: var(--white);
       border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,.07);
-      border: 1px solid rgba(255,255,255,.8);
-      transition: transform .25s, box-shadow .25s;
+      box-shadow: 0 2px 16px rgba(0,0,0,.07);
+      border: 1px solid var(--gray-border);
+      border-top: 3px solid transparent;
+      transition: transform .25s, box-shadow .25s, border-top-color .25s;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
     }
     .property-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 48px rgba(26,58,92,.16);
+      transform: translateY(-5px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.12);
+      border-top-color: var(--gold);
     }
 
     .card-img {
@@ -365,7 +349,7 @@
     .card-price {
       font-size: 1.25rem;
       font-weight: 800;
-      color: var(--navy);
+      color: var(--gold);
       margin-bottom: 14px;
     }
     .card-stats {
@@ -409,7 +393,7 @@
 
     /* ── WHY US SECTION ── */
     .why-section {
-      background: linear-gradient(160deg, #0d1f33 0%, #1a3a5c 100%);
+      background: var(--navy-dark);
       margin-top: 64px;
       padding: 72px 24px;
       position: relative;
@@ -418,26 +402,23 @@
     .why-section::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background-image: repeating-linear-gradient(
-        -45deg,
-        transparent 0px, transparent 40px,
-        rgba(255,255,255,.015) 40px, rgba(255,255,255,.015) 41px
-      );
-      pointer-events: none;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
     .why-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
     .section-title {
       text-align: center;
-      font-size: 1.9rem;
-      font-weight: 900;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
       color: var(--white);
       margin-bottom: 8px;
       letter-spacing: -.01em;
     }
     .section-sub {
       text-align: center;
-      color: rgba(255,255,255,.55);
+      color: rgba(255,255,255,.5);
       margin-bottom: 48px;
       font-size: 1rem;
     }
@@ -451,18 +432,17 @@
       text-align: center;
       padding: 32px 24px;
       border-radius: 14px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.1);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(184,146,42,.25);
       transition: background .2s, transform .2s;
     }
     .why-card:hover {
-      background: rgba(255,255,255,.1);
+      background: rgba(184,146,42,.08);
       transform: translateY(-4px);
     }
     .why-icon { font-size: 2.4rem; margin-bottom: 14px; }
-    .why-card h3 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
-    .why-card p { font-size: .87rem; color: rgba(255,255,255,.6); line-height: 1.6; }
+    .why-card h3 { font-size: 1rem; font-weight: 700; color: var(--gold-light); margin-bottom: 8px; }
+    .why-card p { font-size: .87rem; color: rgba(255,255,255,.55); line-height: 1.65; }
 
     /* ── FOOTER ── */
     footer {
@@ -634,11 +614,11 @@
 </div>
 
 <!-- BUILDING GALLERY -->
-<section style="background:#fff; padding: 64px 24px; border-top: 1px solid var(--gray-border);">
+<section style="background:var(--white); padding: 64px 24px; border-top: 1px solid var(--gray-border);">
   <div style="max-width:1280px; margin: 0 auto;">
     <div style="text-align:center; margin-bottom: 40px;">
       <div style="display:inline-block; background:rgba(26,58,92,.08); border:1px solid rgba(26,58,92,.15); color:var(--navy); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Az épület</div>
-      <h2 style="font-size:1.9rem; font-weight:900; color:var(--navy); margin-bottom:8px; letter-spacing:-.01em;">Lujza utca 24.</h2>
+      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:1.9rem; font-weight:700; color:var(--navy); margin-bottom:8px; letter-spacing:-.01em;">Lujza utca 24.</h2>
       <p style="color:var(--muted); font-size:1rem; max-width:520px; margin:0 auto;">Új építésű, modern társasház Budapest VIII. kerületének szívében.</p>
     </div>
 
@@ -671,11 +651,11 @@
 </section>
 
 <!-- PARKING & STORAGE -->
-<section style="background:#f4f6f9; padding: 56px 24px; border-top: 1px solid var(--gray-border);">
+<section style="background:var(--gray-bg); padding: 56px 24px; border-top: 1px solid var(--gray-border);">
   <div style="max-width:1280px; margin:0 auto;">
     <div style="text-align:center; margin-bottom:36px;">
       <div style="display:inline-block; background:rgba(26,58,92,.08); border:1px solid rgba(26,58,92,.15); color:var(--navy); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Épület infrastruktúra</div>
-      <h2 style="font-size:1.7rem; font-weight:900; color:var(--navy); letter-spacing:-.01em;">Parkolók és tárolók</h2>
+      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:1.7rem; font-weight:700; color:var(--navy); letter-spacing:-.01em;">Parkolók és tárolók</h2>
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
@@ -755,7 +735,7 @@
 
 <!-- CONTACT SECTION -->
 <section id="kapcsolat" style="
-  background: #f8f9fc;
+  background: var(--cream);
   border-top: 1px solid var(--gray-border);
   padding: 72px 24px;
 ">
@@ -773,7 +753,7 @@
       border-radius: 20px;
       margin-bottom: 18px;
     ">Kapcsolat</div>
-    <h2 style="font-size: 2rem; font-weight: 900; color: var(--navy); margin-bottom: 10px; letter-spacing: -.01em;">
+    <h2 style="font-family:'Playfair Display',Georgia,serif; font-size: 2rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; letter-spacing: -.01em;">
       Lépjen kapcsolatba velünk
     </h2>
     <p style="color: var(--muted); margin-bottom: 40px; font-size: 1rem; line-height: 1.7;">
