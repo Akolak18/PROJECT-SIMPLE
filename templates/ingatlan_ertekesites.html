@@ -358,7 +358,7 @@
     .card-title {
       font-size: 1rem;
       font-weight: 700;
-      color: var(--text);
+      color: #e8e0d0;
       margin-bottom: 12px;
       line-height: 1.3;
     }
@@ -372,7 +372,7 @@
       display: flex;
       gap: 16px;
       padding-top: 12px;
-      border-top: 1px solid var(--gray-border);
+      border-top: 1px solid #2a2a2a;
       font-size: .82rem;
       color: var(--muted);
       font-weight: 600;
@@ -755,16 +755,16 @@
 
 <!-- CONTACT SECTION -->
 <section id="kapcsolat" style="
-  background: #f8f9fc;
-  border-top: 1px solid var(--gray-border);
+  background: #0a0a0a;
+  border-top: 1px solid rgba(200,160,74,.2);
   padding: 72px 24px;
 ">
   <div style="max-width: 700px; margin: 0 auto; text-align: center;">
     <div style="
       display: inline-block;
-      background: rgba(26,58,92,.08);
-      border: 1px solid rgba(26,58,92,.15);
-      color: var(--navy);
+      background: rgba(200,160,74,.1);
+      border: 1px solid rgba(200,160,74,.25);
+      color: var(--gold-light);
       font-size: .78rem;
       font-weight: 700;
       letter-spacing: .1em;
@@ -773,7 +773,7 @@
       border-radius: 20px;
       margin-bottom: 18px;
     ">Kapcsolat</div>
-    <h2 style="font-size: 2rem; font-weight: 900; color: var(--navy); margin-bottom: 10px; letter-spacing: -.01em;">
+    <h2 style="font-size: 2rem; font-weight: 900; color: #e8e0d0; margin-bottom: 10px; letter-spacing: -.01em;">
       Lépjen kapcsolatba velünk
     </h2>
     <p style="color: var(--muted); margin-bottom: 40px; font-size: 1rem; line-height: 1.7;">
@@ -783,32 +783,32 @@
     <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
       <a href="tel:+36705055527" style="
         display: flex; align-items: center; gap: 12px;
-        background: var(--navy); color: #fff;
+        background: var(--gold); color: #0a0a0a;
         padding: 16px 28px; border-radius: 12px;
         text-decoration: none; font-weight: 700; font-size: 1rem;
-        box-shadow: 0 4px 16px rgba(26,58,92,.25);
+        box-shadow: 0 4px 16px rgba(200,160,74,.25);
         transition: background .2s;
-      " onmouseover="this.style.background='#1e4a7a'" onmouseout="this.style.background='#1a3a5c'">
+      " onmouseover="this.style.background='#e8c878'" onmouseout="this.style.background='#c8a04a'">
         📞 +36 70 505 5527
       </a>
       <a href="mailto:lujzaresidence24@gmail.com" style="
         display: flex; align-items: center; gap: 12px;
-        background: var(--white); color: var(--navy);
-        border: 2px solid var(--navy);
+        background: #1a1a1a; color: var(--gold);
+        border: 2px solid rgba(200,160,74,.4);
         padding: 16px 28px; border-radius: 12px;
         text-decoration: none; font-weight: 700; font-size: 1rem;
         transition: background .2s, color .2s;
-      " onmouseover="this.style.background='var(--navy)';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#1a3a5c'">
+      " onmouseover="this.style.background='#2a2a2a'" onmouseout="this.style.background='#1a1a1a'">
         ✉️ lujzaresidence24@gmail.com
       </a>
     </div>
 
     <form action="https://formspree.io/f/xojrwbwe" method="POST" id="contact-form" onsubmit="submitContact(event)" style="
-      background: var(--white);
+      background: #1a1a1a;
       border-radius: 16px;
       padding: 32px;
-      box-shadow: 0 4px 24px rgba(0,0,0,.07);
-      border: 1px solid var(--gray-border);
+      box-shadow: 0 4px 24px rgba(0,0,0,.4);
+      border: 1px solid #2a2a2a;
       text-align: left;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -816,27 +816,27 @@
     ">
       <div>
         <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Neve</label>
-        <input type="text" name="name" required placeholder="Kovács János" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
+        <input type="text" name="name" required placeholder="Kovács János" style="width:100%;border:1.5px solid #333;border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:#e8e0d0;background:#111;" />
       </div>
       <div>
         <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Email cím *</label>
-        <input type="email" name="email" required placeholder="pelda@email.com" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
+        <input type="email" name="email" required placeholder="pelda@email.com" style="width:100%;border:1.5px solid #333;border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:#e8e0d0;background:#111;" />
       </div>
       <div style="grid-column: span 2;">
         <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Telefonszám *</label>
         <input type="tel" name="phone" id="contact-phone" required placeholder="+36 30 123 4567"
-          style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
-        <span id="phone-error" style="display:none;color:#dc2626;font-size:.78rem;margin-top:4px;display:none;">Érvényes magyar telefonszámot adjon meg (pl. +36 30 123 4567 vagy 06 30 123 4567)</span>
+          style="width:100%;border:1.5px solid #333;border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:#e8e0d0;background:#111;" />
+        <span id="phone-error" style="display:none;color:#fca5a5;font-size:.78rem;margin-top:4px;display:none;">Érvényes magyar telefonszámot adjon meg (pl. +36 30 123 4567 vagy 06 30 123 4567)</span>
       </div>
       <div style="grid-column: span 2;">
         <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Üzenet</label>
-        <textarea name="message" required placeholder="Miben segíthetünk?" rows="4" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);resize:vertical;"></textarea>
+        <textarea name="message" required placeholder="Miben segíthetünk?" rows="4" style="width:100%;border:1.5px solid #333;border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:#e8e0d0;background:#111;resize:vertical;"></textarea>
       </div>
       <input type="hidden" name="_subject" value="Érdeklődés – Lujza Residence" />
       <input type="hidden" name="_language" value="hu" />
       <div style="grid-column: span 2;">
         <button type="submit" style="
-          width:100%;background:var(--gold);color:var(--navy-dark);
+          width:100%;background:var(--gold);color:#0a0a0a;
           border:none;border-radius:8px;padding:13px;
           font-size:1rem;font-weight:800;cursor:pointer;
           transition:background .2s;
@@ -897,16 +897,16 @@
   padding: 16px;
 ">
   <div style="
-    background: #fff;
+    background: #1a1a1a;
     border-radius: 20px;
     max-width: 520px;
     width: 100%;
-    box-shadow: 0 24px 64px rgba(0,0,0,.22);
+    box-shadow: 0 24px 64px rgba(0,0,0,.7);
     overflow: hidden;
     animation: modalIn .25s ease;
   ">
     <!-- Header -->
-    <div style="background: linear-gradient(135deg, #1a3a5c 0%, #1e4a7a 100%); padding: 28px 28px 24px; position:relative;">
+    <div style="background: linear-gradient(135deg, #1a1410 0%, #2a1f08 100%); border-bottom: 1px solid rgba(200,160,74,.2); padding: 28px 28px 24px; position:relative;">
       <button onclick="closeExtrasModal()" style="
         position:absolute; top:14px; right:16px;
         background:rgba(255,255,255,.15); border:none; color:#fff;
@@ -924,31 +924,31 @@
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
 
         <!-- Storage -->
-        <div style="background:#f0f7ff; border:1.5px solid #bee3f8; border-radius:12px; padding:18px;">
+        <div style="background:#111; border:1.5px solid rgba(200,160,74,.2); border-radius:12px; padding:18px;">
           <div style="font-size:1.6rem; margin-bottom:8px;">📦</div>
-          <div style="font-weight:800; color:#1a3a5c; font-size:.97rem; margin-bottom:4px;">Tároló</div>
-          <div style="font-size:.82rem; color:#4a6a8a; line-height:1.5; margin-bottom:10px;">
+          <div style="font-weight:800; color:var(--gold); font-size:.97rem; margin-bottom:4px;">Tároló</div>
+          <div style="font-size:.82rem; color:#888880; line-height:1.5; margin-bottom:10px;">
             10 egység elérhető<br>
             Pince &amp; Földszint<br>
             3,10 – 5,72 m²
           </div>
-          <div style="font-weight:800; color:#1a3a5c; font-size:.92rem;">1 500 000 Ft/m²</div>
+          <div style="font-weight:800; color:var(--gold-light); font-size:.92rem;">1 500 000 Ft/m²</div>
         </div>
 
         <!-- Parking -->
-        <div style="background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:12px; padding:18px;">
+        <div style="background:#111; border:1.5px solid rgba(200,160,74,.2); border-radius:12px; padding:18px;">
           <div style="font-size:1.6rem; margin-bottom:8px;">🚗</div>
-          <div style="font-weight:800; color:#1a3a5c; font-size:.97rem; margin-bottom:4px;">Parkolóhely</div>
-          <div style="font-size:.82rem; color:#4a6a8a; line-height:1.5; margin-bottom:10px;">
+          <div style="font-weight:800; color:var(--gold); font-size:.97rem; margin-bottom:4px;">Parkolóhely</div>
+          <div style="font-size:.82rem; color:#888880; line-height:1.5; margin-bottom:10px;">
             16 férőhely elérhető<br>
             Földszint &amp; Pince<br>
             Normál és csökkentett
           </div>
-          <div style="font-weight:800; color:#1a3a5c; font-size:.92rem;">10 000 000 Ft/db</div>
+          <div style="font-weight:800; color:var(--gold-light); font-size:.92rem;">10 000 000 Ft/db</div>
         </div>
       </div>
 
-      <p style="font-size:.8rem; color:#6b7a8d; text-align:center; margin-bottom:20px;">
+      <p style="font-size:.8rem; color:#888880; text-align:center; margin-bottom:20px;">
         A részleteket az ingatlan oldalán is megtalálja. Érdeklődés esetén vegye fel velünk a kapcsolatot!
       </p>
 
@@ -958,15 +958,15 @@
           border:none; border-radius:10px; padding:13px;
           font-size:.97rem; font-weight:700; cursor:pointer;
           transition: background .2s;
-        " onmouseover="this.style.background='#1e4a7a'" onmouseout="this.style.background='#1a3a5c'">
+        " onmouseover="this.style.background='#e8c878'" onmouseout="this.style.background='#c8a04a'">
           Tovább az ingatlanhoz →
         </button>
         <button onclick="closeExtrasModal()" style="
-          background: transparent; color:#6b7a8d;
-          border:1.5px solid #e0e4ea; border-radius:10px; padding:11px;
+          background: transparent; color:#888880;
+          border:1.5px solid #333; border-radius:10px; padding:11px;
           font-size:.88rem; font-weight:600; cursor:pointer;
           transition: border-color .2s, color .2s;
-        " onmouseover="this.style.borderColor='#1a3a5c';this.style.color='#1a3a5c'" onmouseout="this.style.borderColor='#e0e4ea';this.style.color='#6b7a8d'">
+        " onmouseover="this.style.borderColor='rgba(200,160,74,.4)';this.style.color='#e8c878'" onmouseout="this.style.borderColor='#333';this.style.color='#888880'">
           Bezárás
         </button>
       </div>
