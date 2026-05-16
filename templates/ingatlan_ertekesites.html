@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lujza Residence – Budapest VIII. kerület</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; }
+    .page-wrapper { overflow-x: clip; }
+
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
+
+    :root {
+      --navy: #1a3a5c;
+      --navy-dark: #122840;
+      --gold: #b8922a;
+      --gold-light: #d4aa50;
+      --gold-pale: #f5ead6;
+      --gray-bg: #f5f3ef;
+      --gray-border: #e5e0d8;
+      --text: #1e2a38;
+      --muted: #7a6e62;
+      --white: #ffffff;
+      --cream: #faf8f4;
+      --radius: 10px;
+      --shadow: 0 2px 14px rgba(0,0,0,.07);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.11);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: rgba(18,40,64,.97);
+      backdrop-filter: blur(12px);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 90px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 24px rgba(0,0,0,.35);
+      border-bottom: 1px solid rgba(200,160,74,.2);
+      transition: height .3s ease;
+      overflow: visible;
+    }
+    nav.scrolled { height: 62px; }
+    .nav-logo {
+      text-decoration: none;
+      display: flex;
+      align-items: flex-start;
+      align-self: flex-start;
+      margin-top: 10px;
+    }
+    .nav-logo img { height: 185px; width: auto; object-fit: contain; transition: height .3s ease; filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); }
+    nav.scrolled .nav-logo img { height: 120px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      color: rgba(255,255,255,.75);
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      transition: color .2s;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f5ead6 0%, #e8d5a8 50%, #d4b86a 100%);
+      color: var(--navy);
+      padding: 70px 32px 60px;
+      text-align: center;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(184,146,42,.12);
+      border: 1px solid rgba(184,146,42,.4);
+      color: var(--gold);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 700;
+      margin-bottom: 14px;
+      letter-spacing: -.01em;
+      line-height: 1.15;
+      color: var(--navy);
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-bottom: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.75;
+    }
+
+    /* ── SEARCH BOX ── */
+    .search-box {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 20px 24px;
+      max-width: 900px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+    .search-field label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 6px;
+    }
+    .search-field input,
+    .search-field select {
+      width: 100%;
+      border: 1.5px solid var(--gray-border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: .92rem;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color .2s;
+    }
+    .search-field input:focus,
+    .search-field select:focus {
+      outline: none;
+      border-color: var(--navy);
+    }
+    .btn-search {
+      background: var(--gold);
+      color: var(--navy-dark);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      white-space: nowrap;
+    }
+    .btn-search:hover { background: var(--gold-light); }
+    .btn-search:active { transform: scale(.97); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+      padding: 10px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: .88rem;
+      color: var(--muted);
+    }
+    .stats-bar strong { color: var(--gold); }
+    .sort-wrap { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .sort-wrap label { font-weight: 600; }
+    .sort-wrap select {
+      border: 1.5px solid var(--gray-border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: .85rem;
+      color: var(--text);
+      background: var(--white);
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* ── FILTER TAGS ── */
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .filter-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: .8rem;
+      font-weight: 600;
+    }
+    .filter-tag a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      font-size: .85rem;
+      line-height: 1;
+    }
+    .filter-tag a:hover { color: var(--white); }
+
+    /* ── GRID ── */
+    .property-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .property-card {
+      background: var(--white);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,.07);
+      border: 1px solid var(--gray-border);
+      border-top: 3px solid transparent;
+      transition: transform .25s, box-shadow .25s, border-top-color .25s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    .property-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.12);
+      border-top-color: var(--gold);
+    }
+
+    .card-img {
+      position: relative;
+      height: 210px;
+      overflow: hidden;
+    }
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s;
+    }
+    .property-card:hover .card-img img { transform: scale(1.05); }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--gold);
+      color: var(--navy-dark);
+      font-size: .72rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .card-badge.premium { background: var(--navy); color: var(--gold); }
+    .card-badge.uj { background: #16a34a; color: #fff; }
+    .card-badge.befektetes { background: #7c3aed; color: #fff; }
+    .card-badge.egyedi { background: #dc2626; color: #fff; }
+
+    .property-card--unavailable {
+      opacity: .68;
+      filter: grayscale(35%);
+    }
+    .property-card--unavailable:hover {
+      transform: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      cursor: default;
+    }
+    .card-unavail-strip {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(30,20,20,.75));
+      padding: 28px 12px 10px;
+      text-align: center;
+    }
+    .card-unavail-badge {
+      display: inline-block;
+      background: #b91c1c;
+      color: #fff;
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .card-body {
+      padding: 18px 18px 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-location {
+      font-size: .8rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 4px;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .card-price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .card-stats {
+      display: flex;
+      gap: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--gray-border);
+      font-size: .82rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .card-stat {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .card-stat svg {
+      width: 14px;
+      height: 14px;
+      opacity: .6;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--muted);
+    }
+    .empty-state .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text); }
+    .empty-state a {
+      display: inline-block;
+      margin-top: 16px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 10px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ── WHY US SECTION ── */
+    .why-section {
+      background: linear-gradient(135deg, #f5ead6 0%, #e8d5a8 50%, #d4b86a 100%);
+      margin-top: 64px;
+      padding: 72px 24px;
+      position: relative;
+      border-top: 1px solid rgba(184,146,42,.3);
+      border-bottom: 1px solid rgba(184,146,42,.3);
+    }
+    .why-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .why-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+    .section-title {
+      text-align: center;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      letter-spacing: -.01em;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 48px;
+      font-size: 1rem;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 340px));
+      gap: 20px;
+      justify-content: center;
+    }
+    .why-card {
+      text-align: center;
+      padding: 32px 24px;
+      border-radius: 14px;
+      background: var(--cream);
+      border: 1px solid var(--gray-border);
+      border-top: 3px solid var(--gold);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .why-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      transform: translateY(-4px);
+    }
+    .why-icon { font-size: 2.4rem; margin-bottom: 14px; }
+    .why-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .why-card p { font-size: .87rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0a1828;
+      color: rgba(255,255,255,.45);
+      text-align: center;
+      padding: 28px;
+      font-size: .85rem;
+      border-top: 1px solid rgba(200,160,74,.2);
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { height: 60px !important; overflow: visible !important; position: sticky !important; top: 0 !important; z-index: 100 !important; }
+      .nav-logo { margin-top: 8px !important; align-self: flex-start !important; }
+      .nav-logo img { height: 80px !important; filter: none !important; transition: none !important; }
+      .search-box {
+        grid-template-columns: 1fr 1fr;
+      }
+      .btn-search { grid-column: span 2; }
+      .search-box .search-field:nth-child(1),
+      .search-box .search-field:nth-child(2) { grid-column: span 1; }
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .hero { padding: 40px 16px 36px; }
+      .stats-bar { padding: 10px 16px; flex-wrap: wrap; gap: 12px; }
+      .sort-wrap { margin-left: 0; width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .search-box { grid-template-columns: 1fr; padding: 16px; }
+      .btn-search { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/ingatlan-ertekesites" class="nav-logo"><img src="/static/images/logo.jpg" alt="Lujza Residence" /></a>
+  <div class="nav-links">
+    <a href="/ingatlan-ertekesites" class="active">Ingatlanok</a>
+    <a href="#miert-mi">Miért mi?</a>
+    <a href="#kapcsolat">Kapcsolat</a>
+  </div>
+</nav>
+<div class="page-wrapper">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+  <div class="hero-eyebrow">Budapest VIII. kerület</div>
+  <h1>Lujza 24 <span>Társasház</span></h1>
+  <p>{{ total_count }} új építésű lakás – Budapest VIII. kerület, Lujza utca 24.</p>
+
+  <form class="search-box" method="get" action="/ingatlan-ertekesites">
+    <div class="search-field">
+      <label for="ar_max">Max. ár</label>
+      <select id="ar_max" name="ar_max">
+        <option value="">Nincs limit</option>
+        <option value="70000000"  {% if filters.ar_max == '70000000'  %}selected{% endif %}>70 M Ft-ig</option>
+        <option value="90000000"  {% if filters.ar_max == '90000000'  %}selected{% endif %}>90 M Ft-ig</option>
+        <option value="120000000" {% if filters.ar_max == '120000000' %}selected{% endif %}>120 M Ft-ig</option>
+        <option value="140000000" {% if filters.ar_max == '140000000' %}selected{% endif %}>140 M Ft-ig</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label for="szobak_min">Min. szobák</label>
+      <select id="szobak_min" name="szobak_min">
+        <option value="">Mindegy</option>
+        <option value="1" {% if filters.szobak_min == '1' %}selected{% endif %}>1+</option>
+        <option value="2" {% if filters.szobak_min == '2' %}selected{% endif %}>2+</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label for="emelet">Emelet</label>
+      <select id="emelet" name="emelet">
+        <option value="">Mindegy</option>
+        {% for e in emeletek %}
+        <option value="{{ e }}" {% if filters.emelet == e|string %}selected{% endif %}>
+          {% if e == 0 %}Földszint{% else %}{{ e }}. emelet{% endif %}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn-search">Keresés</button>
+  </form>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <span><strong>{{ properties|length }}</strong> ingatlan találat</span>
+  {% if active_filters %}
+  <span>Szűrők aktívak</span>
+  {% endif %}
+  <div class="sort-wrap">
+    <label for="sort">Rendezés:</label>
+    <select id="sort" onchange="applySort(this.value)">
+      <option value="ar_asc" {% if sort == 'ar_asc' %}selected{% endif %}>Ár: növekvő</option>
+      <option value="ar_desc" {% if sort == 'ar_desc' %}selected{% endif %}>Ár: csökkenő</option>
+      <option value="terulet_desc" {% if sort == 'terulet_desc' %}selected{% endif %}>Terület: nagyobb előre</option>
+    </select>
+  </div>
+</div>
+
+<div class="main-wrap">
+
+  <!-- ACTIVE FILTER TAGS -->
+  {% if active_filters %}
+  <div class="filter-tags">
+    {% for label, remove_url in active_filters %}
+    <span class="filter-tag">{{ label }} <a href="{{ remove_url }}">✕</a></span>
+    {% endfor %}
+    <a href="/ingatlan-ertekesites" style="font-size:.82rem;color:var(--muted);text-decoration:none;align-self:center;">Összes törlése</a>
+  </div>
+  {% endif %}
+
+  <!-- GRID -->
+  {% if properties %}
+  <div class="property-grid">
+    {% for p in properties %}
+    <a href="/ingatlan-ertekesites/{{ p.slug }}"
+       class="property-card{% if not p.get('elerheto', True) %} property-card--unavailable{% endif %}">
+      <div class="card-img">
+        <img src="{{ p.kepek[0] }}" alt="{{ p.teljes_cim }}" loading="lazy" />
+        {% if p.cimke %}
+        <span class="card-badge {% if p.cimke == 'Prémium' %}premium{% elif p.cimke == 'Új' %}uj{% elif p.cimke == 'Befektetés' %}befektetes{% elif p.cimke == 'Egyedi' %}egyedi{% endif %}">
+          {{ p.cimke }}
+        </span>
+        {% endif %}
+        {% if not p.get('elerheto', True) %}
+        <div class="card-unavail-strip">
+          <span class="card-unavail-badge">Elkelt</span>
+        </div>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <div class="card-location">{{ p.helyszin }}{% if p.kerulet %}, {{ p.kerulet }}{% endif %}</div>
+        <div class="card-title">{{ p.tipus }} – {{ p.cim }}</div>
+        <div class="card-price">{% if not p.get('elerheto', True) %}<span style="color:#b91c1c;font-size:1rem;">Elkelt</span>{% else %}{{ format_ar(p.ar) }}{% endif %}</div>
+        <div class="card-stats">
+          <span class="card-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+            <span>{{ p.terulet }} m²{% for s in p.kulter %}<br><small style="color:var(--muted, #6b7a8d); font-weight:500;">+ {{ s }}</small>{% endfor %}</span>
+          </span>
+          <span class="card-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M9 21V12h6v9"/></svg>
+            {{ p.szobak }} szoba
+          </span>
+          <span class="card-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 12a8 8 0 018-8M4 12a8 8 0 008 8"/></svg>
+            {{ p.furdoszoba }} fürdő
+          </span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <h3>Nincs találat</h3>
+    <p>A keresési feltételeknek egyetlen ingatlan sem felel meg.</p>
+    <a href="/ingatlan-ertekesites">Összes ingatlan megtekintése</a>
+  </div>
+  {% endif %}
+</div>
+
+<!-- BUILDING GALLERY -->
+<section style="background:var(--white); padding: 64px 24px; border-top: 1px solid var(--gray-border);">
+  <div style="max-width:1280px; margin: 0 auto;">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <div style="display:inline-block; background:rgba(26,58,92,.08); border:1px solid rgba(26,58,92,.15); color:var(--navy); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Az épület</div>
+      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:1.9rem; font-weight:700; color:var(--navy); margin-bottom:8px; letter-spacing:-.01em;">Lujza utca 24.</h2>
+      <p style="color:var(--muted); font-size:1rem; max-width:520px; margin:0 auto;">Új építésű, modern társasház Budapest VIII. kerületének szívében.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 2fr 1fr; grid-template-rows: auto auto; gap:10px; border-radius:14px; overflow:hidden; box-shadow: var(--shadow-lg);">
+      <div style="grid-row: span 2; overflow:hidden;">
+        <img src="/static/images/utcafront_2.jpg" alt="Utcafront" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"/>
+      </div>
+      <div style="overflow:hidden;">
+        <img src="/static/images/utcafront_3.jpg" alt="Oldalnézet" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"/>
+      </div>
+      <div style="overflow:hidden;">
+        <img src="/static/images/belso-udvar.jpg" alt="Belső udvar" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"/>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin-top:10px;">
+      {% for img, label in [
+        ('/static/images/utcafront_0.jpg', 'Utcafront'),
+        ('/static/images/utcafront_4.jpg', 'Saroknézet'),
+        ('/static/images/madartavlati-kep-0.jpg', 'Madártávlat – déli'),
+        ('/static/images/madartavlati-kep-3.jpg', 'Madártávlat – nyugati')
+      ] %}
+      <div style="position:relative; overflow:hidden; border-radius:8px; height:160px;">
+        <img src="{{ img }}" alt="{{ label }}" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
+        <div style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent, rgba(0,0,0,.55)); color:#fff; font-size:.75rem; font-weight:600; padding:20px 10px 8px; text-align:center;">{{ label }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- PARKING & STORAGE -->
+<section style="background:var(--gray-bg); padding: 56px 24px; border-top: 1px solid var(--gray-border);">
+  <div style="max-width:1280px; margin:0 auto;">
+    <div style="text-align:center; margin-bottom:36px;">
+      <div style="display:inline-block; background:rgba(26,58,92,.08); border:1px solid rgba(26,58,92,.15); color:var(--navy); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:14px;">Épület infrastruktúra</div>
+      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:1.7rem; font-weight:700; color:var(--navy); letter-spacing:-.01em;">Parkolók és tárolók</h2>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+
+      <!-- PARKING -->
+      <div style="background:#fff; border-radius:12px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,.07); border:1.5px solid var(--gray-border);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+          <span style="font-size:1.6rem;">🚗</span>
+          <h3 style="font-size:1.1rem; font-weight:800; color:var(--navy);">Parkolók – 16 férőhely</h3>
+        </div>
+        <table style="width:100%; border-collapse:collapse; font-size:.9rem;">
+          <thead>
+            <tr style="background:#f4f6f9;">
+              <th style="text-align:left; padding:8px 12px; color:var(--muted); font-weight:700; border-radius:6px 0 0 6px;">Szint</th>
+              <th style="text-align:center; padding:8px 12px; color:var(--muted); font-weight:700;">Normál</th>
+              <th style="text-align:center; padding:8px 12px; color:var(--muted); font-weight:700; border-radius:0 6px 6px 0;">Csökkentett</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--gray-border);">
+              <td style="padding:10px 12px; font-weight:600;">Földszint</td>
+              <td style="text-align:center; padding:10px 12px;">4</td>
+              <td style="text-align:center; padding:10px 12px;">1</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 12px; font-weight:600;">Pince</td>
+              <td style="text-align:center; padding:10px 12px;">11</td>
+              <td style="text-align:center; padding:10px 12px;">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- STORAGE -->
+      <div style="background:#fff; border-radius:12px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,.07); border:1.5px solid var(--gray-border);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+          <span style="font-size:1.6rem;">📦</span>
+          <h3 style="font-size:1.1rem; font-weight:800; color:var(--navy);">Tárolók – 10 egység</h3>
+        </div>
+        <p style="font-size:.82rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;">Földszint – 3 db</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;">
+          {% for m2 in ['5,65 m²', '5,72 m²', '5,72 m²'] %}
+          <span style="background:#ebf4ff; border:1.5px solid #bee3f8; color:var(--navy); border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700;">{{ m2 }}</span>
+          {% endfor %}
+        </div>
+        <p style="font-size:.82rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;">Pince – 7 db</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          {% for m2 in ['5,01 m²', '3,21 m²', '3,12 m²', '3,41 m²', '3,10 m²', '3,10 m²', '3,10 m²'] %}
+          <span style="background:#f0fdf4; border:1.5px solid #bbf7d0; color:#166534; border-radius:20px; padding:4px 14px; font-size:.85rem; font-weight:700;">{{ m2 }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-section" id="miert-mi">
+  <div class="why-inner">
+    <h2 class="section-title">Miért válasszon minket?</h2>
+    <p class="section-sub">Több mint 25 éves tapasztalat az ingatlanpiacon</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🏆</div>
+        <h3>Hiteles értékbecslés</h3>
+        <p>Piaci árat elemzünk, hogy Ön a legjobb döntést hozhassa meg.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🤝</div>
+        <h3>Dedikált tanácsadó</h3>
+        <p>Egyetlen kapcsolattartó az elejétől a kulcsátadásig.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="kapcsolat" style="
+  background: var(--cream);
+  border-top: 1px solid var(--gray-border);
+  padding: 72px 24px;
+">
+  <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+    <div style="
+      display: inline-block;
+      background: rgba(26,58,92,.08);
+      border: 1px solid rgba(26,58,92,.15);
+      color: var(--navy);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    ">Kapcsolat</div>
+    <h2 style="font-family:'Playfair Display',Georgia,serif; font-size: 2rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; letter-spacing: -.01em;">
+      Lépjen kapcsolatba velünk
+    </h2>
+    <p style="color: var(--muted); margin-bottom: 40px; font-size: 1rem; line-height: 1.7;">
+      Kérdése van? Visszahívást kér? Írjon vagy hívjon minket – munkatársaink hamarosan felveszik Önnel a kapcsolatot.
+    </p>
+
+    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
+      <a href="tel:+36705055527" style="
+        display: flex; align-items: center; gap: 12px;
+        background: var(--navy); color: #fff;
+        padding: 16px 28px; border-radius: 12px;
+        text-decoration: none; font-weight: 700; font-size: 1rem;
+        box-shadow: 0 4px 16px rgba(26,58,92,.25);
+        transition: background .2s;
+      " onmouseover="this.style.background='#1e4a7a'" onmouseout="this.style.background='#1a3a5c'">
+        📞 +36 70 505 5527
+      </a>
+      <a href="mailto:lujzaresidence24@gmail.com" style="
+        display: flex; align-items: center; gap: 12px;
+        background: var(--white); color: var(--navy);
+        border: 2px solid var(--navy);
+        padding: 16px 28px; border-radius: 12px;
+        text-decoration: none; font-weight: 700; font-size: 1rem;
+        transition: background .2s, color .2s;
+      " onmouseover="this.style.background='var(--navy)';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#1a3a5c'">
+        ✉️ lujzaresidence24@gmail.com
+      </a>
+    </div>
+
+    <form action="https://formspree.io/f/xojrwbwe" method="POST" id="contact-form" onsubmit="submitContact(event)" style="
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.07);
+      border: 1px solid var(--gray-border);
+      text-align: left;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    ">
+      <div>
+        <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Neve</label>
+        <input type="text" name="name" required placeholder="Kovács János" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
+      </div>
+      <div>
+        <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Email cím *</label>
+        <input type="email" name="email" required placeholder="pelda@email.com" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
+      </div>
+      <div style="grid-column: span 2;">
+        <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Telefonszám *</label>
+        <input type="tel" name="phone" id="contact-phone" required placeholder="+36 30 123 4567"
+          style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);" />
+        <span id="phone-error" style="display:none;color:#dc2626;font-size:.78rem;margin-top:4px;display:none;">Érvényes magyar telefonszámot adjon meg (pl. +36 30 123 4567 vagy 06 30 123 4567)</span>
+      </div>
+      <div style="grid-column: span 2;">
+        <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Üzenet</label>
+        <textarea name="message" required placeholder="Miben segíthetünk?" rows="4" style="width:100%;border:1.5px solid var(--gray-border);border-radius:8px;padding:10px 12px;font-size:.92rem;font-family:inherit;color:var(--text);resize:vertical;"></textarea>
+      </div>
+      <input type="hidden" name="_subject" value="Érdeklődés – Lujza Residence" />
+      <input type="hidden" name="_language" value="hu" />
+      <div style="grid-column: span 2;">
+        <button type="submit" style="
+          width:100%;background:var(--gold);color:var(--navy-dark);
+          border:none;border-radius:8px;padding:13px;
+          font-size:1rem;font-weight:800;cursor:pointer;
+          transition:background .2s;
+        " onmouseover="this.style.background='#e8c878'" onmouseout="this.style.background='#c8a04a'">
+          Üzenet küldése
+        </button>
+      </div>
+    </form>
+
+    <div id="contact-toast" style="display:none;margin-top:16px;background:#16a34a;color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;">
+      ✓ Üzenetét megkaptuk! Hamarosan felvesszük Önnel a kapcsolatot.
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Lujza Residence – Budapest VIII. kerület |
+  <a href="mailto:lujzaresidence24@gmail.com">lujzaresidence24@gmail.com</a>
+</footer>
+
+<script>
+  function submitContact(e) {
+    const phone = document.getElementById('contact-phone').value.replace(/[\s\-()]/g, '');
+    const phoneOk = /^(\+36|06)\d{9}$/.test(phone);
+    const err = document.getElementById('phone-error');
+    if (!phoneOk) {
+      e.preventDefault();
+      err.style.display = 'block';
+      document.getElementById('contact-phone').style.borderColor = '#dc2626';
+      return;
+    }
+    err.style.display = 'none';
+    document.getElementById('contact-phone').style.borderColor = '';
+  }
+  document.getElementById('contact-phone').addEventListener('input', function() {
+    document.getElementById('phone-error').style.display = 'none';
+    this.style.borderColor = '';
+  });
+</script>
+
+<script>
+  function applySort(val) {
+    const url = new URL(window.location);
+    url.searchParams.set('sort', val);
+    window.location = url.toString();
+  }
+</script>
+
+<!-- EXTRAS MODAL -->
+<div id="extras-modal" style="
+  display: none;
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(10,24,40,.72);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+">
+  <div style="
+    background: #fff;
+    border-radius: 20px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 24px 64px rgba(0,0,0,.22);
+    overflow: hidden;
+    animation: modalIn .25s ease;
+  ">
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #1a3a5c 0%, #1e4a7a 100%); padding: 28px 28px 24px; position:relative;">
+      <button onclick="closeExtrasModal()" style="
+        position:absolute; top:14px; right:16px;
+        background:rgba(255,255,255,.15); border:none; color:#fff;
+        width:30px; height:30px; border-radius:50%; font-size:1.1rem;
+        cursor:pointer; display:flex; align-items:center; justify-content:center;
+        transition: background .2s;
+      " onmouseover="this.style.background='rgba(255,255,255,.28)'" onmouseout="this.style.background='rgba(255,255,255,.15)'">×</button>
+      <div style="font-size:1.5rem; margin-bottom:8px;">💡</div>
+      <h2 style="color:#fff; font-size:1.25rem; font-weight:800; margin-bottom:6px; line-height:1.3;">Tudta, hogy kiegészítőket is kínálunk?</h2>
+      <p style="color:rgba(255,255,255,.7); font-size:.88rem; line-height:1.55;">A lakás mellé tároló és parkolóhely is vásárolható – készlet erejéig.</p>
+    </div>
+
+    <!-- Body -->
+    <div style="padding: 24px 28px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
+
+        <!-- Storage -->
+        <div style="background:#f0f7ff; border:1.5px solid #bee3f8; border-radius:12px; padding:18px;">
+          <div style="font-size:1.6rem; margin-bottom:8px;">📦</div>
+          <div style="font-weight:800; color:#1a3a5c; font-size:.97rem; margin-bottom:4px;">Tároló</div>
+          <div style="font-size:.82rem; color:#4a6a8a; line-height:1.5; margin-bottom:10px;">
+            10 egység elérhető<br>
+            Pince &amp; Földszint<br>
+            3,10 – 5,72 m²
+          </div>
+          <div style="font-weight:800; color:#1a3a5c; font-size:.92rem;">1 500 000 Ft/m²</div>
+        </div>
+
+        <!-- Parking -->
+        <div style="background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:12px; padding:18px;">
+          <div style="font-size:1.6rem; margin-bottom:8px;">🚗</div>
+          <div style="font-weight:800; color:#1a3a5c; font-size:.97rem; margin-bottom:4px;">Parkolóhely</div>
+          <div style="font-size:.82rem; color:#4a6a8a; line-height:1.5; margin-bottom:10px;">
+            16 férőhely elérhető<br>
+            Földszint &amp; Pince<br>
+            Normál és csökkentett
+          </div>
+          <div style="font-weight:800; color:#1a3a5c; font-size:.92rem;">10 000 000 Ft/db</div>
+        </div>
+      </div>
+
+      <p style="font-size:.8rem; color:#6b7a8d; text-align:center; margin-bottom:20px;">
+        A részleteket az ingatlan oldalán is megtalálja. Érdeklődés esetén vegye fel velünk a kapcsolatot!
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button id="extras-continue-btn" onclick="continueToApartment()" style="
+          background: #1a3a5c; color:#fff;
+          border:none; border-radius:10px; padding:13px;
+          font-size:.97rem; font-weight:700; cursor:pointer;
+          transition: background .2s;
+        " onmouseover="this.style.background='#1e4a7a'" onmouseout="this.style.background='#1a3a5c'">
+          Tovább az ingatlanhoz →
+        </button>
+        <button onclick="closeExtrasModal()" style="
+          background: transparent; color:#6b7a8d;
+          border:1.5px solid #e0e4ea; border-radius:10px; padding:11px;
+          font-size:.88rem; font-weight:600; cursor:pointer;
+          transition: border-color .2s, color .2s;
+        " onmouseover="this.style.borderColor='#1a3a5c';this.style.color='#1a3a5c'" onmouseout="this.style.borderColor='#e0e4ea';this.style.color='#6b7a8d'">
+          Bezárás
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes modalIn {
+    from { transform: translateY(24px) scale(.97); opacity: 0; }
+    to   { transform: translateY(0)    scale(1);   opacity: 1; }
+  }
+</style>
+
+<script>
+  function closeExtrasModal() {
+    document.getElementById('extras-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function continueToApartment() {
+    window.location.href = window._aptUrl || '/ingatlan-ertekesites';
+  }
+
+  document.addEventListener('click', function(e) {
+    var card = e.target.closest('.property-card');
+    if (card && !card.classList.contains('property-card--unavailable')) {
+      e.preventDefault();
+      window._aptUrl = card.getAttribute('href');
+      document.getElementById('extras-modal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeExtrasModal();
+  });
+</script>
+<script>
+  (function() {
+    var nav = document.querySelector('nav');
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+  })();
+</script>
+
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Vissza a tetejére">&#8679;</button>
+<style>
+  #back-to-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy-dark);
+    border: none;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,.25);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .3s, transform .3s;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #back-to-top.visible { opacity: 1; transform: translateY(0); }
+  #back-to-top:hover { background: var(--gold-light); }
+</style>
+<script>
+  (function() {
+    var btn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', function() {
+      btn.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+  })();
+</script>
+</div>
+</body>
+</html>

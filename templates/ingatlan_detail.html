@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ p.teljes_cim }} – Lujza Residence</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; }
+    .page-wrapper { overflow-x: clip; }
+
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
+
+    :root {
+      --navy: #1a3a5c;
+      --navy-dark: #122840;
+      --gold: #b8922a;
+      --gold-light: #d4aa50;
+      --gold-pale: #f5ead6;
+      --gray-bg: #f5f3ef;
+      --gray-border: #e5e0d8;
+      --text: #1e2a38;
+      --muted: #7a6e62;
+      --white: #ffffff;
+      --cream: #faf8f4;
+      --radius: 10px;
+      --shadow: 0 2px 14px rgba(0,0,0,.07);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.11);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 90px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+      transition: height .3s ease;
+      overflow: visible;
+    }
+    nav.scrolled { height: 62px; }
+    .nav-logo {
+      text-decoration: none;
+      display: flex;
+      align-items: flex-start;
+      align-self: flex-start;
+      margin-top: 10px;
+    }
+    .nav-logo img { height: 185px; width: auto; object-fit: contain; transition: height .3s ease; filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); }
+    nav.scrolled .nav-logo img { height: 120px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      color: rgba(255,255,255,.8);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-border);
+      padding: 10px 32px;
+      font-size: .83rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .breadcrumb a { color: var(--navy); text-decoration: none; font-weight: 600; }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    /* ── LAYOUT ── */
+    .page-outer {
+      width: 92%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 28px 0;
+    }
+
+    /* Gallery + price side by side */
+    .top-row {
+      display: flex;
+      gap: 22px;
+      margin-bottom: 24px;
+      align-items: start;
+    }
+    .gallery-col {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    .price-col {
+      flex: 0 0 290px;
+      position: sticky;
+      top: 80px;
+    }
+
+    /* All other content below */
+    .content-col {
+      width: 100%;
+    }
+
+    .main-col {}
+    .side-col {}
+
+    /* ── GALLERY ── */
+    .gallery {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #1a1a1a;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .gallery-main {
+      position: relative;
+      height: 460px;
+      cursor: pointer;
+    }
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity .25s;
+    }
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,.45);
+      color: #fff;
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+      z-index: 2;
+    }
+    .gallery-nav:hover { background: rgba(0,0,0,.7); }
+    .gallery-nav.prev { left: 14px; }
+    .gallery-nav.next { right: 14px; }
+    .gallery-count {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      background: rgba(0,0,0,.5);
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .gallery-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--gold);
+      color: var(--navy-dark);
+      font-size: .75rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      z-index: 2;
+    }
+    .gallery-badge.premium { background: var(--navy); color: var(--gold); }
+    .gallery-badge.uj { background: #16a34a; color: #fff; }
+    .gallery-badge.befektetes { background: #7c3aed; color: #fff; }
+    .gallery-badge.egyedi { background: #dc2626; color: #fff; }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 4px;
+      background: #2a2a2a;
+      padding: 4px;
+    }
+    .gallery-thumb {
+      flex: 1;
+      height: 72px;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: .55;
+      transition: opacity .2s;
+      border-radius: 3px;
+    }
+    .gallery-thumb.active, .gallery-thumb:hover { opacity: 1; }
+
+    /* ── PROPERTY HEADER ── */
+    .prop-header { margin-bottom: 24px; }
+    .prop-type-badge {
+      display: inline-block;
+      background: var(--gray-bg);
+      border: 1.5px solid var(--gray-border);
+      color: var(--navy);
+      font-size: .78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .prop-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+    .prop-location {
+      color: var(--muted);
+      font-size: .95rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ── KEY STATS ── */
+    .key-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 14px 12px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--gray-border);
+    }
+    .stat-icon { font-size: 1.3rem; margin-bottom: 4px; }
+    .stat-val { font-size: 1.1rem; font-weight: 800; color: var(--navy); font-family: 'Playfair Display', Georgia, serif; }
+    .stat-lbl { font-size: .75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+
+    /* ── DESCRIPTION ── */
+    .section-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    .section-card h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--gray-border);
+    }
+    .desc-text {
+      font-size: .95rem;
+      color: #374151;
+      line-height: 1.75;
+    }
+
+    /* ── DETAILS TABLE ── */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .detail-row {
+      display: contents;
+    }
+    .detail-row div {
+      padding: 10px 0;
+      font-size: .9rem;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .detail-row .dlabel { color: var(--muted); font-weight: 600; }
+    .detail-row .dval { font-weight: 700; color: var(--text); text-align: right; }
+
+    /* ── FEATURES ── */
+    .features-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .feature-tag {
+      background: var(--gold-pale);
+      border: 1.5px solid rgba(184,146,42,.25);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sidebar-price-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--gray-border);
+      border-top: 3px solid var(--gold);
+    }
+    .price-label { font-size: .78rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .price-big { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+    .price-per-sqm { font-size: .85rem; color: var(--muted); margin-bottom: 20px; }
+
+    .energy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #dcfce7;
+      border: 1.5px solid #86efac;
+      color: #166534;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: .85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 10px; }
+    .contact-form input,
+    .contact-form textarea {
+      border: 1.5px solid var(--gray-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: .9rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color .2s;
+      resize: vertical;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--navy);
+    }
+    .contact-form textarea { min-height: 90px; }
+    .btn-contact {
+      background: var(--gold);
+      color: var(--navy-dark);
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .btn-contact:hover { background: var(--gold-light); }
+    .btn-contact:active { transform: scale(.97); }
+
+    .phone-cta {
+      text-align: center;
+      margin-top: 14px;
+      font-size: .87rem;
+      color: var(--muted);
+    }
+    .phone-cta a { color: var(--navy); font-weight: 700; text-decoration: none; font-size: 1rem; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 88vh;
+      border-radius: 6px;
+      object-fit: contain;
+      box-shadow: 0 8px 40px rgba(0,0,0,.5);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      color: #fff;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      opacity: .7;
+    }
+    .lightbox-close:hover { opacity: 1; }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,.15);
+      color: #fff;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,.28); }
+    .lightbox-nav.prev { left: 24px; }
+    .lightbox-nav.next { right: 24px; }
+
+    /* ── SUCCESS TOAST ── */
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #16a34a;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: .92rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 500;
+      animation: slideUp .3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { height: 60px !important; overflow: visible !important; position: sticky !important; top: 0 !important; z-index: 200 !important; }
+      .nav-logo { margin-top: 8px !important; align-self: flex-start !important; }
+      .nav-logo img { height: 80px !important; filter: none !important; transition: none !important; }
+      .top-row { flex-direction: column; }
+      .price-col { flex: none; width: 100%; position: static; }
+      .price-big { font-size: 1.5rem; }
+    }
+    @media (max-width: 500px) {
+      .page-outer { width: 96%; padding: 14px 0; }
+      .key-stats { grid-template-columns: repeat(2, 1fr); }
+      .gallery-main { height: 210px; }
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .breadcrumb { padding: 10px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/ingatlan-ertekesites" class="nav-logo"><img src="/static/images/logo.jpg" alt="Lujza Residence" /></a>
+  <div class="nav-links">
+    <a href="/ingatlan-ertekesites">Ingatlanok</a>
+    <a href="/ingatlan-ertekesites#miert-mi">Miért mi?</a>
+    <a href="mailto:lujzaresidence24@gmail.com">Kapcsolat</a>
+  </div>
+</nav>
+<div class="page-wrapper">
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="/ingatlan-ertekesites">← Ingatlanok</a>
+  <span>/</span>
+  <span>{{ p.helyszin }}{% if p.kerulet %}, {{ p.kerulet }}{% endif %}</span>
+  <span>/</span>
+  <span>{{ p.cim }}</span>
+</div>
+
+{% if not p.get('elerheto', True) %}
+<div style="
+  background: #fee2e2;
+  border-bottom: 3px solid #fca5a5;
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: .93rem;
+  font-weight: 600;
+  color: #991b1b;
+  flex-wrap: wrap;
+">
+  <span style="font-size:1.4rem; flex-shrink:0;">🔴</span>
+  <span>Ez a lakás <strong>elkelt.</strong> Hasonló lehetőségekért tekintse meg aktív kínálatunkat, vagy vegye fel velünk a kapcsolatot!</span>
+  <a href="/ingatlan-ertekesites" style="
+    margin-left: auto;
+    background: #991b1b;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  ">← Aktív kínálat</a>
+</div>
+{% endif %}
+
+<div class="page-outer">
+
+<!-- TOP ROW: Gallery + Price -->
+<div class="top-row">
+  <div class="gallery-col">
+    <!-- GALLERY -->
+    <div class="gallery">
+      <div class="gallery-main" onclick="openLightbox(currentImg)">
+        <img id="main-img" src="{{ p.kepek[0] }}" alt="{{ p.teljes_cim }}" />
+        {% if p.cimke %}
+        <span class="gallery-badge {% if p.cimke == 'Prémium' %}premium{% elif p.cimke == 'Új' %}uj{% elif p.cimke == 'Befektetés' %}befektetes{% elif p.cimke == 'Egyedi' %}egyedi{% endif %}">
+          {{ p.cimke }}
+        </span>
+        {% endif %}
+        {% if p.kepek|length > 1 %}
+        <button class="gallery-nav prev" onclick="event.stopPropagation(); changeImg(-1)">&#8249;</button>
+        <button class="gallery-nav next" onclick="event.stopPropagation(); changeImg(1)">&#8250;</button>
+        <span class="gallery-count" id="img-count">1 / {{ p.kepek|length }}</span>
+        {% endif %}
+      </div>
+      {% if p.kepek|length > 1 %}
+      <div class="gallery-thumbs">
+        {% for kep in p.kepek %}
+        <img src="{{ kep }}" alt="Fotó {{ loop.index }}" class="gallery-thumb {% if loop.first %}active{% endif %}"
+             onclick="setImg({{ loop.index0 }})" />
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div><!-- /gallery-col -->
+
+  <!-- PRICE CARD -->
+  <div class="price-col">
+    <div class="sidebar-price-card" {% if not p.get('elerheto', True) %}style="border-color: #fca5a5; background: #fff5f5;"{% endif %}>
+      {% if not p.get('elerheto', True) %}
+      <div style="text-align:center; padding: 10px 0 18px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:#fee2e2; color:#991b1b; border:1.5px solid #fca5a5; border-radius:10px; padding:10px 20px; font-weight:800; font-size:1rem;">
+          🔴 Elkelt
+        </div>
+        <p style="margin-top:14px; color:#6b7a8d; font-size:.87rem; line-height:1.6;">
+          Ez a lakás már elkelt. Érdekli az V. emeleti kínálat vagy hasonló méretű lakás?
+        </p>
+      </div>
+      <form class="contact-form" onsubmit="sendInquiry(event)">
+        <input type="text" name="nev" placeholder="Neve" required />
+        <input type="tel" name="tel" placeholder="Telefonszám" required />
+        <textarea name="uzenet" placeholder="Miben segíthetünk?">Érdeklődöm hasonló, elérhető lakások iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
+        <button type="submit" class="btn-contact" style="background:#991b1b;">Hasonló lakásokat keresek</button>
+      </form>
+      {% else %}
+      <div class="price-label">Eladási ár</div>
+      <div class="price-big">{{ format_ar(p.ar) }}</div>
+      <div class="price-per-sqm">{{ format_ar((p.ar // p.terulet)) ~ ' / m²' if p.terulet > 0 and p.ar > 0 else '' }}</div>
+      {% if p.energiaosztaly in ['A+', 'A', 'B'] %}
+      <div class="energy-badge">⚡ Energiaosztály: {{ p.energiaosztaly }}</div>
+      {% endif %}
+      <form class="contact-form" onsubmit="sendInquiry(event)">
+        <input type="text" name="nev" placeholder="Neve" required />
+        <input type="tel" name="tel" placeholder="Telefonszám" required />
+        <input type="email" name="email" placeholder="E-mail cím" required />
+        <textarea name="uzenet" placeholder="Üzenet (pl. mikor érne rá megtekintésre?)">Érdeklődöm a(z) {{ p.cim }} ingatlan iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
+        <button type="submit" class="btn-contact">Érdeklődöm – visszahívást kérek</button>
+      </form>
+      {% endif %}
+      <div class="phone-cta">
+        vagy hívjon minket: <br>
+        <a href="tel:+36705055527">+36 70 505 5527</a><br>
+        <a href="mailto:lujzaresidence24@gmail.com" style="font-size:.85rem;">lujzaresidence24@gmail.com</a>
+      </div>
+    </div>
+  </div><!-- /price-col -->
+</div><!-- /top-row -->
+
+<!-- CONTENT BELOW -->
+<div class="content-col">
+
+    <!-- HEADER -->
+    <div class="prop-header">
+      <span class="prop-type-badge">{{ p.tipus }}</span>
+      <h1 class="prop-title">{{ p.teljes_cim }}</h1>
+      <div class="prop-location">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        {{ p.helyszin }}{% if p.kerulet %}, {{ p.kerulet }}{% endif %}
+      </div>
+    </div>
+
+    <!-- KEY STATS -->
+    <div class="key-stats">
+      <div class="stat-card">
+        <div class="stat-icon">📐</div>
+        <div class="stat-val">{{ p.terulet ~ ' m²' if p.terulet > 0 else '—' }}</div>
+        {% for s in p.kulter %}
+        <div style="font-size:.72rem; color:#6b7a8d; font-weight:600; margin-top:2px;">+ {{ s }}</div>
+        {% endfor %}
+        <div class="stat-lbl">Alapterület</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🛏️</div>
+        <div class="stat-val">{{ p.szobak if p.szobak > 0 else '—' }}</div>
+        <div class="stat-lbl">Szoba</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🚿</div>
+        <div class="stat-val">{{ p.furdoszoba }}</div>
+        <div class="stat-lbl">Fürdőszoba</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏢</div>
+        <div class="stat-val">{{ p.emelet if p.emelet > 0 else 'Fszt.' }}</div>
+        <div class="stat-lbl">Emelet</div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="section-card">
+      <h2>Leírás</h2>
+      <p class="desc-text">{{ p.leiras }}</p>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="section-card">
+      <h2>Ingatlan adatok</h2>
+      <div class="details-grid">
+        <div class="detail-row"><div class="dlabel">Típus</div><div class="dval">{{ p.tipus }}</div></div>
+        <div class="detail-row"><div class="dlabel">Alapterület</div><div class="dval">{{ p.terulet ~ ' m²' if p.terulet > 0 else '—' }}</div></div>
+        {% for s in p.kulter %}
+        <div class="detail-row"><div class="dlabel">+ Külső tér</div><div class="dval">{{ s }}</div></div>
+        {% endfor %}
+        <div class="detail-row"><div class="dlabel">Szobák száma</div><div class="dval">{{ p.szobak if p.szobak > 0 else '—' }}</div></div>
+        <div class="detail-row"><div class="dlabel">Fürdőszoba</div><div class="dval">{{ p.furdoszoba }}</div></div>
+        <div class="detail-row"><div class="dlabel">Emelet</div><div class="dval">{{ p.emelet if p.emelet > 0 else 'Földszint' }}</div></div>
+        <div class="detail-row"><div class="dlabel">Átadás tervezett</div><div class="dval">{{ p.epitesi_ev }} I–II. félév</div></div>
+        <div class="detail-row"><div class="dlabel">Állapot</div><div class="dval">{{ p.allapot }}</div></div>
+        <div class="detail-row"><div class="dlabel">Energiaosztály</div><div class="dval">{{ p.energiaosztaly }}</div></div>
+        <div class="detail-row" style="border-bottom:none"><div class="dlabel">Ár/m²</div><div class="dval">{{ format_ar((p.ar // p.terulet)) if p.terulet > 0 and p.ar > 0 else '—' }}</div></div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    {% if p.szolgaltatasok %}
+    <div class="section-card">
+      <h2>Felszereltség és jellemzők</h2>
+      <div class="features-list">
+        {% for s in p.szolgaltatasok %}
+        <span class="feature-tag">✓ {{ s }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- FLOOR PLAN -->
+    {% set emelet = p.emelet %}
+    {% if emelet == 0 %}
+      {% set alaprajz_kep = '/static/images/foldszint.jpg' %}
+      {% set alaprajz_nev = 'Földszint' %}
+    {% elif emelet == 1 %}
+      {% set alaprajz_kep = '/static/images/emelet-1.jpg' %}
+      {% set alaprajz_nev = 'I. emelet' %}
+    {% elif emelet == 2 %}
+      {% set alaprajz_kep = '/static/images/Iemelet-1.jpg' %}
+      {% set alaprajz_nev = 'II. emelet' %}
+    {% elif emelet == 3 %}
+      {% set alaprajz_kep = '/static/images/IIemelet-1.jpg' %}
+      {% set alaprajz_nev = 'III. emelet' %}
+    {% elif emelet == 4 %}
+      {% set alaprajz_kep = '/static/images/emelet-4.jpg' %}
+      {% set alaprajz_nev = 'IV. emelet' %}
+    {% elif emelet == 5 %}
+      {% set alaprajz_kep = '/static/images/emelet-5.jpg' %}
+      {% set alaprajz_nev = 'V. emelet' %}
+    {% elif emelet == 6 %}
+      {% set alaprajz_kep = '/static/images/Vemelet-1.jpg' %}
+      {% set alaprajz_nev = 'VI. emelet' %}
+    {% else %}
+      {% set alaprajz_kep = '/static/images/pince.jpg' %}
+      {% set alaprajz_nev = 'Pince' %}
+    {% endif %}
+    <div class="section-card">
+      <h2>Szintalaprajz – {{ alaprajz_nev }}</h2>
+      <img src="{{ alaprajz_kep }}"
+           alt="Alaprajz – {{ alaprajz_nev }}"
+           style="width:100%; border-radius:8px; border:1px solid var(--gray-border); cursor:zoom-in;"
+           onclick="openLightboxFp(this.src)" />
+      <p style="margin-top:10px; font-size:.82rem; color:var(--muted);">Kattintson a képre a nagyobb nézethez.</p>
+    </div>
+
+    <!-- KIEGÉSZÍTŐK -->
+    <div class="section-card">
+      <h2>Kiegészítők – opcionális vásárlás</h2>
+
+      <!-- TÁROLÓK -->
+      <h3 style="font-size:.95rem; font-weight:800; color:var(--navy); margin-bottom:12px;">📦 Tárolók</h3>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:24px;">
+        {% for t in tarolok %}
+        <div style="background:var(--gray-bg); border:1.5px solid var(--gray-border); border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div>
+            <div style="font-size:.78rem; color:var(--muted); font-weight:700;">{{ t.szint }}</div>
+            <div style="font-weight:800; color:var(--text);">{{ "%.2f"|format(t.terulet)|replace(".",",") }} m²</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:.88rem; font-weight:800; color:var(--navy);">{{ format_ar(t.ar) }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <p style="font-size:.8rem; color:var(--muted); margin-bottom:24px;">Ár: 1 500 000 Ft/m² · A tárolók az összes lakáshoz megvásárolhatók, készlet erejéig.</p>
+
+      <!-- PARKOLÓK -->
+      <h3 style="font-size:.95rem; font-weight:800; color:var(--navy); margin-bottom:12px;">🚗 Parkolóhelyek</h3>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+        {% for szint, tip, db in [
+          ('Földszint', 'Normál', 4),
+          ('Földszint', 'Csökkentett', 1),
+          ('Pince', 'Normál', 11)
+        ] %}
+        <div style="background:var(--gray-bg); border:1.5px solid var(--gray-border); border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:.78rem; color:var(--muted); font-weight:700;">{{ szint }} · {{ tip }}</div>
+            <div style="font-weight:800; color:var(--text);">{{ db }} db</div>
+          </div>
+          <div style="font-size:.88rem; font-weight:800; color:var(--navy);">10 M Ft / db</div>
+        </div>
+        {% endfor %}
+      </div>
+      <p style="font-size:.8rem; color:var(--muted); margin-bottom:20px;">16 parkolóhely összesen · készlet erejéig.</p>
+
+      <!-- REFERENCE PLANS -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px;">
+        <div>
+          <p style="font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:6px;">Földszint – parkolók &amp; tárolók</p>
+          <img src="/static/images/parkolo.jpg" alt="Földszinti parkoló és tároló alaprajz"
+               style="width:100%; border-radius:6px; border:1px solid var(--gray-border); cursor:zoom-in;"
+               onclick="openLightboxFp(this.src)" />
+        </div>
+        <div>
+          <p style="font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:6px;">Pince – parkolók &amp; tárolók</p>
+          <img src="/static/images/parkolo-melygarazs.jpg" alt="Pince parkoló és tároló alaprajz"
+               style="width:100%; border-radius:6px; border:1px solid var(--gray-border); cursor:zoom-in;"
+               onclick="openLightboxFp(this.src)" />
+        </div>
+      </div>
+      <p style="margin-top:8px; font-size:.78rem; color:var(--muted);">Kattintson a képre a nagyobb nézethez.</p>
+    </div>
+
+</div><!-- /content-col -->
+</div><!-- /page-outer -->
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <button class="lightbox-nav prev" onclick="event.stopPropagation(); lbNav(-1)">&#8249;</button>
+  <img class="lightbox-img" id="lb-img" src="" alt="" onclick="event.stopPropagation()" />
+  <button class="lightbox-nav next" onclick="event.stopPropagation(); lbNav(1)">&#8250;</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Üzenetét megkaptuk! Hamarosan felvesszük Önnel a kapcsolatot.</div>
+
+<script>
+  const images = {{ p.kepek | tojson }};
+  let currentImg = 0;
+
+  function setImg(i) {
+    currentImg = i;
+    document.getElementById('main-img').src = images[i];
+    document.getElementById('img-count').textContent = (i + 1) + ' / ' + images.length;
+    document.querySelectorAll('.gallery-thumb').forEach((t, idx) => {
+      t.classList.toggle('active', idx === i);
+    });
+  }
+
+  function changeImg(dir) {
+    setImg((currentImg + dir + images.length) % images.length);
+  }
+
+  function openLightbox(i) {
+    currentImg = i;
+    document.getElementById('lb-img').src = images[i];
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function lbNav(dir) {
+    currentImg = (currentImg + dir + images.length) % images.length;
+    document.getElementById('lb-img').src = images[currentImg];
+    setImg(currentImg);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'Escape')     closeLightbox();
+  });
+
+  function openLightboxFp(src) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function sendInquiry(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.textContent = 'Küldés…';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Érdeklődöm – visszahívást kérek';
+      btn.disabled = false;
+      e.target.reset();
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    }, 900);
+  }
+</script>
+<script>
+  (function() {
+    var nav = document.querySelector('nav');
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+  })();
+</script>
+
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Vissza a tetejére">&#8679;</button>
+<style>
+  #back-to-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy-dark);
+    border: none;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,.25);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .3s, transform .3s;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #back-to-top.visible { opacity: 1; transform: translateY(0); }
+  #back-to-top:hover { background: var(--gold-light); }
+</style>
+<script>
+  (function() {
+    var btn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', function() {
+      btn.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+  })();
+</script>
+</div>
+</body>
+</html>
