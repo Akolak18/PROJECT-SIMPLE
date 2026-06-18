@@ -22,11 +22,20 @@ def property_sales():
     ar_max_str = request.args.get("ar_max", "").strip()
     szobak_str = request.args.get("szobak_min", "").strip()
     emelet_str = request.args.get("emelet", "").strip()
+    terulet_str = request.args.get("terulet", "").strip()
     sort       = request.args.get("sort", "ar_asc")
 
     ar_max     = int(ar_max_str) if ar_max_str.isdigit() else None
     szobak_min = int(szobak_str) if szobak_str.isdigit() else None
     emelet     = int(emelet_str) if emelet_str.lstrip("-").isdigit() else None
+
+    terulet_min = terulet_max = None
+    if terulet_str == "30-40":
+        terulet_min, terulet_max = 30, 40
+    elif terulet_str == "40-50":
+        terulet_min, terulet_max = 40, 50
+    elif terulet_str == "50+":
+        terulet_min = 50
 
     results = props.search(
         helyszin=helyszin,
@@ -34,6 +43,8 @@ def property_sales():
         ar_max=ar_max,
         szobak_min=szobak_min,
         emelet=emelet,
+        terulet_min=terulet_min,
+        terulet_max=terulet_max,
     )
 
     if sort == "ar_desc":
@@ -50,7 +61,7 @@ def property_sales():
         parts = []
         for k, v in [("helyszin", helyszin), ("tipus", tipus),
                      ("ar_max", ar_max_str), ("szobak_min", szobak_str),
-                     ("emelet", emelet_str), ("sort", sort)]:
+                     ("emelet", emelet_str), ("terulet", terulet_str), ("sort", sort)]:
             if k == skip_key or not v:
                 continue
             parts.append(f"{k}={v}")
@@ -67,6 +78,9 @@ def property_sales():
     if emelet is not None:
         emelet_nev = "Földszint" if emelet == 0 else f"{emelet}. emelet"
         active_filters.append((emelet_nev, remove_url("emelet")))
+    if terulet_str:
+        terulet_nev = {"30-40": "30–40 m²", "40-50": "40–50 m²", "50+": "50 m² felett"}.get(terulet_str, terulet_str)
+        active_filters.append((terulet_nev, remove_url("terulet")))
 
     EMELETEK = sorted(set(p["emelet"] for p in props.get_all()))
 
@@ -78,7 +92,7 @@ def property_sales():
         helyszinek=props.HELYSZINEK,
         emeletek=EMELETEK,
         filters={"helyszin": helyszin, "tipus": tipus, "ar_max": ar_max_str,
-                 "szobak_min": szobak_str, "emelet": emelet_str},
+                 "szobak_min": szobak_str, "emelet": emelet_str, "terulet": terulet_str},
         active_filters=active_filters,
         sort=sort,
     )

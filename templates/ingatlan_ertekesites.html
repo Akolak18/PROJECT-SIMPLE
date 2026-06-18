@@ -533,11 +533,20 @@
       </select>
     </div>
     <div class="search-field">
-      <label for="szobak_min">Min. szobák</label>
+      <label for="szobak_min">Szobák</label>
       <select id="szobak_min" name="szobak_min">
         <option value="">Mindegy</option>
-        <option value="1" {% if filters.szobak_min == '1' %}selected{% endif %}>1+</option>
-        <option value="2" {% if filters.szobak_min == '2' %}selected{% endif %}>2+</option>
+        <option value="1" {% if filters.szobak_min == '1' %}selected{% endif %}>1 szobás</option>
+        <option value="2" {% if filters.szobak_min == '2' %}selected{% endif %}>2 szobás</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label for="terulet">Alapterület</label>
+      <select id="terulet" name="terulet">
+        <option value="">Mindegy</option>
+        <option value="30-40" {% if filters.terulet == '30-40' %}selected{% endif %}>30–40 m²</option>
+        <option value="40-50" {% if filters.terulet == '40-50' %}selected{% endif %}>40–50 m²</option>
+        <option value="50+"   {% if filters.terulet == '50+'   %}selected{% endif %}>50 m² felett</option>
       </select>
     </div>
     <div class="search-field">

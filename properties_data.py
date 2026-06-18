@@ -450,7 +450,8 @@ def get_by_slug(slug):
     return next((p for p in PROPERTIES if p["slug"] == slug), None)
 
 
-def search(helyszin="", tipus="", ar_min=None, ar_max=None, szobak_min=None, emelet=None):
+def search(helyszin="", tipus="", ar_min=None, ar_max=None, szobak_min=None, emelet=None,
+           terulet_min=None, terulet_max=None):
     results = list(PROPERTIES)
     if helyszin:
         h = helyszin.lower()
@@ -460,9 +461,13 @@ def search(helyszin="", tipus="", ar_min=None, ar_max=None, szobak_min=None, eme
     if ar_max is not None:
         results = [p for p in results if p["ar"] == 0 or p["ar"] <= ar_max]
     if szobak_min is not None:
-        results = [p for p in results if p["szobak"] >= szobak_min]
+        results = [p for p in results if p["szobak"] == szobak_min]
     if emelet is not None:
         results = [p for p in results if p["emelet"] == emelet]
+    if terulet_min is not None:
+        results = [p for p in results if p["terulet"] >= terulet_min]
+    if terulet_max is not None:
+        results = [p for p in results if p["terulet"] < terulet_max]
     return results
 
 
