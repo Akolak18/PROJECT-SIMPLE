@@ -614,7 +614,7 @@
     <div class="key-stats">
       <div class="stat-card">
         <div class="stat-icon">📐</div>
-        <div class="stat-val">{{ p.terulet ~ ' m²' if p.terulet > 0 else '—' }}</div>
+        <div class="stat-val">{{ ("%.2f"|format(p.terulet)|replace(".",",")) ~ ' m²' if p.terulet > 0 else '—' }}</div>
         {% for s in p.kulter %}
         <div style="font-size:.72rem; color:#6b7a8d; font-weight:600; margin-top:2px;">+ {{ s }}</div>
         {% endfor %}
@@ -648,7 +648,7 @@
       <h2>Ingatlan adatok</h2>
       <div class="details-grid">
         <div class="detail-row"><div class="dlabel">Típus</div><div class="dval">{{ p.tipus }}</div></div>
-        <div class="detail-row"><div class="dlabel">Alapterület</div><div class="dval">{{ p.terulet ~ ' m²' if p.terulet > 0 else '—' }}</div></div>
+        <div class="detail-row"><div class="dlabel">Alapterület</div><div class="dval">{{ ("%.2f"|format(p.terulet)|replace(".",",")) ~ ' m²' if p.terulet > 0 else '—' }}</div></div>
         {% for s in p.kulter %}
         <div class="detail-row"><div class="dlabel">+ Külső tér</div><div class="dval">{{ s }}</div></div>
         {% endfor %}
