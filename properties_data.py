@@ -458,6 +458,8 @@ def search(helyszin="", tipus="", ar_min=None, ar_max=None, szobak_min=None, eme
         results = [p for p in results if h in p["helyszin"].lower() or h in p["kerulet"].lower()]
     if tipus:
         results = [p for p in results if p["tipus"] == tipus]
+    if ar_min is not None:
+        results = [p for p in results if p["ar"] == 0 or p["ar"] >= ar_min]
     if ar_max is not None:
         results = [p for p in results if p["ar"] == 0 or p["ar"] <= ar_max]
     if szobak_min is not None:

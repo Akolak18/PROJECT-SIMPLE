@@ -17,14 +17,16 @@ def index():
 
 @app.route("/ingatlan-ertekesites")
 def property_sales():
-    helyszin   = request.args.get("helyszin", "").strip()
-    tipus      = request.args.get("tipus", "").strip()
-    ar_max_str = request.args.get("ar_max", "").strip()
-    szobak_str = request.args.get("szobak_min", "").strip()
-    emelet_str = request.args.get("emelet", "").strip()
+    helyszin    = request.args.get("helyszin", "").strip()
+    tipus       = request.args.get("tipus", "").strip()
+    ar_min_str  = request.args.get("ar_min", "").strip()
+    ar_max_str  = request.args.get("ar_max", "").strip()
+    szobak_str  = request.args.get("szobak_min", "").strip()
+    emelet_str  = request.args.get("emelet", "").strip()
     terulet_str = request.args.get("terulet", "").strip()
-    sort       = request.args.get("sort", "ar_asc")
+    sort        = request.args.get("sort", "ar_asc")
 
+    ar_min     = int(ar_min_str) if ar_min_str.isdigit() else None
     ar_max     = int(ar_max_str) if ar_max_str.isdigit() else None
     szobak_min = int(szobak_str) if szobak_str.isdigit() else None
     emelet     = int(emelet_str) if emelet_str.lstrip("-").isdigit() else None
@@ -40,6 +42,7 @@ def property_sales():
     results = props.search(
         helyszin=helyszin,
         tipus=tipus,
+        ar_min=ar_min,
         ar_max=ar_max,
         szobak_min=szobak_min,
         emelet=emelet,
@@ -57,24 +60,34 @@ def property_sales():
     active_filters = []
     base = "/ingatlan-ertekesites"
 
-    def remove_url(skip_key):
+    def remove_url(*skip_keys):
         parts = []
         for k, v in [("helyszin", helyszin), ("tipus", tipus),
-                     ("ar_max", ar_max_str), ("szobak_min", szobak_str),
-                     ("emelet", emelet_str), ("terulet", terulet_str), ("sort", sort)]:
-            if k == skip_key or not v:
+                     ("ar_min", ar_min_str), ("ar_max", ar_max_str),
+                     ("szobak_min", szobak_str), ("emelet", emelet_str),
+                     ("terulet", terulet_str), ("sort", sort)]:
+            if k in skip_keys or not v:
                 continue
             parts.append(f"{k}={v}")
         return base + ("?" + "&".join(parts) if parts else "")
+
+    def fmt_m(v):
+        return f"{v // 1_000_000} M Ft"
 
     if helyszin:
         active_filters.append((f"Helyszín: {helyszin}", remove_url("helyszin")))
     if tipus:
         active_filters.append((f"Típus: {tipus}", remove_url("tipus")))
-    if ar_max:
-        active_filters.append((f"Max. ár: {props.format_ar(ar_max)}", remove_url("ar_max")))
+    if ar_min or ar_max:
+        if ar_min and ar_max:
+            ar_label = f"{fmt_m(ar_min)} – {fmt_m(ar_max)}"
+        elif ar_min:
+            ar_label = f"min. {fmt_m(ar_min)}"
+        else:
+            ar_label = f"max. {fmt_m(ar_max)}"
+        active_filters.append((ar_label, remove_url("ar_min", "ar_max")))
     if szobak_min:
-        active_filters.append((f"{szobak_min}+ szoba", remove_url("szobak_min")))
+        active_filters.append((f"{szobak_min} szobás", remove_url("szobak_min")))
     if emelet is not None:
         emelet_nev = "Földszint" if emelet == 0 else f"{emelet}. emelet"
         active_filters.append((emelet_nev, remove_url("emelet")))
@@ -91,7 +104,8 @@ def property_sales():
         tipusok=props.TIPUSOK,
         helyszinek=props.HELYSZINEK,
         emeletek=EMELETEK,
-        filters={"helyszin": helyszin, "tipus": tipus, "ar_max": ar_max_str,
+        filters={"helyszin": helyszin, "tipus": tipus,
+                 "ar_min": ar_min_str, "ar_max": ar_max_str,
                  "szobak_min": szobak_str, "emelet": emelet_str, "terulet": terulet_str},
         active_filters=active_filters,
         sort=sort,

@@ -187,6 +187,71 @@
       justify-self: center;
       min-width: 160px;
     }
+    /* ── PRICE RANGE SLIDER ── */
+    .price-range-values {
+      display: flex;
+      justify-content: space-between;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .price-range-wrap {
+      position: relative;
+      height: 20px;
+      margin: 0 2px;
+    }
+    .price-range-track {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 4px;
+      background: var(--gray-border);
+      border-radius: 2px;
+    }
+    .price-range-fill {
+      position: absolute;
+      height: 100%;
+      background: var(--navy);
+      border-radius: 2px;
+    }
+    .price-range-input {
+      position: absolute;
+      width: 100%;
+      height: 4px;
+      background: none;
+      border: none;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .price-range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--navy);
+      border: 2.5px solid #fff;
+      box-shadow: 0 1px 6px rgba(0,0,0,.25);
+      pointer-events: all;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .price-range-input:hover::-webkit-slider-thumb { background: #1e4a7a; }
+    .price-range-input::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--navy);
+      border: 2.5px solid #fff;
+      box-shadow: 0 1px 6px rgba(0,0,0,.25);
+      pointer-events: all;
+      cursor: pointer;
+    }
     .btn-search:hover { background: var(--gold-light); }
     .btn-search:active { transform: scale(.97); }
 
@@ -524,14 +589,20 @@
 
   <form class="search-box" method="get" action="/ingatlan-ertekesites">
     <div class="search-field">
-      <label for="ar_max">Max. ár</label>
-      <select id="ar_max" name="ar_max">
-        <option value="">Nincs limit</option>
-        <option value="70000000"  {% if filters.ar_max == '70000000'  %}selected{% endif %}>70 M Ft-ig</option>
-        <option value="90000000"  {% if filters.ar_max == '90000000'  %}selected{% endif %}>90 M Ft-ig</option>
-        <option value="120000000" {% if filters.ar_max == '120000000' %}selected{% endif %}>120 M Ft-ig</option>
-        <option value="140000000" {% if filters.ar_max == '140000000' %}selected{% endif %}>140 M Ft-ig</option>
-      </select>
+      <label>Ár tartomány</label>
+      <div class="price-range-values">
+        <span id="price-min-label">Nincs min.</span>
+        <span id="price-max-label">Nincs max.</span>
+      </div>
+      <div class="price-range-wrap">
+        <div class="price-range-track">
+          <div class="price-range-fill" id="price-range-fill"></div>
+        </div>
+        <input type="range" class="price-range-input" id="price-min-range" min="60" max="200" step="5" value="60">
+        <input type="range" class="price-range-input" id="price-max-range" min="60" max="200" step="5" value="200">
+      </div>
+      <input type="hidden" name="ar_min" id="ar_min_input" value="{{ filters.ar_min }}">
+      <input type="hidden" name="ar_max" id="ar_max_input" value="{{ filters.ar_max }}">
     </div>
     <div class="search-field">
       <label for="szobak_min">Szobák</label>
@@ -565,6 +636,43 @@
   </form>
   </div>
 </section>
+<script>
+(function() {
+  var RMIN = 60, RMAX = 200;
+  var minR = document.getElementById('price-min-range');
+  var maxR = document.getElementById('price-max-range');
+  var fill = document.getElementById('price-range-fill');
+  var minLbl = document.getElementById('price-min-label');
+  var maxLbl = document.getElementById('price-max-label');
+  var minIn  = document.getElementById('ar_min_input');
+  var maxIn  = document.getElementById('ar_max_input');
+
+  function fmt(v) { return v + ' M Ft'; }
+  function pct(v) { return ((v - RMIN) / (RMAX - RMIN)) * 100; }
+
+  function update() {
+    var lo = parseInt(minR.value);
+    var hi = parseInt(maxR.value);
+    if (lo > hi) { lo = hi; minR.value = lo; }
+    fill.style.left  = pct(lo) + '%';
+    fill.style.right = (100 - pct(hi)) + '%';
+    minLbl.textContent = lo === RMIN ? 'Nincs min.' : fmt(lo);
+    maxLbl.textContent = hi === RMAX ? 'Nincs max.' : fmt(hi);
+    minIn.value = lo === RMIN ? '' : lo * 1000000;
+    maxIn.value = hi === RMAX ? '' : hi * 1000000;
+  }
+
+  // Init from current URL filter values
+  var initMin = parseInt(minIn.value);
+  var initMax = parseInt(maxIn.value);
+  if (initMin >= RMIN * 1000000) minR.value = Math.round(initMin / 1000000);
+  if (initMax && initMax <= RMAX * 1000000) maxR.value = Math.round(initMax / 1000000);
+
+  minR.addEventListener('input', update);
+  maxR.addEventListener('input', update);
+  update();
+})();
+</script>
 
 <!-- STATS BAR -->
 <div class="stats-bar">
