@@ -1017,53 +1017,6 @@
 </script>
 
 <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Vissza a tetejére">&#8679;</button>
-<!-- ADDON POPUP -->
-<div id="addon-popup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:2000; align-items:center; justify-content:center; padding:16px;">
-  <div style="background:#fff; border-radius:16px; max-width:460px; width:100%; padding:32px 28px; box-shadow:0 20px 60px rgba(0,0,0,.3); position:relative; max-height:90vh; overflow-y:auto;">
-    <h3 style="font-family:'Playfair Display',Georgia,serif; font-size:1.25rem; color:var(--navy); margin-bottom:6px;">💡 Tudta, hogy kiegészítőket is kínálunk?</h3>
-    <p style="font-size:.93rem; color:var(--muted); margin-bottom:20px;">A lakás mellé tároló és parkolóhely is vásárolható – készlet erejéig.</p>
-
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
-      <div style="background:var(--gray-bg); border-radius:12px; padding:16px; border:1px solid var(--gray-border);">
-        <div style="font-size:1.4rem; margin-bottom:6px;">📦</div>
-        <div style="font-weight:700; color:var(--navy); font-size:.95rem; margin-bottom:6px;">Tároló</div>
-        <div style="font-size:.82rem; color:var(--muted); line-height:1.6;">
-          10 egység elérhető<br>
-          Pince &amp; Földszint<br>
-          3,10 – 5,72 m²<br>
-          1 500 000 Ft/m²
-        </div>
-      </div>
-      <div style="background:var(--gray-bg); border-radius:12px; padding:16px; border:1px solid var(--gray-border);">
-        <div style="font-size:1.4rem; margin-bottom:6px;">🚗</div>
-        <div style="font-weight:700; color:var(--navy); font-size:.95rem; margin-bottom:6px;">Parkolóhely</div>
-        <div style="font-size:.82rem; color:var(--muted); line-height:1.6;">
-          16 férőhely elérhető<br>
-          Földszint &amp; Pince<br>
-          Normál és csökkentett<br>
-          10 000 000 Ft/db
-        </div>
-      </div>
-    </div>
-
-    <p style="font-size:.85rem; color:var(--muted); margin-bottom:20px;">A részleteket az ingatlan oldalán is megtalálja. Érdeklődés esetén vegye fel velünk a kapcsolatot!</p>
-
-    <label style="display:flex; align-items:center; gap:8px; font-size:.85rem; color:var(--muted); margin-bottom:20px; cursor:pointer;">
-      <input type="checkbox" id="popup-no-show" style="width:16px; height:16px; cursor:pointer; accent-color:var(--gold);">
-      Ne mutassa többé 30 percig
-    </label>
-
-    <div style="display:flex; flex-direction:column; gap:10px;">
-      <button id="popup-go" style="background:var(--navy); color:#fff; border:none; border-radius:8px; padding:13px 20px; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit;">
-        Tovább az ingatlanhoz →
-      </button>
-      <button id="popup-close" style="background:transparent; color:var(--muted); border:1px solid var(--gray-border); border-radius:8px; padding:11px 20px; font-size:.9rem; cursor:pointer; font-family:inherit;">
-        Bezárás
-      </button>
-    </div>
-  </div>
-</div>
-
 <style>
   #back-to-top {
     position: fixed;
@@ -1098,61 +1051,6 @@
     }, { passive: true });
   })();
 
-  (function() {
-    var popup   = document.getElementById('addon-popup');
-    var goBtn   = document.getElementById('popup-go');
-    var closeBtn = document.getElementById('popup-close');
-    var checkbox = document.getElementById('popup-no-show');
-    var STORAGE_KEY = 'lujza_addon_popup_dismissed';
-    var THIRTY_MIN  = 30 * 60 * 1000;
-    var pendingHref = '';
-
-    function shouldSkip() {
-      var ts = localStorage.getItem(STORAGE_KEY);
-      return ts && (Date.now() - parseInt(ts, 10)) < THIRTY_MIN;
-    }
-
-    function saveIfChecked() {
-      if (checkbox.checked) {
-        localStorage.setItem(STORAGE_KEY, String(Date.now()));
-      }
-    }
-
-    function hidePopup() {
-      popup.style.display = 'none';
-      checkbox.checked = false;
-    }
-
-    document.querySelectorAll('a.property-card').forEach(function(card) {
-      card.addEventListener('click', function(e) {
-        e.preventDefault();
-        pendingHref = card.getAttribute('href');
-        if (shouldSkip()) {
-          window.location.href = pendingHref;
-          return;
-        }
-        popup.style.display = 'flex';
-      });
-    });
-
-    goBtn.addEventListener('click', function() {
-      saveIfChecked();
-      hidePopup();
-      window.location.href = pendingHref;
-    });
-
-    closeBtn.addEventListener('click', function() {
-      saveIfChecked();
-      hidePopup();
-    });
-
-    popup.addEventListener('click', function(e) {
-      if (e.target === popup) {
-        saveIfChecked();
-        hidePopup();
-      }
-    });
-  })();
 </script>
 </div>
 </body>
