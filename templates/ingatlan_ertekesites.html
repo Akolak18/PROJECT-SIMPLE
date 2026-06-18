@@ -1066,9 +1066,31 @@
     }
 
     function saveIfChecked() {
-      if (document.getElementById('extras-no-show').checked) {
+      var cb = document.getElementById('extras-no-show');
+      if (cb && cb.checked) {
         localStorage.setItem(STORAGE_KEY, String(Date.now()));
       }
+    }
+
+    function injectCheckbox() {
+      if (document.getElementById('extras-no-show')) return;
+      var btn = document.getElementById('extras-continue-btn');
+      if (!btn) return;
+      var label = document.createElement('label');
+      label.style.cssText = 'display:flex;align-items:center;gap:8px;font-size:.85rem;color:#6b7a8d;margin-bottom:20px;cursor:pointer;';
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = 'extras-no-show';
+      cb.style.cssText = 'width:16px;height:16px;cursor:pointer;accent-color:#1a3a5c;';
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode(' Ne mutassa többé 30 percig'));
+      btn.parentNode.insertBefore(label, btn);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', injectCheckbox);
+    } else {
+      injectCheckbox();
     }
 
     window.closeExtrasModal = function() {
