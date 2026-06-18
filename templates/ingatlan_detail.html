@@ -567,7 +567,8 @@
           Ez a lakás már elkelt. Érdekli az V. emeleti kínálat vagy hasonló méretű lakás?
         </p>
       </div>
-      <form class="contact-form" onsubmit="sendInquiry(event)">
+      <form class="contact-form" action="https://formspree.io/f/xojrwbwe" method="POST" onsubmit="sendInquiry(event)">
+        <input type="hidden" name="_subject" value="Érdeklődés – {{ p.cim }} (elkelt) – Lujza Residence" />
         <input type="text" name="nev" placeholder="Neve" required />
         <input type="tel" name="tel" placeholder="Telefonszám" required />
         <textarea name="uzenet" placeholder="Miben segíthetünk?">Érdeklődöm hasonló, elérhető lakások iránt. Kérem, vegyék fel velem a kapcsolatot!</textarea>
@@ -580,7 +581,8 @@
       {% if p.energiaosztaly in ['A+', 'A', 'B'] %}
       <div class="energy-badge">⚡ Energiaosztály: {{ p.energiaosztaly }}</div>
       {% endif %}
-      <form class="contact-form" onsubmit="sendInquiry(event)">
+      <form class="contact-form" action="https://formspree.io/f/xojrwbwe" method="POST" onsubmit="sendInquiry(event)">
+        <input type="hidden" name="_subject" value="Érdeklődés – {{ p.cim }} – Lujza Residence" />
         <input type="text" name="nev" placeholder="Neve" required />
         <input type="tel" name="tel" placeholder="Telefonszám" required />
         <input type="email" name="email" placeholder="E-mail cím" required />
@@ -832,17 +834,31 @@
 
   function sendInquiry(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type=submit]');
+    const form = e.target;
+    const btn = form.querySelector('button[type=submit]');
+    const originalText = btn.textContent;
     btn.textContent = 'Küldés…';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'Érdeklődöm – visszahívást kérek';
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(response) {
+      btn.textContent = originalText;
       btn.disabled = false;
-      e.target.reset();
-      const toast = document.getElementById('toast');
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 4000);
-    }, 900);
+      if (response.ok) {
+        form.reset();
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(function() { toast.style.display = 'none'; }, 4000);
+      } else {
+        alert('Hiba történt a küldés során. Kérjük hívjon minket: +36 70 505 5527');
+      }
+    }).catch(function() {
+      btn.textContent = originalText;
+      btn.disabled = false;
+      alert('Hiba történt a küldés során. Kérjük hívjon minket: +36 70 505 5527');
+    });
   }
 </script>
 <script>
