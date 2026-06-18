@@ -950,9 +950,14 @@
         </div>
       </div>
 
-      <p style="font-size:.8rem; color:#6b7a8d; text-align:center; margin-bottom:20px;">
+      <p style="font-size:.8rem; color:#6b7a8d; text-align:center; margin-bottom:16px;">
         A részleteket az ingatlan oldalán is megtalálja. Érdeklődés esetén vegye fel velünk a kapcsolatot!
       </p>
+
+      <label style="display:flex; align-items:center; gap:8px; font-size:.85rem; color:#6b7a8d; margin-bottom:20px; cursor:pointer;">
+        <input type="checkbox" id="extras-no-show" style="width:16px; height:16px; cursor:pointer; accent-color:#1a3a5c;">
+        Ne mutassa többé 30 percig
+      </label>
 
       <div style="display:flex; flex-direction:column; gap:10px;">
         <button id="extras-continue-btn" onclick="continueToApartment()" style="
@@ -984,12 +989,31 @@
 </style>
 
 <script>
+  var STORAGE_KEY = 'lujza_extras_dismissed';
+  var THIRTY_MIN  = 30 * 60 * 1000;
+
+  function isDismissed() {
+    var ts = localStorage.getItem(STORAGE_KEY);
+    return ts && (Date.now() - parseInt(ts, 10)) < THIRTY_MIN;
+  }
+
+  function saveIfChecked() {
+    var cb = document.getElementById('extras-no-show');
+    if (cb && cb.checked) {
+      localStorage.setItem(STORAGE_KEY, String(Date.now()));
+    }
+  }
+
   function closeExtrasModal() {
+    saveIfChecked();
     document.getElementById('extras-modal').style.display = 'none';
     document.body.style.overflow = '';
   }
 
   function continueToApartment() {
+    saveIfChecked();
+    document.getElementById('extras-modal').style.display = 'none';
+    document.body.style.overflow = '';
     window.location.href = window._aptUrl || '/ingatlan-ertekesites';
   }
 
@@ -998,6 +1022,10 @@
     if (card && !card.classList.contains('property-card--unavailable')) {
       e.preventDefault();
       window._aptUrl = card.getAttribute('href');
+      if (isDismissed()) {
+        window.location.href = window._aptUrl;
+        return;
+      }
       document.getElementById('extras-modal').style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
@@ -1016,115 +1044,6 @@
   })();
 </script>
 
-<!-- EXTRAS MODAL -->
-<div id="extras-modal" style="display:none; position:fixed; top:0; right:0; bottom:0; left:0; background:rgba(10,24,40,.72); z-index:9999; overflow-y:auto; padding:16px;">
-  <div style="background:#fff; border-radius:20px; max-width:520px; width:100%; box-shadow:0 24px 64px rgba(0,0,0,.22); overflow:hidden; margin:auto; align-self:flex-start;">
-    <div style="background:linear-gradient(135deg,#1a3a5c 0%,#1e4a7a 100%); padding:28px 28px 24px; position:relative;">
-      <button onclick="closeExtrasModal()" style="position:absolute; top:14px; right:16px; background:rgba(255,255,255,.15); border:none; color:#fff; width:30px; height:30px; border-radius:50%; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;" onmouseover="this.style.background='rgba(255,255,255,.28)'" onmouseout="this.style.background='rgba(255,255,255,.15)'">×</button>
-      <div style="font-size:1.5rem; margin-bottom:8px;">💡</div>
-      <h2 style="color:#fff; font-size:1.25rem; font-weight:800; margin-bottom:6px; line-height:1.3;">Tudta, hogy kiegészítőket is kínálunk?</h2>
-      <p style="color:rgba(255,255,255,.7); font-size:.88rem; line-height:1.55;">A lakás mellé tároló és parkolóhely is vásárolható – készlet erejéig.</p>
-    </div>
-    <div style="padding:24px 28px;">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
-        <div style="background:#f0f7ff; border:1.5px solid #bee3f8; border-radius:12px; padding:18px;">
-          <div style="font-size:1.6rem; margin-bottom:8px;">📦</div>
-          <div style="font-weight:800; color:#1a3a5c; font-size:.97rem; margin-bottom:4px;">Tároló</div>
-          <div style="font-size:.82rem; color:#4a6a8a; line-height:1.5; margin-bottom:10px;">10 egység elérhető<br>Pince &amp; Földszint<br>3,10 – 5,72 m²</div>
-          <div style="font-weight:800; color:#1a3a5c; font-size:.92rem;">1 500 000 Ft/m²</div>
-        </div>
-        <div style="background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:12px; padding:18px;">
-          <div style="font-size:1.6rem; margin-bottom:8px;">🚗</div>
-          <div style="font-weight:800; color:#1a3a5c; font-size:.97rem; margin-bottom:4px;">Parkolóhely</div>
-          <div style="font-size:.82rem; color:#4a6a8a; line-height:1.5; margin-bottom:10px;">16 férőhely elérhető<br>Földszint &amp; Pince<br>Normál és csökkentett</div>
-          <div style="font-weight:800; color:#1a3a5c; font-size:.92rem;">10 000 000 Ft/db</div>
-        </div>
-      </div>
-      <p style="font-size:.8rem; color:#6b7a8d; text-align:center; margin-bottom:16px;">A részleteket az ingatlan oldalán is megtalálja. Érdeklődés esetén vegye fel velünk a kapcsolatot!</p>
-      <label style="display:flex; align-items:center; gap:8px; font-size:.85rem; color:#6b7a8d; margin-bottom:20px; cursor:pointer;">
-        <input type="checkbox" id="extras-no-show" style="width:16px; height:16px; cursor:pointer; accent-color:#1a3a5c;">
-        Ne mutassa többé 30 percig
-      </label>
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <button id="extras-continue-btn" onclick="continueToApartment()" style="background:#1a3a5c; color:#fff; border:none; border-radius:10px; padding:13px; font-size:.97rem; font-weight:700; cursor:pointer;" onmouseover="this.style.background='#1e4a7a'" onmouseout="this.style.background='#1a3a5c'">Tovább az ingatlanhoz →</button>
-        <button onclick="closeExtrasModal()" style="background:transparent; color:#6b7a8d; border:1.5px solid #e0e4ea; border-radius:10px; padding:11px; font-size:.88rem; font-weight:600; cursor:pointer;" onmouseover="this.style.borderColor='#1a3a5c';this.style.color='#1a3a5c'" onmouseout="this.style.borderColor='#e0e4ea';this.style.color='#6b7a8d'">Bezárás</button>
-      </div>
-    </div>
-  </div>
-</div>
-<style>
-  @keyframes modalIn { from { transform:translateY(24px) scale(.97); opacity:0; } to { transform:translateY(0) scale(1); opacity:1; } }
-</style>
-<script>
-  (function() {
-    var STORAGE_KEY = 'lujza_extras_dismissed';
-    var THIRTY_MIN  = 30 * 60 * 1000;
-
-    function isDismissed() {
-      var ts = localStorage.getItem(STORAGE_KEY);
-      return ts && (Date.now() - parseInt(ts, 10)) < THIRTY_MIN;
-    }
-
-    function saveIfChecked() {
-      var cb = document.getElementById('extras-no-show');
-      if (cb && cb.checked) {
-        localStorage.setItem(STORAGE_KEY, String(Date.now()));
-      }
-    }
-
-    function injectCheckbox() {
-      if (document.getElementById('extras-no-show')) return;
-      var btn = document.getElementById('extras-continue-btn');
-      if (!btn) return;
-      var label = document.createElement('label');
-      label.style.cssText = 'display:flex;align-items:center;gap:8px;font-size:.85rem;color:#6b7a8d;margin-bottom:20px;cursor:pointer;';
-      var cb = document.createElement('input');
-      cb.type = 'checkbox';
-      cb.id = 'extras-no-show';
-      cb.style.cssText = 'width:16px;height:16px;cursor:pointer;accent-color:#1a3a5c;';
-      label.appendChild(cb);
-      label.appendChild(document.createTextNode(' Ne mutassa többé 30 percig'));
-      btn.parentNode.insertBefore(label, btn);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', injectCheckbox);
-    } else {
-      injectCheckbox();
-    }
-
-    window.closeExtrasModal = function() {
-      saveIfChecked();
-      document.getElementById('extras-modal').style.display = 'none';
-      document.body.style.overflow = '';
-    };
-
-    window.continueToApartment = function() {
-      saveIfChecked();
-      document.getElementById('extras-modal').style.display = 'none';
-      document.body.style.overflow = '';
-      window.location.href = window._aptUrl || '/ingatlan-ertekesites';
-    };
-
-    document.addEventListener('click', function(e) {
-      var card = e.target.closest('.property-card');
-      if (card && !card.classList.contains('property-card--unavailable')) {
-        e.preventDefault();
-        window._aptUrl = card.getAttribute('href');
-        if (isDismissed()) {
-          window.location.href = window._aptUrl;
-          return;
-        }
-        document.getElementById('extras-modal').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeExtrasModal();
-    });
-  })();
-</script>
 
 <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Vissza a tetejére">&#8679;</button>
 <style>
