@@ -12,7 +12,7 @@ BUILDING_IMAGES = [
 # <70 m²: 1 800 000 Ft/m², ≥70 m²: 1 700 000 Ft/m² (hasznos alapterület)
 def _ar(terulet_m2):
     rate = 1_700_000 if terulet_m2 >= 70 else 1_800_000
-    return int(terulet_m2 * rate)
+    return round(terulet_m2 * rate)
 
 
 def _desc_kis(emelet, erkely_m2, erkely_tip="erkéllyel"):
@@ -380,7 +380,7 @@ def _kulter_ar(szolgaltatasok, base_terulet):
             m = _re.search(r'(\d+(?:[,.]\d+)?)', s)
             if m:
                 total += float(m.group(1).replace(',', '.')) * half_rate
-    return int(total)
+    return round(total)
 
 _FOKEPE = {i: f"/static/images/A{i}_3d.jpg" for i in range(1, 25)}
 
@@ -469,12 +469,7 @@ def search(helyszin="", tipus="", ar_min=None, ar_max=None, szobak_min=None, eme
 def format_ar(ar):
     if ar == 0:
         return "Ár hamarosan"
-    if ar >= 1_000_000:
-        m = ar / 1_000_000
-        if m == int(m):
-            return f"{int(m)} M Ft"
-        return f"{m:.1f} M Ft"
-    return f"{ar:,} Ft".replace(",", " ")
+    return f"{int(ar):,} Ft".replace(",", " ")
 
 
 HELYSZINEK = sorted(set(p["helyszin"] for p in PROPERTIES))
