@@ -9,9 +9,9 @@ BUILDING_IMAGES = [
     "/static/images/madartavlati-kep-3.jpg",
 ]
 
-# <70 m²: 1 700 000 Ft/m², ≥70 m²: 1 800 000 Ft/m² (hasznos alapterület)
+# <70 m²: 1 800 000 Ft/m², ≥70 m²: 1 700 000 Ft/m² (hasznos alapterület)
 def _ar(terulet_m2):
-    rate = 1_800_000 if terulet_m2 >= 70 else 1_700_000
+    rate = 1_700_000 if terulet_m2 >= 70 else 1_800_000
     return int(terulet_m2 * rate)
 
 
@@ -373,7 +373,7 @@ _KIZART        = ('Loggia', 'Erkély', 'Tetőterasz', 'Mélygarázs', 'Klíma-el
 _UJ_SZOLG      = ['Hőszivattyús rendszer', 'Klimatizált', 'Fancoil', 'Padlófűtés', 'Motoros okosredőny']
 
 def _kulter_ar(szolgaltatasok, base_terulet):
-    half_rate = 900_000 if base_terulet >= 70 else 850_000
+    half_rate = 850_000 if base_terulet >= 70 else 900_000
     total = 0
     for s in szolgaltatasok:
         if any(k in s for k in _KULTER_KULCSOK):
