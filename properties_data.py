@@ -9,12 +9,10 @@ BUILDING_IMAGES = [
     "/static/images/madartavlati-kep-3.jpg",
 ]
 
-# 1 800 000 Ft/m² × hasznos alapterület
-_M2_AR = 1_800_000
-
-
+# <70 m²: 1 700 000 Ft/m², ≥70 m²: 1 800 000 Ft/m² (hasznos alapterület)
 def _ar(terulet_m2):
-    return int(terulet_m2 * _M2_AR)
+    rate = 1_800_000 if terulet_m2 >= 70 else 1_700_000
+    return int(terulet_m2 * rate)
 
 
 def _desc_kis(emelet, erkely_m2, erkely_tip="erkéllyel"):
@@ -374,19 +372,20 @@ _KULTER_KULCSOK = ('Loggia', 'Erkély', 'Tetőterasz')
 _KIZART        = ('Loggia', 'Erkély', 'Tetőterasz', 'Mélygarázs', 'Klíma-előkészítés', 'Klíma', 'Redőnykiállások')
 _UJ_SZOLG      = ['Hőszivattyús rendszer', 'Klimatizált', 'Fancoil', 'Padlófűtés', 'Motoros okosredőny']
 
-def _kulter_ar(szolgaltatasok):
+def _kulter_ar(szolgaltatasok, base_terulet):
+    half_rate = 900_000 if base_terulet >= 70 else 850_000
     total = 0
     for s in szolgaltatasok:
         if any(k in s for k in _KULTER_KULCSOK):
             m = _re.search(r'(\d+(?:[,.]\d+)?)', s)
             if m:
-                total += float(m.group(1).replace(',', '.')) * (_M2_AR // 2)
+                total += float(m.group(1).replace(',', '.')) * half_rate
     return int(total)
 
 _FOKEPE = {i: f"/static/images/A{i}_3d.jpg" for i in range(1, 25)}
 
 for _p in PROPERTIES:
-    _p['ar']            += _kulter_ar(_p['szolgaltatasok'])
+    _p['ar']            += _kulter_ar(_p['szolgaltatasok'], _p['terulet'])
     _p['kulter']         = [s for s in _p['szolgaltatasok'] if any(k in s for k in _KULTER_KULCSOK)]
     megtartott           = [s for s in _p['szolgaltatasok'] if not any(k in s for k in _KIZART)]
     _p['szolgaltatasok'] = _UJ_SZOLG + [s for s in megtartott if s not in _UJ_SZOLG]
