@@ -393,7 +393,7 @@ for _p in PROPERTIES:
     _tobbi = [f"/static/images/A{_p['id']}.jpg"] if _p['id'] in _FOKEPE else []
     _p['kepek'] = [_elso] + _tobbi + BUILDING_IMAGES
 
-CONTACT_PHONE = "+36 70 505 5527"
+CONTACT_PHONE = "+36 30 514 4024"
 CONTACT_EMAIL = "lujzaresidence24@gmail.com"
 
 _TAROLO_AR_M2 = 1_500_000
